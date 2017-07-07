@@ -1,26 +1,18 @@
-This is a starter template for [Ionic](http://ionicframework.com/docs/) projects.
+# Application mobile de l'intégration
 
-## How to use this template
+Application mobile pour l'intégration de l'UTT, réalisée avec le framework [Ionic](https://ionicframework.com/).
 
-*This template does not work on its own*. The shared files for each starter are found in the [ionic2-app-base repo](https://github.com/ionic-team/ionic2-app-base).
+## Installation
 
-To use this template, either create a new ionic project using the ionic node.js utility, or copy the files from this repository into the [Starter App Base](https://github.com/ionic-team/ionic2-app-base).
+### Installation de Ionic
 
-### With the Ionic CLI:
+[Documentation officielle](https://ionicframework.com/docs/intro/installation/) de Ionic.
 
-Take the name after `ionic2-starter-`, and that is the name of the template to be used when using the `ionic start` command below:
+## Lancer l'application
 
-```bash
-$ sudo npm install -g ionic cordova
-$ ionic start myTabs tabs
+### Sur browser
+
 ```
-
-Then, to run it, cd into `myTabs` and run:
-
-```bash
-$ ionic cordova platform add ios
-$ ionic cordova run ios
+ionic serve
 ```
-
-Substitute ios for android if not on a Mac.
-
+Puis, rendez vous sur `http://localhost:8100/`
