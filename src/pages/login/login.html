@@ -8,29 +8,33 @@
 
 <ion-content padding>
 
-  <ion-list>
+  <form (ngSubmit)="submitLoginForm(loginForm.value)" [formGroup]="loginForm" novalidate>
 
-    <ion-item>
-      <ion-label floating>Login</ion-label>
-      <ion-input type="text"></ion-input>
-    </ion-item>
+    <ion-list>
 
-    <ion-item>
-      <ion-label floating>Mot de passe</ion-label>
-      <ion-input type="password"></ion-input>
-    </ion-item>
+      <ion-item>
+        <ion-label floating>Login</ion-label>
+        <ion-input type="text" formControlName="login" required></ion-input>
+      </ion-item>
 
-  </ion-list>
+      <ion-item>
+        <ion-label floating>Mot de passe</ion-label>
+        <ion-input type="password" formControlName="password" required></ion-input>
+      </ion-item>
 
-  <ion-grid>
-    <ion-row>
-      <ion-col col-12 col-sm-12 col-md-6>
-        <button ion-button block large color="secondary">Valider</button>
-      </ion-col>
-      <ion-col col-12 col-sm-12 col-md-6>
-        <button ion-button block large>Avec le site étu</button>
-      </ion-col>
-    </ion-row>
-  </ion-grid>
+    </ion-list>
+
+    <ion-grid>
+      <ion-row>
+        <ion-col col-12 col-sm-12 col-md-6>
+          <button ion-button block large type="submit" color="secondary">Valider</button>
+        </ion-col>
+        <ion-col col-12 col-sm-12 col-md-6>
+          <button ion-button block large type="button" (click)="loginWithEtuUTT()">Avec le site étu</button>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+
+  </form>
 
 </ion-content>
