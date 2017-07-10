@@ -30,6 +30,18 @@ export class LoginService {
             .catch(this.handleError)
     }
 
+    test(token) {
+        let headers = new Headers();
+        headers.append('Content-Type', 'application/json');
+        headers.append('Authorization', 'Bearer ' + token);
+
+        let options = new RequestOptions({ headers });
+
+        return this.http.get(this.authUri + 'api/user', options)
+            .map(this.extractData)
+            .catch(this.handleError)
+    }
+
     private extractData(res: Response) {
         return res;
     }
