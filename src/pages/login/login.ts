@@ -7,52 +7,50 @@ import { LoginService } from './login.service';
 import { AuthTokenStorageHelper } from '../../helpers/AuthTokenStorageHelper';
 
 @Component({
-  selector: 'page-login',
-  templateUrl: 'login.html',
-  providers: [LoginService, AuthTokenStorageHelper]
+    selector: 'page-login',
+    templateUrl: 'login.html',
+    providers: [LoginService, AuthTokenStorageHelper]
 })
 export class LoginPage {
 
-  loginForm: FormGroup;
+    loginForm: FormGroup;
 
-  constructor(public navCtrl: NavController, private fb: FormBuilder, private loginService: LoginService, private authTokenStorageHelper: AuthTokenStorageHelper) {
-    this.loginForm = this.fb.group({
-      'login': [
-        null,
-        [
-          Validators.required
-        ]
-      ],
-      'password': [
-        null,
-        [
-          Validators.required
-        ]
-      ]
-    });
-  }
-
-  /**
-   * Handle login form submission
-   */
-  submitLoginForm(data) {
-    if (!this.loginForm.valid) {
-      return;
+    constructor (
+        public navCtrl: NavController,
+        private fb: FormBuilder,
+        private loginService: LoginService,
+        private authTokenStorageHelper: AuthTokenStorageHelper
+    ) {
+        this.loginForm = this.fb.group({
+            'login': [
+                null,
+                [Validators.required]
+            ],
+            'password': [
+                null,
+                [Validators.required]
+            ]
+        });
     }
 
-    this.loginService.newcomerLogin(data.login, data.password)
-        .subscribe(
-            data => {
-                const parsedResponseBody = JSON.parse(data._body);
-                this.authTokenStorageHelper.setToken(parsedResponseBody.access_token);
-            },
-            err => console.log("err : ", err)
-        )
+    /**
+    * Handle login form submission
+    */
+    submitLoginForm(data) {
+        if (!this.loginForm.valid) return;
 
-  }
+        this.loginService.newcomerLogin(data.login, data.password)
+            .subscribe(
+                data => {
+                    const parsedData = JSON.parse(data._body);
+                    this.authTokenStorageHelper.setToken(parsedData.access_token);
+                },
+                err => console.log("err : ", err)
+            )
+    }
 
-  loginWithEtuUTT() {
-    console.log("etu utt login");
-  }
+    loginWithEtuUTT() {
+        console.log("etu utt login");
+    }
 
 }

@@ -1,22 +1,25 @@
 import { Injectable } from '@angular/core';
-import { Http, Response, RequestOptions, Headers } from '@angular/http';
 
-import { Observable } from 'rxjs/Observable';
-import 'rxjs/add/operator/catch';
-import 'rxjs/add/operator/map';
-import 'rxjs/add/observable/throw';
+import { Http } from '@angular/http';
+import { AuthTokenStorageHelper } from '../../helpers/AuthTokenStorageHelper';
+import { BaseService } from "../BaseService";
 
 @Injectable()
-export class LoginService {
+export class LoginService extends BaseService {
 
-    private authUri = 'http://integration-utt/';
+    constructor (protected http: Http, protected authTokenStorageHelper: AuthTokenStorageHelper) {
+        super(http, authTokenStorageHelper);
+    }
 
-    constructor (private http: Http) {}
-
-    newcomerLogin(login, password) {
-        let headers = new Headers({ 'Content-Type': 'application/json' });
-        let options = new RequestOptions({ headers });
-        let data = {
+    /**
+     * Make a login request
+     *
+     * @param string login
+     * @param string password
+     * @return object
+     */
+    newcomerLogin(login: string, password: string) {
+        const params = {
             grant_type: 'password',
             client_id: '6',
             client_secret: 'oV34BcsM5tyjGwxrUUKk1dVRCNQDVkVLl0NsfCc5',
@@ -25,29 +28,11 @@ export class LoginService {
             scope: ''
         }
 
-        return this.http.post(this.authUri + 'oauth/token', data, options)
-            .map(this.extractData)
-            .catch(this.handleError)
-    }
-
-    test(token) {
-        let headers = new Headers();
-        headers.append('Content-Type', 'application/json');
-        headers.append('Authorization', 'Bearer ' + token);
-
-        let options = new RequestOptions({ headers });
-
-        return this.http.get(this.authUri + 'api/user', options)
-            .map(this.extractData)
-            .catch(this.handleError)
-    }
-
-    private extractData(res: Response) {
-        return res;
-    }
-
-    private handleError(error: Response | any) {
-        return Observable.throw(error);
+        return this.makeRequest('website', {
+            method: "post",
+            route: "oauth/token",
+            params
+        });
     }
 
 }
