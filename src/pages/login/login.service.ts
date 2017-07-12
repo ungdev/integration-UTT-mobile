@@ -4,6 +4,8 @@ import { Http } from '@angular/http';
 import { AuthTokenStorageHelper } from '../../helpers/AuthTokenStorageHelper';
 import { BaseService } from "../BaseService";
 
+import { env } from '../../config/env';
+
 @Injectable()
 export class LoginService extends BaseService {
 
@@ -21,8 +23,8 @@ export class LoginService extends BaseService {
     newcomerLogin(login: string, password: string) {
         const params = {
             grant_type: 'password',
-            client_id: '6',
-            client_secret: 'oV34BcsM5tyjGwxrUUKk1dVRCNQDVkVLl0NsfCc5',
+            client_id: env.CLI_ID,
+            client_secret: env.CLI_SECRET,
             username: login,
             password,
             scope: ''

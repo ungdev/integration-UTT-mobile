@@ -5,11 +5,13 @@ import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/observable/throw';
 
+import { env } from '../config/env';
+
 import { AuthTokenStorageHelper } from '../helpers/AuthTokenStorageHelper';
 
 export class BaseService {
 
-    protected WebsiteURI = 'http://integration-utt/';
+    protected WebsiteURI = env.WEBSITE_URL;
     protected ApiURI = `${this.WebsiteURI}api/`;
 
     constructor (protected http: Http, protected authTokenStorageHelper: AuthTokenStorageHelper) {}
