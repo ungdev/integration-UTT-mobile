@@ -37,4 +37,26 @@ export class LoginService extends BaseService {
         });
     }
 
+    /**
+     * Make a request to refresh the access token, using the refresh token
+     *
+     * @param string refreshToken
+     * @return object
+     */
+    refreshAccessToken(refreshToken) {
+        const params = {
+            grant_type: 'refresh_token',
+            refresh_token: refreshToken,
+            client_id: env.CLI_ID,
+            client_secret: env.CLI_SECRET,
+            scope: ''
+        }
+
+        return this.makeRequest('website', {
+            method: "post",
+            route: "oauth/token",
+            params
+        });
+    }
+
 }

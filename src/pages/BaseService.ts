@@ -54,8 +54,9 @@ export class BaseService {
         const headers = new Headers();
         headers.append('Content-Type', 'application/json');
 
-        if (authorization_required) {
-            headers.append('Authorization', `Bearer ${this.authTokenStorageHelper.getToken()}`);
+        const accessToken = this.authTokenStorageHelper.getAccessToken();
+        if (accessToken) {
+            headers.append('Authorization', `Bearer ${accessToken}`);
         }
 
         return headers;

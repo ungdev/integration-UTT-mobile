@@ -1,25 +1,44 @@
-const AUTH_TOKEN_LOCALSTORAGE_NAME = "auth_token";
+const ACCESS_TOKEN_LOCALSTORAGE_NAME = "access_token";
+const REFRESH_TOKEN_LOCALSTORAGE_NAME = "refresh_token";
 
 export class AuthTokenStorageHelper {
 
    constructor() {}
 
    /**
-    * Read the token's value in the localStorage
+    * Read the access token's value in the localStorage
     *
     * @return (String|null)
     */
-   getToken() {
-       return localStorage.getItem(AUTH_TOKEN_LOCALSTORAGE_NAME);
+   getAccessToken() {
+       return localStorage.getItem(ACCESS_TOKEN_LOCALSTORAGE_NAME);
    }
 
    /**
-    * Set the token's value in the localStorage
+    * Set the access token's value in the localStorage
     *
-    * @param String newToken
+    * @param String newAccessToken
     */
-   setToken(newToken) {
-       localStorage.setItem(AUTH_TOKEN_LOCALSTORAGE_NAME, newToken);
+   setAccessToken(newAccessToken) {
+       localStorage.setItem(ACCESS_TOKEN_LOCALSTORAGE_NAME, newAccessToken);
+   }
+
+   /**
+    * Read the refresh token's value in the localStorage
+    *
+    * @return (String|null)
+    */
+   getRefreshToken() {
+       return localStorage.getItem(REFRESH_TOKEN_LOCALSTORAGE_NAME);
+   }
+
+   /**
+    * Set the refresh token's value in the localStorage
+    *
+    * @param String newRefreshToken
+    */
+   setRefreshToken(newRefreshToken) {
+       localStorage.setItem(REFRESH_TOKEN_LOCALSTORAGE_NAME, newRefreshToken);
    }
 
 }

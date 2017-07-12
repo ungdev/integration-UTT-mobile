@@ -43,7 +43,8 @@ export class LoginPage {
             .subscribe(
                 data => {
                     const parsedData = JSON.parse(data._body);
-                    this.authTokenStorageHelper.setToken(parsedData.access_token);
+                    this.authTokenStorageHelper.setAccessToken(parsedData.access_token);
+                    this.authTokenStorageHelper.setRefreshToken(parsedData.refresh_token);
                 },
                 err => console.log("err : ", err)
             )
