@@ -1,15 +1,16 @@
 import { Component } from '@angular/core';
 import { NavController } from 'ionic-angular';
 
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
-import { LoginService } from './login.service';
+import { HomePage } from '../home/home';
+import { AuthService } from '../../services/AuthService';
 import { AuthTokenStorageHelper } from '../../helpers/AuthTokenStorageHelper';
 
 @Component({
     selector: 'page-login',
     templateUrl: 'login.html',
-    providers: [LoginService, AuthTokenStorageHelper]
+    providers: [AuthService, AuthTokenStorageHelper]
 })
 export class LoginPage {
 
@@ -18,7 +19,7 @@ export class LoginPage {
     constructor (
         public navCtrl: NavController,
         private fb: FormBuilder,
-        private loginService: LoginService,
+        private authService: AuthService,
         private authTokenStorageHelper: AuthTokenStorageHelper
     ) {
         this.loginForm = this.fb.group({
@@ -39,12 +40,13 @@ export class LoginPage {
     submitLoginForm(data) {
         if (!this.loginForm.valid) return;
 
-        this.loginService.newcomerLogin(data.login, data.password)
+        this.authService.newcomerLogin(data.login, data.password)
             .subscribe(
                 data => {
                     const parsedData = JSON.parse(data._body);
                     this.authTokenStorageHelper.setAccessToken(parsedData.access_token);
                     this.authTokenStorageHelper.setRefreshToken(parsedData.refresh_token);
+                    this.navCtrl.push(HomePage);
                 },
                 err => console.log("err : ", err)
             )

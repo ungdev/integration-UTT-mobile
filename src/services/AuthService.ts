@@ -1,13 +1,14 @@
 import { Injectable } from '@angular/core';
 
-import { Http } from '@angular/http';
-import { AuthTokenStorageHelper } from '../../helpers/AuthTokenStorageHelper';
-import { BaseService } from "../BaseService";
+import { AuthTokenStorageHelper } from '../helpers/AuthTokenStorageHelper';
+import { BaseService } from "./BaseService";
 
-import { env } from '../../config/env';
+import { env } from '../config/env';
+
+import { Http, Response, RequestOptions, Headers } from '@angular/http';
 
 @Injectable()
-export class LoginService extends BaseService {
+export class AuthService extends BaseService {
 
     constructor (protected http: Http, protected authTokenStorageHelper: AuthTokenStorageHelper) {
         super(http, authTokenStorageHelper);
@@ -30,7 +31,7 @@ export class LoginService extends BaseService {
             scope: ''
         }
 
-        return this.makeRequest('website', {
+        return this.makeRequest({
             method: "post",
             route: "oauth/token",
             params
@@ -52,10 +53,33 @@ export class LoginService extends BaseService {
             scope: ''
         }
 
-        return this.makeRequest('website', {
+        return this.makeRequest({
             method: "post",
             route: "oauth/token",
             params
+        });
+    }
+
+    revokeAccessToken(accessToken) {
+        return this.makeRequest({
+            method: "post",
+            route: "oauth/token/revoke",
+            params: {
+                access_token: accessToken
+            }
+        });
+/*
+        return this.makeRequest({
+            method: "delete",
+            route: "oauth/tokens/" + accessToken
+        });*/
+
+    }
+
+    getTokens() {
+        return this.makeRequest({
+            method: "get",
+            route: "oauth/tokens"
         });
     }
 

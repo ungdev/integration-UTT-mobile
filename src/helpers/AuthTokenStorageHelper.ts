@@ -41,4 +41,9 @@ export class AuthTokenStorageHelper {
        localStorage.setItem(REFRESH_TOKEN_LOCALSTORAGE_NAME, newRefreshToken);
    }
 
+   clearTokens() {
+       localStorage.removeItem(REFRESH_TOKEN_LOCALSTORAGE_NAME);
+       localStorage.removeItem(ACCESS_TOKEN_LOCALSTORAGE_NAME);
+   }
+
 }

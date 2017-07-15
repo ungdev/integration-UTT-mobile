@@ -1,7 +1,12 @@
 <ion-header>
-  <ion-navbar>
-    <ion-title>Home</ion-title>
-  </ion-navbar>
+    <ion-toolbar color="primary">
+        <ion-title>Toolbar</ion-title>
+        <ion-buttons end>
+            <button ion-button icon-only color="royal" (click)="logout()">
+                <ion-icon name="md-log-out"></ion-icon>
+            </button>
+        </ion-buttons>
+    </ion-toolbar>
 </ion-header>
 
 <ion-content padding>

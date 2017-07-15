@@ -11,48 +11,47 @@ import { AuthTokenStorageHelper } from '../helpers/AuthTokenStorageHelper';
 
 export class BaseService {
 
-    protected WebsiteURI = env.WEBSITE_URL;
-    protected ApiURI = `${this.WebsiteURI}api/`;
+    protected ApiURI = `${env.WEBSITE_URL}api/`;
 
     constructor (protected http: Http, protected authTokenStorageHelper: AuthTokenStorageHelper) {}
 
     /**
-     * Make a request on the website or website's API
+     * Make a request on the website's API
      *
-     * @param String target: website or api
      * @param Object data: information about the request
      * @return Object | Any
      */
-    makeRequest(target: string, data) {
-        target = target.toUpperCase();
-
+    makeRequest(data) {
         // set request headers
-        const headers = this.prepareRequestHeaders(target === "API");
+        const headers = this.prepareRequestHeaders();
         const options = new RequestOptions({ headers });
+        const method = data.method.toUpperCase();
 
         // create the full uri
-        let uri = target === "API" ? this.ApiURI: this.WebsiteURI;
-        uri += data.route;
+        let uri = this.ApiURI + data.route;
 
         // make the request
-        if (data.method.toUpperCase() === "GET") {
+        if (method === "GET") {
             return this.getRequest(uri, options);
-        } else {
+        } else if (method === "POST") {
             return this.postRequest(uri, data.params, options);
+        } else if (method === "DELETE") {
+            return this.deleteRequest(uri, options);
         }
-
     }
 
     /**
      * Prepare the headers for the request. If Authorization is required,
      * set the Authorization header with the token in the localStorage.
      *
-     * @param boolean authorization_required
      * @return Headers
      */
-    private prepareRequestHeaders(authorization_required: boolean) {
+    protected prepareRequestHeaders() {
         const headers = new Headers();
         headers.append('Content-Type', 'application/json');
+        headers.append('Accept', 'application/json');
+        headers.append('Access-Control-Allow-Origin', '*');
+        headers.append('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Key');
 
         const accessToken = this.authTokenStorageHelper.getAccessToken();
         if (accessToken) {
@@ -70,7 +69,7 @@ export class BaseService {
      * @param RequestOptions options: contains the headers
      * @return Object | Any
      */
-    private postRequest(uri: string, params, options) {
+    protected postRequest(uri: string, params, options) {
         return this.http.post(uri, params, options)
             .map(this.extractData)
             .catch(this.handleError)
@@ -85,6 +84,19 @@ export class BaseService {
      */
     private getRequest(uri: string, options) {
         return this.http.get(uri, options)
+            .map(this.extractData)
+            .catch(this.handleError)
+    }
+
+    /**
+     * Make a delete request, using the Http module
+     *
+     * @param string uri: the requested uri
+     * @param RequestOptions options: contains the headers
+     * @return Object | Any
+     */
+    private deleteRequest(uri: string, options) {
+        return this.http.delete(uri, options)
             .map(this.extractData)
             .catch(this.handleError)
     }
