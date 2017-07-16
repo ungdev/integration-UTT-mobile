@@ -39,6 +39,35 @@ export class AuthService extends BaseService {
     }
 
     /**
+     * Make a request to get the EtuUtt login page url
+     *
+     * @return object
+     */
+    getEtuUTTLoginUrl() {
+        return this.makeRequest({
+            method: "get",
+            route: "oauth/etuutt/link"
+        });
+    }
+
+    /**
+     * Make a request to send the received authorization code to
+     * the API in order to authenticate the user
+     *
+     * @param string authorization_code
+     * @return object
+     */
+    sendAuthorizationCode(authorization_code) {
+        return this.makeRequest({
+            method: "post",
+            route: "oauth/etuutt/callback",
+            params: {
+                authorization_code
+            }
+        });
+    }
+
+    /**
      * Make a request to refresh the access token, using the refresh token
      *
      * @param string refreshToken

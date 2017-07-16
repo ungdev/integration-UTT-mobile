@@ -53,7 +53,14 @@ export class LoginPage {
     }
 
     loginWithEtuUTT() {
-        console.log("etu utt login");
+        this.authService.getEtuUTTLoginUrl()
+            .subscribe(
+                data => {
+                    const parsedData = JSON.parse(data._body);
+                    window.location.href = parsedData.redirectUri;
+                },
+                err => console.log("err : ", err)
+            )
     }
 
 }
