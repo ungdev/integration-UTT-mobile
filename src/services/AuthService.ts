@@ -60,6 +60,12 @@ export class AuthService extends BaseService {
         });
     }
 
+    /**
+     * Make a request to revoke the given access token
+    -*
+     * @param accessToken: the token to revoke
+     * @return object
+     */
     revokeAccessToken(accessToken) {
         return this.makeRequest({
             method: "post",
@@ -67,19 +73,6 @@ export class AuthService extends BaseService {
             params: {
                 access_token: accessToken
             }
-        });
-/*
-        return this.makeRequest({
-            method: "delete",
-            route: "oauth/tokens/" + accessToken
-        });*/
-
-    }
-
-    getTokens() {
-        return this.makeRequest({
-            method: "get",
-            route: "oauth/tokens"
         });
     }
 
