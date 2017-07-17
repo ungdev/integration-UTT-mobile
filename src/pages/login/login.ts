@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { NavController } from 'ionic-angular';
+import { LoadingController } from 'ionic-angular';
 
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
@@ -15,9 +16,11 @@ import { AuthTokenStorageHelper } from '../../helpers/AuthTokenStorageHelper';
 export class LoginPage {
 
     loginForm: FormGroup;
+    loader: any;
 
     constructor (
         public navCtrl: NavController,
+        public loadingCtrl: LoadingController,
         private fb: FormBuilder,
         private authService: AuthService,
         private authTokenStorageHelper: AuthTokenStorageHelper
@@ -32,16 +35,18 @@ export class LoginPage {
                 [Validators.required]
             ]
         });
+
+        this.loader = this.loadingCtrl.create({
+            content: "Chargement..."
+        });
+        this.loader.present();
     }
 
     ngOnInit() {
-
-        // check if login with etu utt : authorization_code in the url
-
+        // start by checking if there is an authorization_code in the url
         const fullUrl = window.location.href;
         const searchPart = fullUrl.split('?')[1];
 
-        // if parameters in the url, check if there is an authorization_code
         if (searchPart) {
             const parameters = searchPart.split('&');
 
@@ -57,25 +62,43 @@ export class LoginPage {
                             const parsedData = JSON.parse(data._body);
                             this.authTokenStorageHelper.setAccessToken(parsedData.access_token);
                             this.navCtrl.push(HomePage);
+                            this.loader.dismiss();
                         },
-                        err => console.log("err : ", err)
+                        err => {
+                            console.log("err : ", err);
+                            // if the authorization_code is not valid,
+                            // check if there is a valid access token in the localStorage
+                            this.checkAccessToken();
+                        }
                     );
             }
         } else {
-            // if there is an access token in the localStorage, check if
-            // this one is not revoked
-            const accessToken = this.authTokenStorageHelper.getAccessToken();
-
-            if (accessToken) {
-                // check if the access token is valid
-                this.authService.checkAccessToken(accessToken)
-                    .subscribe(
-                        data => this.navCtrl.push(HomePage),
-                        err => console.log("err : ", err)
-                    );
-            }
+            // if no parameters in the url, then check if there is
+            // a valid access token in the localStorage
+            this.checkAccessToken();
         }
+    }
 
+    /**
+     * Check if there is a valid access token in the localStorage
+     * If it's the case, redirect to home page
+     */
+    private checkAccessToken() {
+        // if there is an access token in the localStorage, check if
+        // this one is not revoked
+        const accessToken = this.authTokenStorageHelper.getAccessToken();
+
+        if (accessToken) {
+            // check if the access token is valid
+            this.authService.checkAccessToken(accessToken)
+                .subscribe(
+                    data => this.navCtrl.push(HomePage),
+                    err => console.log("err : ", err)
+                );
+            this.loader.dismiss();
+        } else {
+            this.loader.dismiss();
+        }
     }
 
     /**
