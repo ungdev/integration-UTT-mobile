@@ -34,6 +34,50 @@ export class LoginPage {
         });
     }
 
+    ngOnInit() {
+
+        // check if login with etu utt : authorization_code in the url
+
+        const fullUrl = window.location.href;
+        const searchPart = fullUrl.split('?')[1];
+
+        // if parameters in the url, check if there is an authorization_code
+        if (searchPart) {
+            const parameters = searchPart.split('&');
+
+            const authorization_code = parameters
+                .map(p => p.split('='))
+                .find(p => p[0] === "authorization_code");
+
+            // if there is an authorization_code, send it to get an access token
+            if (authorization_code) {
+                this.authService.sendAuthorizationCode(authorization_code)
+                    .subscribe(
+                        data => {
+                            const parsedData = JSON.parse(data._body);
+                            this.authTokenStorageHelper.setAccessToken(parsedData.access_token);
+                            this.navCtrl.push(HomePage);
+                        },
+                        err => console.log("err : ", err)
+                    );
+            }
+        } else {
+            // if there is an access token in the localStorage, check if
+            // this one is not revoked
+            const accessToken = this.authTokenStorageHelper.getAccessToken();
+
+            if (accessToken) {
+                // check if the access token is valid
+                this.authService.checkAccessToken(accessToken)
+                    .subscribe(
+                        data => this.navCtrl.push(HomePage),
+                        err => console.log("err : ", err)
+                    );
+            }
+        }
+
+    }
+
     /**
     * Handle login form submission
     */

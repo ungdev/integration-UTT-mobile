@@ -89,6 +89,13 @@ export class AuthService extends BaseService {
         });
     }
 
+    checkAccessToken(accessToken) {
+        return this.makeRequest({
+            method: "post",
+            route: "oauth/token/check"
+        })
+    }
+
     /**
      * Make a request to revoke the given access token
     -*
