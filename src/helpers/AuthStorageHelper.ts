@@ -43,11 +43,22 @@ export class AuthStorageHelper {
        localStorage.setItem(REFRESH_TOKEN_LOCALSTORAGE_NAME, newRefreshToken);
    }
 
+   /**
+    * Set the user's name and user's roles in the localStorage
+    */
    setUserInfo(info) {
-       console.log("set");
        localStorage.setItem(USER_NAME_LOCALSTORAGE_NAME, info.first_name);
        delete info.first_name;
        localStorage.setItem(USER_ROLES_LOCALSTORAGE_NAME, JSON.stringify(info));
+   }
+
+   /**
+    * Read the user's name in the localStorage
+    *
+    * @return string
+    */
+   getUserName() {
+       return localStorage.getItem(USER_NAME_LOCALSTORAGE_NAME);
    }
 
    /**

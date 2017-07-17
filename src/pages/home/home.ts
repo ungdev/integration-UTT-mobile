@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController } from 'ionic-angular';
+import { NavController, MenuController } from 'ionic-angular';
 
 import { LoginPage } from '../login/login';
 import { AuthService } from '../../services/AuthService';
@@ -12,11 +12,17 @@ import { AuthStorageHelper } from '../../helpers/AuthStorageHelper';
 })
 export class HomePage {
 
+    username: string;
+
     constructor(
         public navCtrl: NavController,
+        public menu: MenuController,
         private authService: AuthService,
         private authStorageHelper: AuthStorageHelper
-    ) {}
+    ) {
+        menu.enable(true);
+        this.username = authStorageHelper.getUserName();
+    }
 
     /**
      * Handle click on logout button.
