@@ -3,19 +3,19 @@ import { NavController } from 'ionic-angular';
 
 import { LoginPage } from '../login/login';
 import { AuthService } from '../../services/AuthService';
-import { AuthTokenStorageHelper } from '../../helpers/AuthTokenStorageHelper';
+import { AuthStorageHelper } from '../../helpers/AuthStorageHelper';
 
 @Component({
     selector: 'page-home',
     templateUrl: 'home.html',
-    providers: [AuthService, AuthTokenStorageHelper]
+    providers: [AuthService, AuthStorageHelper]
 })
 export class HomePage {
 
     constructor(
         public navCtrl: NavController,
         private authService: AuthService,
-        private authTokenStorageHelper: AuthTokenStorageHelper
+        private authStorageHelper: AuthStorageHelper
     ) {}
 
     /**
@@ -24,11 +24,11 @@ export class HomePage {
      * and redirect the user to the login page
      */
     logout() {
-        const accessToken = this.authTokenStorageHelper.getAccessToken();
+        const accessToken = this.authStorageHelper.getAccessToken();
         this.authService.revokeAccessToken(accessToken)
             .subscribe(
                 data => {
-                    this.authTokenStorageHelper.clearTokens();
+                    this.authStorageHelper.clear();
                     this.navCtrl.push(LoginPage);
                 },
                 err => {

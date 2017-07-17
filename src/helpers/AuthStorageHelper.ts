@@ -1,7 +1,9 @@
 const ACCESS_TOKEN_LOCALSTORAGE_NAME = "access_token";
 const REFRESH_TOKEN_LOCALSTORAGE_NAME = "refresh_token";
+const USER_NAME_LOCALSTORAGE_NAME = "username";
+const USER_ROLES_LOCALSTORAGE_NAME = "roles";
 
-export class AuthTokenStorageHelper {
+export class AuthStorageHelper {
 
    constructor() {}
 
@@ -41,9 +43,21 @@ export class AuthTokenStorageHelper {
        localStorage.setItem(REFRESH_TOKEN_LOCALSTORAGE_NAME, newRefreshToken);
    }
 
-   clearTokens() {
+   setUserInfo(info) {
+       console.log("set");
+       localStorage.setItem(USER_NAME_LOCALSTORAGE_NAME, info.first_name);
+       delete info.first_name;
+       localStorage.setItem(USER_ROLES_LOCALSTORAGE_NAME, JSON.stringify(info));
+   }
+
+   /**
+    * Remove the tokens and user info from the localStorage
+    */
+   clear() {
        localStorage.removeItem(REFRESH_TOKEN_LOCALSTORAGE_NAME);
        localStorage.removeItem(ACCESS_TOKEN_LOCALSTORAGE_NAME);
+       localStorage.removeItem(USER_NAME_LOCALSTORAGE_NAME);
+       localStorage.removeItem(USER_ROLES_LOCALSTORAGE_NAME);
    }
 
 }

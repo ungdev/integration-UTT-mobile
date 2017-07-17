@@ -1,16 +1,16 @@
 import { Injectable } from '@angular/core';
 
-import { AuthTokenStorageHelper } from '../helpers/AuthTokenStorageHelper';
+import { Http } from '@angular/http';
+
+import { AuthStorageHelper } from '../helpers/AuthStorageHelper';
 import { BaseService } from "./BaseService";
 
 import { env } from '../config/env';
 
-import { Http, Response, RequestOptions, Headers } from '@angular/http';
-
 @Injectable()
 export class AuthService extends BaseService {
 
-    constructor (protected http: Http, protected authTokenStorageHelper: AuthTokenStorageHelper) {
+    constructor (protected http: Http, protected authTokenStorageHelper: AuthStorageHelper) {
         super(http, authTokenStorageHelper);
     }
 
@@ -89,11 +89,26 @@ export class AuthService extends BaseService {
         });
     }
 
+    /**
+     * Make a request to check if the access token is
+     * not revoked
+     */
     checkAccessToken(accessToken) {
         return this.makeRequest({
             method: "post",
             route: "oauth/token/check"
-        })
+        });
+    }
+
+    /**
+     * Make a request to get main user info, like
+     * his first name and roles
+     */
+    getUserInfo() {
+        return this.makeRequest({
+            method: "get",
+            route: "oauth/userinfo"
+        });
     }
 
     /**

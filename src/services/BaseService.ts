@@ -7,13 +7,13 @@ import 'rxjs/add/observable/throw';
 
 import { env } from '../config/env';
 
-import { AuthTokenStorageHelper } from '../helpers/AuthTokenStorageHelper';
+import { AuthStorageHelper } from '../helpers/AuthStorageHelper';
 
 export class BaseService {
 
     protected ApiURI = `${env.WEBSITE_URL}api/`;
 
-    constructor (protected http: Http, protected authTokenStorageHelper: AuthTokenStorageHelper) {}
+    constructor (protected http: Http, protected authStorageHelper: AuthStorageHelper) {}
 
     /**
      * Make a request on the website's API
@@ -53,7 +53,7 @@ export class BaseService {
         headers.append('Access-Control-Allow-Origin', '*');
         headers.append('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Key');
 
-        const accessToken = this.authTokenStorageHelper.getAccessToken();
+        const accessToken = this.authStorageHelper.getAccessToken();
         if (accessToken) {
             headers.append('Authorization', `Bearer ${accessToken}`);
         }

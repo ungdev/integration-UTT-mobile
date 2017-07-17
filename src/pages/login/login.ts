@@ -6,12 +6,12 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 import { HomePage } from '../home/home';
 import { AuthService } from '../../services/AuthService';
-import { AuthTokenStorageHelper } from '../../helpers/AuthTokenStorageHelper';
+import { AuthStorageHelper } from '../../helpers/AuthStorageHelper';
 
 @Component({
     selector: 'page-login',
     templateUrl: 'login.html',
-    providers: [AuthService, AuthTokenStorageHelper]
+    providers: [AuthService, AuthStorageHelper]
 })
 export class LoginPage {
 
@@ -23,7 +23,7 @@ export class LoginPage {
         public loadingCtrl: LoadingController,
         private fb: FormBuilder,
         private authService: AuthService,
-        private authTokenStorageHelper: AuthTokenStorageHelper
+        private authStorageHelper: AuthStorageHelper
     ) {
         this.loginForm = this.fb.group({
             'login': [
@@ -60,9 +60,8 @@ export class LoginPage {
                     .subscribe(
                         data => {
                             const parsedData = JSON.parse(data._body);
-                            this.authTokenStorageHelper.setAccessToken(parsedData.access_token);
-                            this.navCtrl.push(HomePage);
-                            this.loader.dismiss();
+                            this.authStorageHelper.setAccessToken(parsedData.access_token);
+                            this.loadUserInfo();
                         },
                         err => {
                             console.log("err : ", err);
@@ -80,22 +79,40 @@ export class LoginPage {
     }
 
     /**
+     * Use authService to load main user info
+     */
+    private loadUserInfo() {
+        this.authService.getUserInfo()
+            .subscribe(
+                data => {
+                    const parsedData = JSON.parse(data._body);
+                    this.authStorageHelper.setUserInfo(parsedData.user);
+                    this.navCtrl.push(HomePage);
+                    this.loader.dismiss();
+                },
+                err => console.log("err : ", err)
+            );
+    }
+
+    /**
      * Check if there is a valid access token in the localStorage
      * If it's the case, redirect to home page
      */
     private checkAccessToken() {
         // if there is an access token in the localStorage, check if
         // this one is not revoked
-        const accessToken = this.authTokenStorageHelper.getAccessToken();
+        const accessToken = this.authStorageHelper.getAccessToken();
 
         if (accessToken) {
             // check if the access token is valid
             this.authService.checkAccessToken(accessToken)
                 .subscribe(
-                    data => this.navCtrl.push(HomePage),
-                    err => console.log("err : ", err)
+                    data => this.loadUserInfo(),
+                    err => {
+                        console.log("err : ", err);
+                        this.loader.dismiss();
+                    }
                 );
-            this.loader.dismiss();
         } else {
             this.loader.dismiss();
         }
@@ -111,8 +128,8 @@ export class LoginPage {
             .subscribe(
                 data => {
                     const parsedData = JSON.parse(data._body);
-                    this.authTokenStorageHelper.setAccessToken(parsedData.access_token);
-                    this.authTokenStorageHelper.setRefreshToken(parsedData.refresh_token);
+                    this.authStorageHelper.setAccessToken(parsedData.access_token);
+                    this.authStorageHelper.setRefreshToken(parsedData.refresh_token);
                     this.navCtrl.push(HomePage);
                 },
                 err => console.log("err : ", err)
