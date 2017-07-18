@@ -101,17 +101,6 @@ export class AuthService extends BaseService {
     }
 
     /**
-     * Make a request to get main user info, like
-     * his first name and roles
-     */
-    getUserInfo() {
-        return this.makeRequest({
-            method: "get",
-            route: "oauth/userinfo"
-        });
-    }
-
-    /**
      * Make a request to revoke the given access token
     -*
      * @param accessToken: the token to revoke

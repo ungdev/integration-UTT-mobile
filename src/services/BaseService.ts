@@ -13,7 +13,10 @@ export class BaseService {
 
     protected ApiURI = `${env.WEBSITE_URL}api/`;
 
-    constructor (protected http: Http, protected authStorageHelper: AuthStorageHelper) {}
+    constructor (
+        protected http: Http,
+        protected authStorageHelper: AuthStorageHelper,
+    ) {}
 
     /**
      * Make a request on the website's API
@@ -35,9 +38,20 @@ export class BaseService {
             return this.getRequest(uri, options);
         } else if (method === "POST") {
             return this.postRequest(uri, data.params, options);
-        } else if (method === "DELETE") {
-            return this.deleteRequest(uri, options);
         }
+    }
+
+    /**
+     * Make a get request
+     *
+     * @param model string : model name
+     * @param id string|null : ressource id
+     */
+    protected _get(model, id) {
+        return this.makeRequest({
+            method: "get",
+            route: id ? `${model}/${id}` : model
+        });
     }
 
     /**
@@ -84,19 +98,6 @@ export class BaseService {
      */
     private getRequest(uri: string, options) {
         return this.http.get(uri, options)
-            .map(this.extractData)
-            .catch(this.handleError)
-    }
-
-    /**
-     * Make a delete request, using the Http module
-     *
-     * @param string uri: the requested uri
-     * @param RequestOptions options: contains the headers
-     * @return Object | Any
-     */
-    private deleteRequest(uri: string, options) {
-        return this.http.delete(uri, options)
             .map(this.extractData)
             .catch(this.handleError)
     }

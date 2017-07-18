@@ -6,12 +6,13 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 import { HomePage } from '../home/home';
 import { AuthService } from '../../services/AuthService';
+import { StudentService } from '../../services/StudentService';
 import { AuthStorageHelper } from '../../helpers/AuthStorageHelper';
 
 @Component({
     selector: 'page-login',
     templateUrl: 'login.html',
-    providers: [AuthService, AuthStorageHelper]
+    providers: [AuthService, StudentService, AuthStorageHelper]
 })
 export class LoginPage {
 
@@ -23,6 +24,7 @@ export class LoginPage {
         public loadingCtrl: LoadingController,
         private fb: FormBuilder,
         private authService: AuthService,
+        private studentService: StudentService,
         private authStorageHelper: AuthStorageHelper
     ) {
         this.loginForm = this.fb.group({
@@ -82,11 +84,12 @@ export class LoginPage {
      * Use authService to load main user info
      */
     private loadUserInfo() {
-        this.authService.getUserInfo()
+        // 0 to tell that we want to get the auth user (we don't have his id)
+        this.studentService.get("0")
             .subscribe(
                 data => {
                     const parsedData = JSON.parse(data._body);
-                    this.authStorageHelper.setUserInfo(parsedData.user);
+                    this.authStorageHelper.setUserInfo(parsedData);
                     this.navCtrl.push(HomePage);
                     this.loader.dismiss();
                 },

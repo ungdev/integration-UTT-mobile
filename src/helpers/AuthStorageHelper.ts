@@ -46,10 +46,16 @@ export class AuthStorageHelper {
    /**
     * Set the user's name and user's roles in the localStorage
     */
-   setUserInfo(info) {
-       localStorage.setItem(USER_NAME_LOCALSTORAGE_NAME, info.first_name);
-       delete info.first_name;
-       localStorage.setItem(USER_ROLES_LOCALSTORAGE_NAME, JSON.stringify(info));
+   setUserInfo(user) {
+       console.log(user);
+       localStorage.setItem(USER_NAME_LOCALSTORAGE_NAME, user.first_name);
+       localStorage.setItem(USER_ROLES_LOCALSTORAGE_NAME, JSON.stringify({
+           orga: user.orga !== 0,
+           volunteer: user.volunteer !== 0,
+           newcomer: user.is_newcomer !== 0,
+           admin: user.admin !== 0,
+           ce: user.ce !== 0,
+       }));
    }
 
    /**
