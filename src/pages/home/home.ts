@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { NavController, MenuController } from 'ionic-angular';
 
 import { LoginPage } from '../login/login';
+import { ProfilePage } from '../profile/profile';
 import { AuthService } from '../../services/AuthService';
 import { AuthStorageHelper } from '../../helpers/AuthStorageHelper';
 
@@ -13,6 +14,8 @@ import { AuthStorageHelper } from '../../helpers/AuthStorageHelper';
 export class HomePage {
 
     username: string;
+    roles: Object;
+    navMenu: Object;
 
     constructor(
         public navCtrl: NavController,
@@ -22,6 +25,15 @@ export class HomePage {
     ) {
         menu.enable(true);
         this.username = authStorageHelper.getUserName();
+        this.roles = authStorageHelper.getUserRoles();
+
+        this.navMenu = [
+            {label: "Mon profil", page: "profil"}
+        ];
+    }
+
+    openPage(page) {
+        if (page === "profil") { this.navCtrl.push(ProfilePage) }
     }
 
     /**

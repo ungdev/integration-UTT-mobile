@@ -24,12 +24,7 @@
     </ion-header>
     <ion-content>
         <ion-list>
-            <button ion-item>
-                Mon profil
-            </button>
-            <button ion-item>
-                Mon équipe
-            </button>
+            <button ion-item *ngFor="let item of navMenu" (click)="openPage(item.page)">{{item.label}}</button>
         </ion-list>
     </ion-content>
 </ion-menu>

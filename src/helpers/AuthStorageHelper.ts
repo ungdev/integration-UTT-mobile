@@ -47,7 +47,6 @@ export class AuthStorageHelper {
     * Set the user's name and user's roles in the localStorage
     */
    setUserInfo(user) {
-       console.log(user);
        localStorage.setItem(USER_NAME_LOCALSTORAGE_NAME, user.first_name);
        localStorage.setItem(USER_ROLES_LOCALSTORAGE_NAME, JSON.stringify({
            orga: user.orga !== 0,
@@ -65,6 +64,16 @@ export class AuthStorageHelper {
     */
    getUserName() {
        return localStorage.getItem(USER_NAME_LOCALSTORAGE_NAME);
+   }
+
+   /**
+    * Read the user's roles in the localStorage
+    *
+    * @return object
+    */
+   getUserRoles() {
+       const roles = localStorage.getItem(USER_ROLES_LOCALSTORAGE_NAME);
+       return roles ? JSON.parse(roles) : {};
    }
 
    /**
