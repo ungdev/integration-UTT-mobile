@@ -5,8 +5,6 @@ import { Http } from '@angular/http';
 import { AuthStorageHelper } from '../helpers/AuthStorageHelper';
 import { BaseService } from "./BaseService";
 
-import { env } from '../config/env';
-
 @Injectable()
 export class StudentService extends BaseService {
 

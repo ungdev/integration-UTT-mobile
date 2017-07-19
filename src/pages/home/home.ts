@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController } from 'ionic-angular';
+import { NavController, MenuController } from 'ionic-angular';
 
 import { AuthStorageHelper } from '../../helpers/AuthStorageHelper';
 
@@ -16,9 +16,12 @@ export class HomePage {
 
     constructor(
         public navCtrl: NavController,
+        public menu: MenuController,
         private authStorageHelper: AuthStorageHelper
     ) {
         this.username = authStorageHelper.getUserName();
+        
+        this.menu.enable(true);
     }
 
 }

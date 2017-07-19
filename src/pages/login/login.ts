@@ -1,11 +1,9 @@
 import { Component } from '@angular/core';
-import { NavController } from 'ionic-angular';
-import { MenuController } from 'ionic-angular';
+import { MenuController, NavController, Events } from 'ionic-angular';
 import { LoadingController } from 'ionic-angular';
 
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
-import { HomePage } from '../home/home';
 import { AuthService } from '../../services/AuthService';
 import { StudentService } from '../../services/StudentService';
 import { AuthStorageHelper } from '../../helpers/AuthStorageHelper';
@@ -22,7 +20,9 @@ export class LoginPage {
 
     constructor (
         public navCtrl: NavController,
+        public menu: MenuController,
         public loadingCtrl: LoadingController,
+        public events: Events,
         private fb: FormBuilder,
         private authService: AuthService,
         private studentService: StudentService,
@@ -43,6 +43,9 @@ export class LoginPage {
             content: "Chargement..."
         });
         this.loader.present();
+
+        // disable menu on login page (can't navigate before login)
+        this.menu.enable(false);
     }
 
     ngOnInit() {
@@ -91,7 +94,7 @@ export class LoginPage {
                 data => {
                     const parsedData = JSON.parse(data._body);
                     this.authStorageHelper.setUserInfo(parsedData);
-                    this.navCtrl.setRoot(HomePage);
+                    this.events.publish('user:logged');
                     this.loader.dismiss();
                 },
                 err => console.log("err : ", err)
@@ -134,7 +137,7 @@ export class LoginPage {
                     const parsedData = JSON.parse(data._body);
                     this.authStorageHelper.setAccessToken(parsedData.access_token);
                     this.authStorageHelper.setRefreshToken(parsedData.refresh_token);
-                    this.navCtrl.setRoot(HomePage);
+                    this.events.publish('user:logged');
                 },
                 err => console.log("err : ", err)
             )

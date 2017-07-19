@@ -1,5 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
-import { Nav, Platform } from 'ionic-angular';
+import { Nav, Platform, Events } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 
@@ -24,17 +24,30 @@ export class MyApp {
     constructor(
         public platform: Platform,
         public statusBar: StatusBar,
+        public events: Events,
         public splashScreen: SplashScreen,
         private authService: AuthService,
         private authStorageHelper: AuthStorageHelper
     ) {
         this.initializeApp();
 
-        // used for an example of ngFor and navigation
-        this.pages = [
-            { title: 'Home', component: HomePage },
-            { title: 'Profil', component: ProfilePage }
-        ];
+        // on user login, set the menu pages depending of his roles
+        events.subscribe('user:logged', (user, time) => {
+
+            const roles = authStorageHelper.getUserRoles();
+
+            this.pages = [
+                { title: 'Home', component: HomePage },
+            ];
+
+            if (roles['newcomer']) {
+                this.pages.push({ title: 'Mon profil', component: ProfilePage });
+            }
+
+            this.nav.setRoot(HomePage);
+        });
+
+        this.pages = [];
     }
 
     initializeApp() {
