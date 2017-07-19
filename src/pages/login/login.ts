@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { NavController } from 'ionic-angular';
+import { MenuController } from 'ionic-angular';
 import { LoadingController } from 'ionic-angular';
 
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -90,7 +91,7 @@ export class LoginPage {
                 data => {
                     const parsedData = JSON.parse(data._body);
                     this.authStorageHelper.setUserInfo(parsedData);
-                    this.navCtrl.push(HomePage);
+                    this.navCtrl.setRoot(HomePage);
                     this.loader.dismiss();
                 },
                 err => console.log("err : ", err)
@@ -133,7 +134,7 @@ export class LoginPage {
                     const parsedData = JSON.parse(data._body);
                     this.authStorageHelper.setAccessToken(parsedData.access_token);
                     this.authStorageHelper.setRefreshToken(parsedData.refresh_token);
-                    this.navCtrl.push(HomePage);
+                    this.navCtrl.setRoot(HomePage);
                 },
                 err => console.log("err : ", err)
             )
