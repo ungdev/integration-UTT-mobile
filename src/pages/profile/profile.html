@@ -1,3 +1,35 @@
 <ion-content padding class="main-container">
-    yolo
+    <div *ngIf="!requestDone">
+        chargement
+    </div>
+    <div *ngIf="requestDone">
+        <div>
+            <h2>Parrain</h2>
+            <p>
+                <ion-item-group>
+                    <ion-item-divider color="light">Identité</ion-item-divider>
+                    <ion-item>{{ referral.firstname }} {{ referral.lastname }}</ion-item>
+                    <ion-item>{{ referral.branch }} {{ referral.level }}</ion-item>
+                </ion-item-group>
+
+                <ion-item-group>
+                    <ion-item-divider color="light">Coordonnées</ion-item-divider>
+                    <ion-item>{{ referral.phone }}</ion-item>
+                    <ion-item>{{ referral.email }}</ion-item>
+                </ion-item-group>
+            </p>
+        </div>
+        <div>
+            <h2>WEI</h2>
+            <p>
+                <ion-list>
+                    <ion-item *ngFor="let item of wei">
+                        {{ item.label }}
+                        <ion-icon *ngIf="item.value === true" name="checkmark" color="secondary" item-end></ion-icon>
+                        <ion-icon *ngIf="item.value === false" name="close" color="danger" item-end></ion-icon>
+                    </ion-item>
+                </ion-list>
+            </p>
+        </div>
+    </div>
 </ion-content>
