@@ -24,7 +24,7 @@ export class ProfilePage {
         private studentService: StudentService,
     ) {
         // 0 to tell that we want to get the auth user (we don't have his id)
-        this.studentService.get("0")
+        this.studentService.get({id: "0"})
             .subscribe(
                 data => {
                     const parsedData = JSON.parse(data._body);

@@ -47,10 +47,17 @@ export class BaseService {
      * @param model string : model name
      * @param id string|null : ressource id
      */
-    protected _get(model, id) {
+    protected _get(model, data) {
+
+        let route = data.id ? `${model}/${data.id}` : model
+
+        if (data.filter) {
+            route += "?filter=" + data.filter;
+        }
+
         return this.makeRequest({
             method: "get",
-            route: id ? `${model}/${id}` : model
+            route
         });
     }
 

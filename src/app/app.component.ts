@@ -6,6 +6,7 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 import { LoginPage } from '../pages/login/login';
 import { HomePage } from '../pages/home/home';
 import { ProfilePage } from '../pages/profile/profile';
+import { NewcomersPage } from '../pages/newcomers/newcomers';
 
 import { AuthStorageHelper } from '../helpers/AuthStorageHelper';
 import { AuthService } from '../services/AuthService';
@@ -42,6 +43,10 @@ export class MyApp {
 
             if (roles['newcomer']) {
                 this.pages.push({ title: 'Mon profil', component: ProfilePage });
+            }
+
+            if (roles['admin']) {
+                this.pages.push({ title: 'Nouveaux', component: NewcomersPage });
             }
 
             this.nav.setRoot(HomePage);

@@ -14,6 +14,6 @@ export class StudentService extends BaseService {
         super(http, authTokenStorageHelper);
     }
 
-    get(id? :string) { return this._get(this.model, id) }
+    get(data: object) { return this._get(this.model, data) }
 
 }
