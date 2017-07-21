@@ -1,0 +1,123 @@
+<ion-content padding>
+    <div *ngIf="!requestDone">
+        chargement
+    </div>
+    <div *ngIf="requestDone">
+        <span text-capitalize>{{ user.first_name }}</span> <span text-uppercase>{{ user.last_name }}</span>
+        <div>
+            <h2>Identité</h2>
+            <ion-list>
+                <ion-item>
+                    <h2>Date de naissance</h2>
+                    <p>{{ user.birth }}</p>
+                </ion-item>
+                <ion-item>
+                    <h2>Sexe</h2>
+                    <p>{{ user.sex === 0 ? "homme" : "femme" }}</p>
+                </ion-item>
+                <ion-item>
+                    <h2>INE</h2>
+                    <p>{{ user.ine }}</p>
+                </ion-item>
+                <ion-item>
+                    <h2>Team</h2>
+                    <p>{{ user.team_id }}</p>
+                </ion-item>
+            </ion-list>
+        </div>
+        <div>
+            <h2>Coordonnées</h2>
+            <ion-list>
+                <ion-item>
+                    <h2>Pays</h2>
+                    <p>{{ user.country }}</p>
+                </ion-item>
+                <ion-item>
+                    <h2>Code postal</h2>
+                    <p>{{ user.postal_code }}</p>
+                </ion-item>
+                <ion-item>
+                    <h2>Ville</h2>
+                    <p>{{ user.city }}</p>
+                </ion-item>
+                <ion-item>
+                    <h2>Email</h2>
+                    <p>{{ user.email }}</p>
+                </ion-item>
+                <ion-item>
+                    <h2>Téléphone</h2>
+                    <p>{{ user.phone }}</p>
+                </ion-item>
+                <ion-item>
+                    <h2>Ville</h2>
+                    <p>{{ user.city }}</p>
+                </ion-item>
+            </ion-list>
+        </div>
+        <div>
+            <h2>Parrain</h2>
+            <ion-list>
+                <ion-item>
+                    <h2>Prénom - Nom</h2>
+                    <p>{{ referral.firstname }} {{ referral.lastname }}</p>
+                </ion-item>
+                <ion-item>
+                    <h2>Branche - Semestre</h2>
+                    <p>{{ referral.branch }} {{ referral.level }}</p>
+                </ion-item>
+                <ion-item>
+                    <h2>Téléphone</h2>
+                    <p>{{ referral.phone }}</p>
+                </ion-item>
+                <ion-item>
+                    <h2>Email</h2>
+                    <p>{{ referral.email }}</p>
+                </ion-item>
+            </ion-list>
+        </div>
+        <div>
+            <h2>Etudes</h2>
+            <ion-list>
+                <ion-item>
+                    <h2>Numéro étudiant</h2>
+                    <p>{{ user.student_id ? user.student_id : "nouveau" }}</p>
+                </ion-item>
+                <ion-item>
+                    <h2>Branche</h2>
+                    <p>{{ user.branch }}</p>
+                </ion-item>
+                <ion-item>
+                    <h2>Semestre</h2>
+                    <p>{{ user.level }}</p>
+                </ion-item>
+            </ion-list>
+        </div>
+        <div>
+            <h2>WEI</h2>
+            <ion-list>
+                <ion-item *ngFor="let item of wei">
+                    {{ item.label }}
+                    <ion-icon *ngIf="item.value === true" name="checkmark" color="secondary" item-end></ion-icon>
+                    <ion-icon *ngIf="item.value === false" name="close" color="danger" item-end></ion-icon>
+                </ion-item>
+            </ion-list>
+        </div>
+        <div>
+            <h2>Fiche médicale</h2>
+            <ion-list>
+                <ion-item>
+                    <h2>Allergies</h2>
+                    <p>{{ user.medical_allergies }}</p>
+                </ion-item>
+                <ion-item>
+                    <h2>Traitement</h2>
+                    <p>{{ user.medical_treatment }}</p>
+                </ion-item>
+                <ion-item>
+                    <h2>Note</h2>
+                    <p>{{ user.medical_note }}</p>
+                </ion-item>
+            </ion-list>
+        </div>
+    </div>
+</ion-content>

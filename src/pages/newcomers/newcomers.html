@@ -1,4 +1,4 @@
-<ion-content padding class="main-container">
+<ion-content padding>
     <ion-list>
         <button ion-item *ngFor="let newcomer of newcomers" (click)="viewUser(newcomer)">
             <span text-capitalize>{{ newcomer.first_name }}</span> <span text-uppercase>{{ newcomer.last_name }}</span>

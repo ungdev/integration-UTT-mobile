@@ -3,6 +3,8 @@ import { NavController, MenuController } from 'ionic-angular';
 
 import { StudentService } from '../../services/StudentService';
 
+import { ViewUserPage } from '../viewUser/viewUser';
+
 @Component({
     selector: 'newcomers-profile',
     templateUrl: 'newcomers.html',
@@ -29,7 +31,7 @@ export class NewcomersPage {
     }
 
     private viewUser(user) {
-        console.log(user);
+        this.navCtrl.push(ViewUserPage, {id: user.id});
     }
 
 }
