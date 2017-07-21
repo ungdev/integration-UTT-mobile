@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, MenuController } from 'ionic-angular';
+import { NavController, MenuController, NavParams } from 'ionic-angular';
 
 import { StudentService } from '../../services/StudentService';
 
@@ -12,51 +12,76 @@ export class ProfilePage {
 
     requestDone: boolean = false;
 
-    firstname: string;
-    lastname: string;
-    branch: string;
     wei: object[];
-    referral: object;
+    medical: object[];
+    referral: object[];
+    studies: object[];
+    contact: object[];
+    identity: object[];
 
     constructor(
         public navCtrl: NavController,
         public menu: MenuController,
+        private navParams: NavParams,
         private studentService: StudentService,
     ) {
-        // 0 to tell that we want to get the auth user (we don't have his id)
-        this.studentService.get({id: "0"})
+
+        const paramId = this.navParams.get('id');
+
+        // if there is an id parameter, get the given user.
+        // else, set id to 0 (to get the authenticated user)
+        this.studentService.get({id: paramId ? paramId : "0"})
             .subscribe(
                 data => {
-                    const parsedData = JSON.parse(data._body);
-                    this.extractData(parsedData);
+                    const user = JSON.parse(data._body);
+
+                    this.wei = [
+                        {label: "Participe", value: Boolean(user.wei)},
+                        {label: "Payé", value: Boolean(user.wei_payment)},
+                        {label: "Sandwich", value: Boolean(user.sandwich_payment)},
+                        {label: "Caution", value: Boolean(user.guarantee_payment)},
+                        {label: "Validé", value: Boolean(user.validated)}
+                    ];
+
+                    this.medical = [
+                        {label: "Allergies", value: user.medical_allergies},
+                        {label: "Allergies", value: user.medical_treatment},
+                        {label: "Commentaire", value: user.medical_note},
+                    ];
+
+                    this.referral = [
+                        {label: "Prénom - nom", value: `${user.god_father.first_name} ${user.god_father.last_name}`},
+                        {label: "Branche", value: user.god_father.branch},
+                        {label: "Semestre", value: user.god_father.level},
+                        {label: "Téléphone", value: user.god_father.phone},
+                        {label: "Email", value: user.god_father.email},
+                    ];
+
+                    this.contact = [
+                        {label: "Pays", value: user.country},
+                        {label: "Code postal", value: user.postal_code},
+                        {label: "Ville", value: user.city},
+                        {label: "Téléphone", value: user.phone},
+                        {label: "Email", value: user.email},
+                    ];
+
+                    this.studies = [
+                        {label: "Numéro étudiant", value: user.student_id ? user.student_id : "nouveau" },
+                        {label: "Branche", value: user.branch },
+                        {label: "Semestre", value: user.level },
+                    ];
+
+                    this.identity = [
+                        {label: "Prénom - nom", value: `${user.first_name} ${user.last_name}`},
+                        {label: "Date de naissance", value: user.birth },
+                        {label: "Sexe", value: user.sex },
+                        {label: "Team", value: user.team ? user.team.name : "aucune" },
+                    ];
+
+                    this.requestDone = true;
                 },
                 err => console.log("err : ", err)
             );
-    }
-
-    private extractData(data) {
-        this.firstname = data.first_name;
-        this.lastname = data.last_name;
-        this.branch = data.branch,
-
-        this.wei = [
-            {label: "Participe", value: Boolean(data.wei)},
-            {label: "Payé", value: Boolean(data.wei_payment)},
-            {label: "Sandwich", value: Boolean(data.sandwich_payment)},
-            {label: "Caution", value: Boolean(data.guarantee_payment)},
-            {label: "Validé", value: Boolean(data.validated)}
-        ];
-
-        this.referral = {
-            lastname: data.referral_info.last_name,
-            firstname: data.referral_info.first_name,
-            branch: data.referral_info.branch,
-            level: data.referral_info.level,
-            phone: data.referral_info.phone,
-            email: data.referral_info.email,
-        }
-
-        this.requestDone = true;
     }
 
 }

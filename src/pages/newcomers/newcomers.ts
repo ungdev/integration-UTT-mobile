@@ -3,7 +3,7 @@ import { NavController, MenuController } from 'ionic-angular';
 
 import { StudentService } from '../../services/StudentService';
 
-import { ViewUserPage } from '../viewUser/viewUser';
+import { ProfilePage } from '../profile/profile';
 
 @Component({
     selector: 'newcomers-profile',
@@ -20,6 +20,7 @@ export class NewcomersPage {
         public menu: MenuController,
         private studentService: StudentService,
     ) {
+        // get all the newcomers
         this.studentService.get({filter: "newcomers"})
             .subscribe(
                 data => {
@@ -30,8 +31,13 @@ export class NewcomersPage {
             );
     }
 
-    private viewUser(user) {
-        this.navCtrl.push(ViewUserPage, {id: user.id});
+    /**
+     * navigate to the profile page of the user given in parameter
+     *
+     * @param integer id : the student id
+     */
+    private viewUser(id) {
+        this.navCtrl.push(ProfilePage, {id});
     }
 
 }
