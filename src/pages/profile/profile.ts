@@ -14,7 +14,7 @@ export class ProfilePage {
 
     wei: object[];
     medical: object[];
-    referral: object[];
+    godfather: object[];
     studies: object[];
     contact: object[];
     identity: object[];
@@ -49,14 +49,6 @@ export class ProfilePage {
                         {label: "Commentaire", value: user.medical_note},
                     ];
 
-                    this.referral = [
-                        {label: "Prénom - nom", value: `${user.god_father.first_name} ${user.god_father.last_name}`},
-                        {label: "Branche", value: user.god_father.branch},
-                        {label: "Semestre", value: user.god_father.level},
-                        {label: "Téléphone", value: user.god_father.phone},
-                        {label: "Email", value: user.god_father.email},
-                    ];
-
                     this.contact = [
                         {label: "Pays", value: user.country},
                         {label: "Code postal", value: user.postal_code},
@@ -77,6 +69,18 @@ export class ProfilePage {
                         {label: "Sexe", value: user.sex },
                         {label: "Team", value: user.team ? user.team.name : "aucune" },
                     ];
+
+                    this.godfather = [];
+                    if (user.god_father) {
+                        this.godfather = [
+                            {label: "Prénom - nom", value: `${user.god_father.first_name} ${user.god_father.last_name}`},
+                            {label: "Branche", value: user.god_father.branch},
+                            {label: "Semestre", value: user.god_father.level},
+                            {label: "Téléphone", value: user.god_father.phone},
+                            {label: "Email", value: user.god_father.email},
+                        ];
+                    }
+
 
                     this.requestDone = true;
                 },

@@ -6,14 +6,14 @@ import { StudentService } from '../../services/StudentService';
 import { ProfilePage } from '../profile/profile';
 
 @Component({
-    selector: 'newcomers-profile',
-    templateUrl: 'newcomers.html',
+    templateUrl: 'students.html',
     providers: [StudentService]
 })
-export class NewcomersPage {
+export class StudentsPage {
 
     requestDone: boolean = false;
-    newcomers: object[] = [];
+    students: any[] = [];
+    display: string;
 
     constructor(
         public navCtrl: NavController,
@@ -21,10 +21,10 @@ export class NewcomersPage {
         private studentService: StudentService,
     ) {
         // get all the newcomers
-        this.studentService.get({filter: "newcomers"})
+        this.studentService.get()
             .subscribe(
                 data => {
-                    this.newcomers = JSON.parse(data._body);
+                    this.students = JSON.parse(data._body);
                     this.requestDone = true;
                 },
                 err => console.log("err : ", err)
@@ -36,8 +36,19 @@ export class NewcomersPage {
      *
      * @param integer id : the student id
      */
-    private viewUser(id) {
+    viewUser(id) {
         this.navCtrl.push(ProfilePage, {id});
+    }
+
+    /**
+     * Filter this.students with this.display value
+     *
+     * @return array
+     */
+    filteredStudents() {
+        if (this.display === "newcomers") return this.students.filter(student => student.is_newcomer);
+        if (this.display === "students") return this.students.filter(student => !student.is_newcomer);
+        return this.students;
     }
 
 }

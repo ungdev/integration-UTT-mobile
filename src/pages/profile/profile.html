@@ -23,8 +23,11 @@
         </div>
         <div>
             <h2>Parrain</h2>
-            <ion-list>
-                <ion-item *ngFor="let item of referral">
+            <p *ngIf="godfather.length === 0">
+                Pas de parrain attribué
+            </p>
+            <ion-list *ngIf="godfather.length > 0">
+                <ion-item *ngFor="let item of godfather">
                     <h2>{{ item.label }}</h2>
                     <p>{{ item.value }}</p>
                 </ion-item>

@@ -45,13 +45,13 @@ export class BaseService {
      * Make a get request
      *
      * @param model string : model name
-     * @param id string|null : ressource id
+     * @param data object|null
      */
     protected _get(model, data) {
 
-        let route = data.id ? `${model}/${data.id}` : model
+        let route = (data && data.id) ? `${model}/${data.id}` : model
 
-        if (data.filter) {
+        if (data && data.filter) {
             route += "?filter=" + data.filter;
         }
 
