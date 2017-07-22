@@ -11,7 +11,6 @@ import { ProfilePage } from '../profile/profile';
 })
 export class StudentsPage {
 
-    requestDone: boolean = false;
     students: any[] = [];
     display: string;
 
@@ -25,7 +24,6 @@ export class StudentsPage {
             .subscribe(
                 data => {
                     this.students = JSON.parse(data._body);
-                    this.requestDone = true;
                 },
                 err => console.log("err : ", err)
             );

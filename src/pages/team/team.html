@@ -1,0 +1,44 @@
+<ion-content padding>
+    <div *ngIf="!requestDone">
+        chargement
+    </div>
+    <div *ngIf="requestDone">
+        <ion-list>
+            <ion-item>
+                <h2>Nom</h2>
+                <p>{{ team.name }}</p>
+            </ion-item>
+            <ion-item>
+                Validée
+                <ion-icon *ngIf="team.validated" name="checkmark" color="secondary" item-end></ion-icon>
+                <ion-icon *ngIf="!team.validated" name="close" color="danger" item-end></ion-icon>
+            </ion-item>
+            <ion-item>
+                <h2>Description</h2>
+                <p>{{ team.description }}</p>
+            </ion-item>
+            <ion-item>
+                <h2>Commentaire</h2>
+                <p>{{ team.comment }}</p>
+            </ion-item>
+            <ion-item>
+                <h2>Points</h2>
+                <p>{{ team.points }}</p>
+            </ion-item>
+        </ion-list>
+        <ion-item-group>
+            <ion-item-divider color="light">Chefs d'équipe</ion-item-divider>
+            <button ion-item *ngFor="let ce of team.ce" (click)="viewUser(ce.id)">
+                {{ ce.first_name }} {{ ce.last_name }} {{ team.respo_id == ce.student_id ? "*": "" }}
+                <ion-icon name="arrow-forward" item-end></ion-icon>
+            </button>
+        </ion-item-group>
+        <ion-item-group>
+            <ion-item-divider color="light">Nouveaux</ion-item-divider>
+            <button ion-item *ngFor="let newcomer of team.newcomers" (click)="viewUser(newcomer.id)">
+                {{ newcomer.first_name }} {{ newcomer.last_name }}
+                <ion-icon name="arrow-forward" item-end></ion-icon>
+            </button>
+        </ion-item-group>
+    </div>
+</ion-content>

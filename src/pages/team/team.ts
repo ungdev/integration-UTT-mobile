@@ -3,6 +3,8 @@ import { NavController, MenuController, NavParams } from 'ionic-angular';
 
 import { TeamService } from '../../services/TeamService';
 
+import { ProfilePage } from '../profile/profile';
+
 @Component({
     templateUrl: 'team.html',
     providers: [TeamService]
@@ -30,6 +32,15 @@ export class TeamPage {
                 },
                 err => console.log("err : ", err)
             );
+    }
+
+    /**
+     * navigate to the profile page of the user given in parameter
+     *
+     * @param integer id : the student id
+     */
+    viewUser(id) {
+        this.navCtrl.push(ProfilePage, {id});
     }
 
 }
