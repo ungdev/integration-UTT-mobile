@@ -8,6 +8,7 @@ import { HomePage } from '../pages/home/home';
 import { ProfilePage } from '../pages/profile/profile';
 import { StudentsPage } from '../pages/students/students';
 import { TeamsPage } from '../pages/teams/teams';
+import { TeamPage } from '../pages/team/team';
 
 import { AuthStorageHelper } from '../helpers/AuthStorageHelper';
 import { AuthService } from '../services/AuthService';
@@ -44,6 +45,7 @@ export class MyApp {
 
             if (roles['newcomer']) {
                 this.pages.push({ title: 'Mon profil', component: ProfilePage });
+                this.pages.push({ title: 'Mon équipe', component: TeamPage });
             }
 
             if (roles['admin']) {

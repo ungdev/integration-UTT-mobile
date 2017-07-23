@@ -2,12 +2,13 @@ import { Component } from '@angular/core';
 import { NavController, MenuController, NavParams } from 'ionic-angular';
 
 import { TeamService } from '../../services/TeamService';
+import { AuthStorageHelper } from '../../helpers/AuthStorageHelper';
 
 import { ProfilePage } from '../profile/profile';
 
 @Component({
     templateUrl: 'team.html',
-    providers: [TeamService]
+    providers: [TeamService, AuthStorageHelper]
 })
 export class TeamPage {
 
@@ -19,9 +20,14 @@ export class TeamPage {
         public navParams: NavParams,
         public menu: MenuController,
         private teamService: TeamService,
+        private authStorageHelper: AuthStorageHelper,
     ) {
-        const id = this.navParams.get('id');
+        let id = this.navParams.get('id');
 
+        if (!id) {
+            id = this.authStorageHelper.getUserTeamId();
+        }
+        console.log(id);
         // get all the newcomers
         this.teamService.get({id})
             .subscribe(
