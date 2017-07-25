@@ -9,7 +9,6 @@ import { StudentService } from '../../services/StudentService';
 import { AuthStorageHelper } from '../../helpers/AuthStorageHelper';
 
 @Component({
-    selector: 'page-login',
     templateUrl: 'login.html',
     providers: [AuthService, StudentService, AuthStorageHelper]
 })

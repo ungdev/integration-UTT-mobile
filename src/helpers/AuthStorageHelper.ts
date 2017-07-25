@@ -3,6 +3,7 @@ const REFRESH_TOKEN_LOCALSTORAGE_NAME = "refresh_token";
 const USER_NAME_LOCALSTORAGE_NAME = "username";
 const USER_ROLES_LOCALSTORAGE_NAME = "roles";
 const USER_TEAM_ID_LOCALSTORAGE_NAME = "team";
+const USER_ID_LOCALSTORAGE_NAME = "id";
 
 export class AuthStorageHelper {
 
@@ -57,6 +58,7 @@ export class AuthStorageHelper {
            ce: user.ce !== 0,
        }));
        localStorage.setItem(USER_TEAM_ID_LOCALSTORAGE_NAME, user.team_id);
+       localStorage.setItem(USER_ID_LOCALSTORAGE_NAME, user.id);
    }
 
    /**
@@ -76,6 +78,10 @@ export class AuthStorageHelper {
    getUserRoles() {
        const roles = localStorage.getItem(USER_ROLES_LOCALSTORAGE_NAME);
        return roles ? JSON.parse(roles) : {};
+   }
+
+   getUserId() {
+       return localStorage.getItem(USER_ID_LOCALSTORAGE_NAME);
    }
 
    /**

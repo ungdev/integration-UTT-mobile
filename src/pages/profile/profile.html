@@ -21,7 +21,7 @@
                 </ion-item>
             </ion-list>
         </div>
-        <div>
+        <div *ngIf="godfather.length > 0">
             <h2>Parrain</h2>
             <p *ngIf="godfather.length === 0">
                 Pas de parrain attribué
@@ -42,7 +42,7 @@
                 </ion-item>
             </ion-list>
         </div>
-        <div>
+        <div *ngIf="wei.length > 0">
             <h2>WEI</h2>
             <ion-list>
                 <ion-item *ngFor="let item of wei">
@@ -52,7 +52,7 @@
                 </ion-item>
             </ion-list>
         </div>
-        <div>
+        <div *ngIf="medical.length > 0">
             <h2>Fiche médicale</h2>
             <ion-list>
                 <ion-item *ngFor="let item of medical">
