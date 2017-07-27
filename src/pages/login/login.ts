@@ -1,16 +1,16 @@
 import { Component } from '@angular/core';
-import { MenuController, NavController, Events } from 'ionic-angular';
-import { LoadingController } from 'ionic-angular';
-
+import { MenuController, NavController, Events, Platform, LoadingController } from 'ionic-angular';
+import { Push, PushToken } from '@ionic/cloud-angular';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 import { AuthService } from '../../services/AuthService';
 import { StudentService } from '../../services/StudentService';
 import { AuthStorageHelper } from '../../helpers/AuthStorageHelper';
+import { PushNotificationsHelper } from '../../helpers/PushNotificationsHelper';
 
 @Component({
     templateUrl: 'login.html',
-    providers: [AuthService, StudentService, AuthStorageHelper]
+    providers: [AuthService, StudentService, AuthStorageHelper, PushNotificationsHelper]
 })
 export class LoginPage {
 
@@ -22,10 +22,13 @@ export class LoginPage {
         public menu: MenuController,
         public loadingCtrl: LoadingController,
         public events: Events,
+        public push: Push,
+        public platform: Platform,
         private fb: FormBuilder,
         private authService: AuthService,
         private studentService: StudentService,
-        private authStorageHelper: AuthStorageHelper
+        private authStorageHelper: AuthStorageHelper,
+        private pushNotificationsHelper: PushNotificationsHelper,
     ) {
         this.loginForm = this.fb.group({
             'login': [
@@ -95,9 +98,25 @@ export class LoginPage {
                     this.authStorageHelper.setUserInfo(parsedData);
                     this.events.publish('user:logged');
                     this.loader.dismiss();
+                    this.registerToPushNotifications();
                 },
                 err => console.log("err : ", err)
             );
+    }
+
+    /**
+     * Register the device to receive push notifications
+     * only if the app run on a device
+     */
+    private registerToPushNotifications() {
+        if (this.pushNotificationsHelper.can(this.platform)) {
+            console.log("app running on device");
+            this.push.register().then((t: PushToken) => {
+                return this.push.saveToken(t);
+            }).then((t: PushToken) => {
+                console.log('Token saved:', t.token);
+            });
+        }
     }
 
     /**

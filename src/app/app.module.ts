@@ -14,6 +14,26 @@ import { TeamPage } from '../pages/team/team';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 
+import { CloudSettings, CloudModule } from '@ionic/cloud-angular';
+
+const cloudSettings: CloudSettings = {
+    'core': {
+        'app_id': 'd0bc3cc8'
+    },
+    'push': {
+        'sender_id': '403744287486',
+        'pluginConfig': {
+            'ios': {
+            'badge': true,
+            'sound': true
+        },
+            'android': {
+                'iconColor': '#343434'
+            }
+        }
+    }
+};
+
 @NgModule({
   declarations: [
     MyApp,
@@ -25,9 +45,10 @@ import { SplashScreen } from '@ionic-native/splash-screen';
     TeamPage,
   ],
   imports: [
-    BrowserModule,
-    HttpModule,
-    IonicModule.forRoot(MyApp)
+      BrowserModule,
+      HttpModule,
+      IonicModule.forRoot(MyApp),
+      CloudModule.forRoot(cloudSettings)
   ],
   bootstrap: [IonicApp],
   entryComponents: [
