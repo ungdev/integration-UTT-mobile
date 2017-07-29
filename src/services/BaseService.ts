@@ -5,13 +5,13 @@ import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/observable/throw';
 
-import { env } from '../config/env';
+import { ENV } from '../config/env.dev';
 
 import { AuthStorageHelper } from '../helpers/AuthStorageHelper';
 
 export class BaseService {
 
-    protected ApiURI = `${env.WEBSITE_URL}api/`;
+    protected ApiURI = `${ENV.WEBSITE_URL}api/`;
 
     constructor (
         protected http: Http,

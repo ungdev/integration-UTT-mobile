@@ -5,7 +5,7 @@ import { Http } from '@angular/http';
 import { AuthStorageHelper } from '../helpers/AuthStorageHelper';
 import { BaseService } from "./BaseService";
 
-import { env } from '../config/env';
+import { ENV } from '../config/env.dev';
 
 @Injectable()
 export class AuthService extends BaseService {
@@ -24,8 +24,8 @@ export class AuthService extends BaseService {
     newcomerLogin(login: string, password: string) {
         const params = {
             grant_type: 'password',
-            client_id: env.CLI_ID,
-            client_secret: env.CLI_SECRET,
+            client_id: ENV.CLI_ID,
+            client_secret: ENV.CLI_SECRET,
             username: login,
             password,
             scope: ''
@@ -77,8 +77,8 @@ export class AuthService extends BaseService {
         const params = {
             grant_type: 'refresh_token',
             refresh_token: refreshToken,
-            client_id: env.CLI_ID,
-            client_secret: env.CLI_SECRET,
+            client_id: ENV.CLI_ID,
+            client_secret: ENV.CLI_SECRET,
             scope: ''
         }
 
