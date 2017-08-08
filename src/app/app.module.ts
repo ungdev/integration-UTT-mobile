@@ -10,6 +10,7 @@ import { ProfilePage } from '../pages/profile/profile';
 import { StudentsPage } from '../pages/students/students';
 import { TeamsPage } from '../pages/teams/teams';
 import { TeamPage } from '../pages/team/team';
+import { PushMessagesPage } from '../pages/pushMessages/pushMessages';
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
@@ -43,6 +44,7 @@ const cloudSettings: CloudSettings = {
     StudentsPage,
     TeamsPage,
     TeamPage,
+    PushMessagesPage,
   ],
   imports: [
       BrowserModule,
@@ -59,6 +61,7 @@ const cloudSettings: CloudSettings = {
     StudentsPage,
     TeamsPage,
     TeamPage,
+    PushMessagesPage,
   ],
   providers: [
     StatusBar,

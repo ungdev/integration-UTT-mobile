@@ -10,6 +10,7 @@ import { ProfilePage } from '../pages/profile/profile';
 import { StudentsPage } from '../pages/students/students';
 import { TeamsPage } from '../pages/teams/teams';
 import { TeamPage } from '../pages/team/team';
+import { PushMessagesPage } from '../pages/pushMessages/pushMessages';
 
 import { AuthStorageHelper } from '../helpers/AuthStorageHelper';
 import { PushNotificationsHelper } from '../helpers/PushNotificationsHelper';
@@ -55,6 +56,11 @@ export class MyApp {
             if (roles['admin']) {
                 this.pages.push({ title: 'Etudiants', component: StudentsPage });
                 this.pages.push({ title: 'Equipes', component: TeamsPage });
+
+                // if the app is run on device, the admin can send notifications
+                if (this.pushNotificationsHelper.can(this.platform)) {
+                    this.pages.push({ title: 'Notifications', component: PushMessagesPage });
+                }
             }
 
             this.nav.setRoot(HomePage);
