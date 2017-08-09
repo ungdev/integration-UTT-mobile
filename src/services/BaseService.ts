@@ -31,7 +31,7 @@ export class BaseService {
         const method = data.method.toUpperCase();
 
         // create the full uri
-        let uri = this.ApiURI + data.route;
+        let uri = data.uri ? data.uri : this.ApiURI + data.route;
 
         // make the request
         if (method === "GET") {
@@ -59,6 +59,24 @@ export class BaseService {
             method: "get",
             route
         });
+    }
+
+    /**
+     * Make a post request
+     *
+     * @param model string : model name
+     * @param params object|null
+     */
+    protected _post(model, params) {
+
+        const route = model;
+
+        return this.makeRequest({
+            method: "post",
+            route,
+            params
+        });
+
     }
 
     /**
