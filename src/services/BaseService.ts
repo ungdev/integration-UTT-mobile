@@ -5,13 +5,9 @@ import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/observable/throw';
 
-import { ENV } from '../config/env.dev';
-
 import { AuthStorageHelper } from '../helpers/AuthStorageHelper';
 
 export class BaseService {
-
-    protected ApiURI = `${ENV.WEBSITE_URL}api/`;
 
     constructor (
         protected http: Http,
@@ -19,83 +15,48 @@ export class BaseService {
     ) {}
 
     /**
-     * Make a request on the website's API
+     * Make a HTTP request
      *
-     * @param Object data: information about the request
+     * @param string method: http method
+     * @param string uri: http uri
+     * @param Headers headers: http request's headers
+     * @param object data: request's data
+     *
      * @return Object | Any
      */
-    makeRequest(data) {
-        // set request headers
-        const headers = this.prepareRequestHeaders();
+    _makeRequest(method, uri, headers, data) {
+
         const options = new RequestOptions({ headers });
-        const method = data.method.toUpperCase();
 
-        // create the full uri
-        let uri = data.uri ? data.uri : this.ApiURI + data.route;
-
-        // make the request
-        if (method === "GET") {
-            return this.getRequest(uri, options);
-        } else if (method === "POST") {
-            return this.postRequest(uri, data.params, options);
-        }
-    }
-
-    /**
-     * Make a get request
-     *
-     * @param model string : model name
-     * @param data object|null
-     */
-    protected _get(model, data) {
-
-        let route = (data && data.id) ? `${model}/${data.id}` : model
-
-        if (data && data.filter) {
-            route += "?filter=" + data.filter;
+        switch(method.toUpperCase()) {
+            case "GET":
+                if (data && data.id) {
+                    uri += '/' + data.id;
+                }
+                if (data && data.filter) {
+                    uri += "?filter=" + data.filter;
+                }
+                return this.getRequest(uri, options)
+            case "POST":
+                return this.postRequest(uri, data, options);
+            default:
+                console.log("can't find your request's method");
         }
 
-        return this.makeRequest({
-            method: "get",
-            route
-        });
+        return null;
     }
 
     /**
-     * Make a post request
-     *
-     * @param model string : model name
-     * @param params object|null
-     */
-    protected _post(model, params) {
-
-        const route = model;
-
-        return this.makeRequest({
-            method: "post",
-            route,
-            params
-        });
-
-    }
-
-    /**
-     * Prepare the headers for the request. If Authorization is required,
-     * set the Authorization header with the token in the localStorage.
+     * Return a Headers object with basics http headers needed
      *
      * @return Headers
      */
-    protected prepareRequestHeaders() {
+    protected _initRequestHeaders() {
         const headers = new Headers();
         headers.append('Content-Type', 'application/json');
         headers.append('Accept', 'application/json');
         headers.append('Access-Control-Allow-Origin', '*');
         headers.append('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Key');
-
-        const accessToken = this.authStorageHelper.getAccessToken();
-        if (accessToken) {
-            headers.append('Authorization', `Bearer ${accessToken}`);
-        }
 
         return headers;
     }

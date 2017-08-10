@@ -30,9 +30,8 @@ export class PushMessagesPage {
     }
 
     sendNotification(data) {
-        console.log(data);
         if (!this.notificationForm.valid) return;
-        console.log("ok");
+
         const notification = {
             title: data.title,
             message: data.message
