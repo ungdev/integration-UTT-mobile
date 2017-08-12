@@ -1,3 +1,12 @@
+<ion-header>
+    <ion-navbar color="primary">
+        <ion-buttons start>
+            <button ion-button (click)="dismiss()">retour</button>
+        </ion-buttons>
+        <ion-title>Création d'un checkin</ion-title>
+    </ion-navbar>
+</ion-header>
+
 <ion-content padding>
     <form (ngSubmit)="submitCheckinForm(checkinForm.value)" [formGroup]="checkinForm" novalidate>
 

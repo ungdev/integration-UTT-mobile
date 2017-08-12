@@ -34,6 +34,11 @@ export class CheckinsPage {
 
     showCreateModal() {
         let modal = this.modalCtrl.create(CreateCheckinPage);
+        modal.onDidDismiss(checkin => {
+            if (checkin) {
+                this.checkins.push(checkin);
+            }
+        });
         modal.present();
     }
 

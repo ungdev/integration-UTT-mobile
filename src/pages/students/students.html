@@ -16,12 +16,17 @@
             <ion-radio value="students"></ion-radio>
         </ion-item>
     </ion-list>
-
-    <ion-list>
-        <ion-list-header></ion-list-header>
-        <button ion-item *ngFor="let student of filteredStudents()" (click)="viewUser(student.id)">
-            <span text-capitalize>{{ student.first_name }}</span> <span text-uppercase>{{ student.last_name }}</span>
-            <ion-icon name="arrow-forward" item-end></ion-icon>
-        </button>
-    </ion-list>
+    
+    <div *ngIf="!requestDone">
+        <ion-spinner></ion-spinner>
+    </div>
+    <div *ngIf="requestDone">
+        <ion-list>
+            <ion-list-header></ion-list-header>
+            <button ion-item *ngFor="let student of filteredStudents()" (click)="viewUser(student.id)">
+                <span text-capitalize>{{ student.first_name }}</span> <span text-uppercase>{{ student.last_name }}</span>
+                <ion-icon name="arrow-forward" item-end></ion-icon>
+            </button>
+        </ion-list>
+    </div>
 </ion-content>

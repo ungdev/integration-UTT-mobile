@@ -1,7 +1,7 @@
 <ion-content padding>
     <button ion-button outline large type="button" (click)="showCreateModal()">+ Nouvelle liste</button>
     <div *ngIf="!requestDone">
-        chargement
+        <ion-spinner></ion-spinner>
     </div>
     <div *ngIf="requestDone">
         <ion-list>

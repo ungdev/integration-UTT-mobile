@@ -13,6 +13,7 @@ export class StudentsPage {
 
     students: any[] = [];
     display: string;
+    requestDone: boolean = false;
 
     constructor(
         public navCtrl: NavController,
@@ -24,6 +25,7 @@ export class StudentsPage {
             .subscribe(
                 data => {
                     this.students = JSON.parse(data._body);
+                    this.requestDone = true;
                 },
                 err => console.log("err : ", err)
             );
