@@ -1,0 +1,14 @@
+<ion-content padding>
+    <button ion-button outline large type="button" (click)="showCreateModal()">+ Nouvelle liste</button>
+    <div *ngIf="!requestDone">
+        chargement
+    </div>
+    <div *ngIf="requestDone">
+        <ion-list>
+            <button ion-item *ngFor="let checkin of checkins" (click)="viewCheckin(checkin.id)">
+                {{ checkin.name }}
+                <ion-icon name="arrow-forward" item-end></ion-icon>
+            </button>
+        </ion-list>
+    </div>
+</ion-content>

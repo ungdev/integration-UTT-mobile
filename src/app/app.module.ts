@@ -11,6 +11,9 @@ import { ProfilePage } from '../pages/profile/profile';
 import { StudentsPage } from '../pages/students/students';
 import { TeamsPage } from '../pages/teams/teams';
 import { TeamPage } from '../pages/team/team';
+import { CheckinsPage } from '../pages/checkins/checkins';
+import { CheckinPage } from '../pages/checkin/checkin';
+import { CreateCheckinPage } from '../pages/createCheckin/createCheckin';
 import { PushMessagesPage } from '../pages/pushMessages/pushMessages';
 
 import { StatusBar } from '@ionic-native/status-bar';
@@ -46,6 +49,9 @@ const cloudSettings: CloudSettings = {
     TeamsPage,
     TeamPage,
     PushMessagesPage,
+    CheckinsPage,
+    CheckinPage,
+    CreateCheckinPage,
   ],
   imports: [
       BrowserModule,
@@ -63,6 +69,9 @@ const cloudSettings: CloudSettings = {
     TeamsPage,
     TeamPage,
     PushMessagesPage,
+    CheckinsPage,
+    CheckinPage,
+    CreateCheckinPage,
   ],
   providers: [
     StatusBar,

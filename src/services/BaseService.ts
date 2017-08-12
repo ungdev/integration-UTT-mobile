@@ -27,7 +27,6 @@ export class BaseService {
     _makeRequest(method, uri, headers, data) {
 
         const options = new RequestOptions({ headers });
-
         switch(method.toUpperCase()) {
             case "GET":
                 if (data && data.id) {
@@ -36,6 +35,7 @@ export class BaseService {
                 if (data && data.filter) {
                     uri += "?filter=" + data.filter;
                 }
+                
                 return this.getRequest(uri, options)
             case "POST":
                 return this.postRequest(uri, data, options);
