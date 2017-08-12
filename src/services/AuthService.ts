@@ -92,7 +92,7 @@ export class AuthService extends BaseServiceBackend {
     revokeAccessToken(accessToken) {
         return this._post(this.endpoint + "oauth/token/revoke", {
                 access_token: accessToken
-            }, false);
+            });
     }
 
 }

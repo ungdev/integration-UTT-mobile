@@ -54,7 +54,39 @@ export class LoginPage {
     }
 
     ngOnInit() {
-        this.checkAccessToken();
+        // start by checking if there is an authorization_code in the url (auth on browser)
+        const fullUrl = window.location.href;
+        const searchPart = fullUrl.split('?')[1];
+
+        if (searchPart) {
+            const parameters = searchPart.split('&');
+
+            const authorization_code = parameters
+                .map(p => p.split('='))
+                .find(p => p[0] === "authorization_code");
+
+            // if there is an authorization_code, send it to get an access token
+            if (authorization_code) {
+                this.authService.sendAuthorizationCode(authorization_code)
+                    .subscribe(
+                        data => {
+                            const parsedData = JSON.parse(data._body);
+                            this.authStorageHelper.setAccessToken(parsedData.access_token);
+                            this.loadUserInfo();
+                        },
+                        err => {
+                            console.log("err : ", err);
+                            // if the authorization_code is not valid,
+                            // check if there is a valid access token in the localStorage
+                            this.checkAccessToken();
+                        }
+                    );
+            }
+        } else {
+            // if no parameters in the url, then check if there is
+            // a valid access token in the localStorage
+            this.checkAccessToken();
+        }
     }
 
     /**
@@ -138,34 +170,37 @@ export class LoginPage {
                 data => {
                     const parsedData = JSON.parse(data._body);
 
-                    // create a new InAppBrowser
-                    const ref = this.iab.create(parsedData.redirectUri);
-                    ref.on("loadstart")
-                        .subscribe(data => {
-                            // check if data.url contains authorization_code
-                            const searchPart = data.url.split('?')[1];
-                            searchPart.split('&').map(param => {
-                                let parts = param.split('=');
-                                // if there is an authorization_code, send it to the server
-                                if (parts[0] == 'authorization_code') {
-                                    this.authService.sendAuthorizationCode(parts[1])
-                                        .subscribe(
-                                            data => {
-                                                // store the token and load user's info
-                                                const parsedData = JSON.parse(data._body);
-                                                this.authStorageHelper.setAccessToken(parsedData.access_token);
-                                                this.loadUserInfo();
-                                                // close the InAppBrowser after login
-                                                ref.close();
-                                            },
-                                            err => {
-                                                console.log("err : ", err);
-                                            }
-                                        );
-                                }
-                            })
-                        });
-
+                    if (!this.platform.is("android") && !this.platform.is("ios")) {
+                        window.location.href = parsedData.redirectUri;
+                    } else {
+                        // create a new InAppBrowser
+                        const ref = this.iab.create(parsedData.redirectUri);
+                        ref.on("loadstart")
+                            .subscribe(data => {
+                                // check if data.url contains authorization_code
+                                const searchPart = data.url.split('?')[1];
+                                searchPart.split('&').map(param => {
+                                    let parts = param.split('=');
+                                    // if there is an authorization_code, send it to the server
+                                    if (parts[0] == 'authorization_code') {
+                                        this.authService.sendAuthorizationCode(parts[1])
+                                            .subscribe(
+                                                data => {
+                                                    // store the token and load user's info
+                                                    const parsedData = JSON.parse(data._body);
+                                                    this.authStorageHelper.setAccessToken(parsedData.access_token);
+                                                    this.loadUserInfo();
+                                                    // close the InAppBrowser after login
+                                                    ref.close();
+                                                },
+                                                err => {
+                                                    console.log("err : ", err);
+                                                }
+                                            );
+                                    }
+                                })
+                            });
+                    }
                 },
                 err => console.log("err : ", err)
             )
