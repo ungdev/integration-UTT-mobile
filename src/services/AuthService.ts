@@ -3,12 +3,12 @@ import { Injectable } from '@angular/core';
 import { Http } from '@angular/http';
 
 import { AuthStorageHelper } from '../helpers/AuthStorageHelper';
-import { BaseService } from "./BaseService";
+import { BaseServiceBackend } from "./BaseServiceBackend";
 
-import { env } from '../config/env';
+import { ENV } from '../config/env.dev';
 
 @Injectable()
-export class AuthService extends BaseService {
+export class AuthService extends BaseServiceBackend {
 
     constructor (protected http: Http, protected authTokenStorageHelper: AuthStorageHelper) {
         super(http, authTokenStorageHelper);
@@ -22,20 +22,16 @@ export class AuthService extends BaseService {
      * @return object
      */
     newcomerLogin(login: string, password: string) {
-        const params = {
+        const data = {
             grant_type: 'password',
-            client_id: env.CLI_ID,
-            client_secret: env.CLI_SECRET,
+            client_id: ENV.CLI_ID,
+            client_secret: ENV.CLI_SECRET,
             username: login,
             password,
             scope: ''
         }
 
-        return this.makeRequest({
-            method: "post",
-            route: "oauth/token",
-            params
-        });
+        return this._post(this.endpoint + "oauth/token", data, false);
     }
 
     /**
@@ -44,10 +40,7 @@ export class AuthService extends BaseService {
      * @return object
      */
     getEtuUTTLoginUrl() {
-        return this.makeRequest({
-            method: "get",
-            route: "oauth/etuutt/link"
-        });
+        return this._get(this.endpoint + "oauth/etuutt/link", {}, false);
     }
 
     /**
@@ -58,13 +51,10 @@ export class AuthService extends BaseService {
      * @return object
      */
     sendAuthorizationCode(authorization_code) {
-        return this.makeRequest({
-            method: "post",
-            route: "oauth/etuutt/callback",
-            params: {
+        return this._post(this.endpoint + "oauth/etuutt/callback",
+            {
                 authorization_code
-            }
-        });
+            }, false);
     }
 
     /**
@@ -74,19 +64,15 @@ export class AuthService extends BaseService {
      * @return object
      */
     refreshAccessToken(refreshToken) {
-        const params = {
+        const data = {
             grant_type: 'refresh_token',
             refresh_token: refreshToken,
-            client_id: env.CLI_ID,
-            client_secret: env.CLI_SECRET,
+            client_id: ENV.CLI_ID,
+            client_secret: ENV.CLI_SECRET,
             scope: ''
         }
 
-        return this.makeRequest({
-            method: "post",
-            route: "oauth/token",
-            params
-        });
+        return this._post(this.endpoint + "oauth/token", data, false);
     }
 
     /**
@@ -94,10 +80,7 @@ export class AuthService extends BaseService {
      * not revoked
      */
     checkAccessToken(accessToken) {
-        return this.makeRequest({
-            method: "post",
-            route: "oauth/token/check"
-        });
+        return this._post(this.endpoint + "oauth/token/check", {});
     }
 
     /**
@@ -107,13 +90,9 @@ export class AuthService extends BaseService {
      * @return object
      */
     revokeAccessToken(accessToken) {
-        return this.makeRequest({
-            method: "post",
-            route: "oauth/token/revoke",
-            params: {
+        return this._post(this.endpoint + "oauth/token/revoke", {
                 access_token: accessToken
-            }
-        });
+            });
     }
 
 }

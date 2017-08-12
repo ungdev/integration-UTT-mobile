@@ -2,6 +2,7 @@ import { Component, ViewChild } from '@angular/core';
 import { Nav, Platform, Events } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
+import { Push } from '@ionic/cloud-angular';
 
 import { LoginPage } from '../pages/login/login';
 import { HomePage } from '../pages/home/home';
@@ -9,13 +10,15 @@ import { ProfilePage } from '../pages/profile/profile';
 import { StudentsPage } from '../pages/students/students';
 import { TeamsPage } from '../pages/teams/teams';
 import { TeamPage } from '../pages/team/team';
+import { PushMessagesPage } from '../pages/pushMessages/pushMessages';
 
 import { AuthStorageHelper } from '../helpers/AuthStorageHelper';
+import { PushNotificationsHelper } from '../helpers/PushNotificationsHelper';
 import { AuthService } from '../services/AuthService';
 
 @Component({
     templateUrl: 'app.html',
-    providers: [AuthService, AuthStorageHelper]
+    providers: [AuthService, AuthStorageHelper, PushNotificationsHelper]
 })
 export class MyApp {
     @ViewChild(Nav) nav: Nav;
@@ -28,9 +31,11 @@ export class MyApp {
         public platform: Platform,
         public statusBar: StatusBar,
         public events: Events,
+        public push: Push,
         public splashScreen: SplashScreen,
         private authService: AuthService,
-        private authStorageHelper: AuthStorageHelper
+        private authStorageHelper: AuthStorageHelper,
+        private pushNotificationsHelper: PushNotificationsHelper,
     ) {
         this.initializeApp();
 
@@ -51,6 +56,11 @@ export class MyApp {
             if (roles['admin']) {
                 this.pages.push({ title: 'Etudiants', component: StudentsPage });
                 this.pages.push({ title: 'Equipes', component: TeamsPage });
+
+                // if the app is run on device, the admin can send notifications
+                if (this.pushNotificationsHelper.can(this.platform)) {
+                    this.pages.push({ title: 'Notifications', component: PushMessagesPage });
+                }
             }
 
             this.nav.setRoot(HomePage);
@@ -75,11 +85,27 @@ export class MyApp {
     }
 
     /**
-     * Handle click on logout button.
+     * If the app run on a device, try to unregister the Firebase token
+     * and redirect the user to the login page
+     */
+    startLogout() {
+        if (this.pushNotificationsHelper.can(this.platform)) {
+            this.push.unregister().then(_ => {
+                console.log("Unregistered to push notifications");
+                this.endLogout();
+            }).then(_ => {
+                console.log("Failed to unregister to push notifications");
+            });
+        } else {
+            this.endLogout();
+        }
+    }
+
+    /**
      * Make a request to revoke the user's token, clean the localStorage
      * and redirect the user to the login page
      */
-    logout() {
+    private endLogout() {
         const accessToken = this.authStorageHelper.getAccessToken();
         this.authService.revokeAccessToken(accessToken)
             .subscribe(
@@ -92,6 +118,5 @@ export class MyApp {
                 }
             )
     }
-
 
 }

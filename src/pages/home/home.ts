@@ -19,8 +19,8 @@ export class HomePage {
         public menu: MenuController,
         private authStorageHelper: AuthStorageHelper
     ) {
-        this.username = authStorageHelper.getUserName();
-        
+        this.username = this.authStorageHelper.getUserName();
+
         this.menu.enable(true);
     }
 
