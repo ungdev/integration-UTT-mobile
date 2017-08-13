@@ -20,6 +20,7 @@ import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 
 import { CloudSettings, CloudModule } from '@ionic/cloud-angular';
+import { QRScanner } from '@ionic-native/qr-scanner';
 
 const cloudSettings: CloudSettings = {
     'core': {
@@ -77,7 +78,8 @@ const cloudSettings: CloudSettings = {
     StatusBar,
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
-    InAppBrowser
+    InAppBrowser,
+    QRScanner
   ]
 })
 export class AppModule {}

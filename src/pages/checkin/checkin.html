@@ -3,6 +3,7 @@
         <ion-spinner></ion-spinner>
     </div>
     <div *ngIf="requestDone">
+        <button ion-button large full type="button" (click)="startScanner()">Scanner</button>
         <h1>{{ checkin.name }}</h1>
         <ion-list>
             <button ion-item *ngFor="let student of students" (click)="viewStudent(student.id)">

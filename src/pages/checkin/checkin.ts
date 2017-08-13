@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
+import { QRScanner, QRScannerStatus } from '@ionic-native/qr-scanner';
 
 import { CheckinService } from '../../services/CheckinService';
 
@@ -18,6 +19,7 @@ export class CheckinPage {
         public navCtrl: NavController,
         public navParams: NavParams,
         private checkinService: CheckinService,
+        private qrScanner: QRScanner
     ) {
         let id = this.navParams.get('id');
 
@@ -40,6 +42,19 @@ export class CheckinPage {
      */
     viewStudent(id) {
         this.navCtrl.push(ProfilePage, {id});
+    }
+
+    startScanner() {
+        // start scanning
+       let scanSub = this.qrScanner.scan().subscribe((text: string) => {
+         console.log('Scanned something', text);
+
+         this.qrScanner.hide(); // hide camera preview
+         scanSub.unsubscribe(); // stop scanning
+       });
+
+       // show camera preview
+       this.qrScanner.show();
     }
 
 }
