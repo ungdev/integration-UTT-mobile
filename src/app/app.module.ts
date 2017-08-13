@@ -15,6 +15,7 @@ import { CheckinsPage } from '../pages/checkins/checkins';
 import { CheckinPage } from '../pages/checkin/checkin';
 import { CreateCheckinPage } from '../pages/createCheckin/createCheckin';
 import { PushMessagesPage } from '../pages/pushMessages/pushMessages';
+import { AuthQRCodePage } from '../pages/authQRCode/authQRCode';
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
@@ -53,6 +54,7 @@ const cloudSettings: CloudSettings = {
     CheckinsPage,
     CheckinPage,
     CreateCheckinPage,
+    AuthQRCodePage,
   ],
   imports: [
       BrowserModule,
@@ -73,6 +75,7 @@ const cloudSettings: CloudSettings = {
     CheckinsPage,
     CheckinPage,
     CreateCheckinPage,
+    AuthQRCodePage,
   ],
   providers: [
     StatusBar,
