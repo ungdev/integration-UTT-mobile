@@ -18,4 +18,9 @@ export class CheckinService extends BaseServiceBackend {
 
     post(data: object) { return this._post(this.endpoint, data) }
 
+    putStudent(data: any) {
+        const endpoint = `${this.endpoint}/${data.id}/student`;
+        return this._put(endpoint, {email: data.email});
+    }
+
 }

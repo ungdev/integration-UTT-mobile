@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
-import { QRScanner, QRScannerStatus } from '@ionic-native/qr-scanner';
+import { BarcodeScanner } from '@ionic-native/barcode-scanner';
 
 import { CheckinService } from '../../services/CheckinService';
 
@@ -13,13 +13,13 @@ import { ProfilePage } from '../profile/profile';
 export class CheckinPage {
 
     requestDone: boolean = false;
-    checkin: object;
+    checkin: any;
 
     constructor(
         public navCtrl: NavController,
         public navParams: NavParams,
         private checkinService: CheckinService,
-        private qrScanner: QRScanner
+        private barcodeScanner: BarcodeScanner
     ) {
         let id = this.navParams.get('id');
 
@@ -44,37 +44,23 @@ export class CheckinPage {
         this.navCtrl.push(ProfilePage, {id});
     }
 
+    /**
+     * Run the barcode plugin
+     */
     startScanner() {
-
-
-       // Optionally request the permission early
-this.qrScanner.prepare()
-  .then((status: QRScannerStatus) => {
-     if (status.authorized) {
-       // camera permission was granted
-       console.log("okkkk");
-
-       let scanSub = this.qrScanner.scan().subscribe((text: string) => {
-         console.log('Scanned something', text);
-
-         this.qrScanner.hide(); // hide camera preview
-         scanSub.unsubscribe(); // stop scanning
-     }, err => console.log("scann err : ", err));
-
-       // show camera preview
-       this.qrScanner.show();
-
-       // wait for user to scan something, then the observable callback will be called
-
-     } else if (status.denied) {
-       // camera permission was permanently denied
-       // you must use QRScanner.openSettings() method to guide the user to the settings page
-       // then they can grant the permission from there
-     } else {
-       // permission was denied, but not permanently. You can ask for permission again at a later time.
-     }
-  })
-  .catch((e: any) => console.log('Error is', e));
+        this.barcodeScanner.scan().then((barcodeData) => {
+            // add the scanned user to this checkin and update this checkin
+            this.checkinService.putStudent({id: this.checkin.id, email: barcodeData.text})
+                .subscribe(
+                     data => {
+                         this.checkin = JSON.parse(data._body);
+                         console.log("STUDENT ADDED",this.checkin);
+                     },
+                     err => console.log("ADD err : ", err)
+                );
+        }, (err) => {
+            console.log('scan err', err);
+        });
     }
 
 }

@@ -4,7 +4,6 @@ import { ViewController } from 'ionic-angular';
 
 import { CheckinService } from '../../services/CheckinService';
 import { AuthStorageHelper } from '../../helpers/AuthStorageHelper';
-import { CheckinPage } from '../checkin/checkin';
 
 @Component({
     templateUrl: 'createCheckin.html',

@@ -47,4 +47,8 @@ export class BaseServiceBackend extends BaseService {
         return this._makeRequest("post", uri, this._prepareRequestHeaders(auth), data);
     }
 
+    protected _put(uri, data, auth = true) {
+        return this._makeRequest("put", uri, this._prepareRequestHeaders(auth), data);
+    }
+
 }
