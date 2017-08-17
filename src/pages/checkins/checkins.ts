@@ -7,6 +7,7 @@ import { CheckinPage } from '../checkin/checkin';
 import { CreateCheckinPage } from '../createCheckin/createCheckin';
 
 @Component({
+    selector: 'page-checkins',
     templateUrl: 'checkins.html',
     providers: [CheckinService]
 })
@@ -14,6 +15,7 @@ export class CheckinsPage {
 
     requestDone: boolean = false;
     checkins: any[] = [];
+    selectedCheckins: any = [];
 
     constructor(
         public navCtrl: NavController,
@@ -30,6 +32,27 @@ export class CheckinsPage {
                 },
                 err => console.log("err : ", err)
             );
+    }
+
+    /**
+     * Handle click on the checkin
+     *
+     * @param string id : the checkin's id
+     */
+    selectCheckin(id) {
+        // if the checkin is already in the selected, remove it
+        if (this.selectedCheckins.includes(id)) {
+            this.selectedCheckins = this.selectedCheckins.filter(x => x != id);
+            return;
+        }
+
+        // replace the oldest (if exists) by the lastest added
+        if (this.selectedCheckins[0]) {
+            this.selectedCheckins[1] = this.selectedCheckins[0];
+        }
+
+        // add the new selected checkin
+        this.selectedCheckins[0] = id;
     }
 
     showCreateModal() {
