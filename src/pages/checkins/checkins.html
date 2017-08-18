@@ -12,3 +12,13 @@
         </ion-list>
     </div>
 </ion-content>
+
+<ion-footer *ngIf="selectedCheckins.length == 2">
+    <ion-toolbar>
+        <ion-buttons end>
+            <button ion-button icon-right (click)="compare()" color="royal">
+                Comparer
+            </button>
+        </ion-buttons>
+    </ion-toolbar>
+</ion-footer>

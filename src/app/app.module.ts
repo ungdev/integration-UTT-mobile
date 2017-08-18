@@ -14,6 +14,7 @@ import { TeamPage } from '../pages/team/team';
 import { CheckinsPage } from '../pages/checkins/checkins';
 import { CheckinPage } from '../pages/checkin/checkin';
 import { CreateCheckinPage } from '../pages/createCheckin/createCheckin';
+import { CompareCheckinsPage } from '../pages/compareCheckins/compareCheckins';
 import { PushMessagesPage } from '../pages/pushMessages/pushMessages';
 import { AuthQRCodePage } from '../pages/authQRCode/authQRCode';
 
@@ -55,6 +56,7 @@ const cloudSettings: CloudSettings = {
     CheckinPage,
     CreateCheckinPage,
     AuthQRCodePage,
+    CompareCheckinsPage,
   ],
   imports: [
       BrowserModule,
@@ -76,6 +78,7 @@ const cloudSettings: CloudSettings = {
     CheckinPage,
     CreateCheckinPage,
     AuthQRCodePage,
+    CompareCheckinsPage,
   ],
   providers: [
     StatusBar,

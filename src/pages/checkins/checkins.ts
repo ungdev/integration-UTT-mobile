@@ -5,6 +5,7 @@ import { CheckinService } from '../../services/CheckinService';
 
 import { CheckinPage } from '../checkin/checkin';
 import { CreateCheckinPage } from '../createCheckin/createCheckin';
+import { CompareCheckinsPage } from '../compareCheckins/compareCheckins';
 
 @Component({
     selector: 'page-checkins',
@@ -53,6 +54,11 @@ export class CheckinsPage {
 
         // add the new selected checkin
         this.selectedCheckins[0] = id;
+    }
+
+    compare() {
+        let modal = this.modalCtrl.create(CompareCheckinsPage, {first: this.selectedCheckins[0], second: this.selectedCheckins[1]});
+        modal.present();
     }
 
     showCreateModal() {
