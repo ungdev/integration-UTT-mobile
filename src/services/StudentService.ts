@@ -16,4 +16,6 @@ export class StudentService extends BaseServiceBackend {
 
     get(data?: object) { return this._get(this.endpoint, data) }
 
+    put(data: object) { return this._put(this.endpoint, data) }
+
 }
