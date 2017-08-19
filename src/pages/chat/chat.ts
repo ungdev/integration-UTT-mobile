@@ -14,6 +14,7 @@ export class ChatPage {
     requestDone: boolean = false;
     chatForm: FormGroup;
     messages: any[];
+    refreshInterval: any;
 
     constructor(
         public navCtrl: NavController,
@@ -31,8 +32,8 @@ export class ChatPage {
             .subscribe(
                 data => {
                     this.messages = JSON.parse(data._body);
-                    console.log("messages", this.messages);
                     this.requestDone = true;
+                    this.refreshMessages();
                 },
                 err => console.log("err : ", err)
             );
@@ -42,11 +43,33 @@ export class ChatPage {
         this.messageService.post({text: data.message, channel: "general"})
             .subscribe(
                 data => {
-                    console.log("messages", JSON.parse(data._body));
                     this.chatForm.reset();
                 },
                 err => console.log("err : ", err)
             );
+    }
+
+    /**
+     * Create an interval and store it in this.refreshInterval.
+     * On each interation, refresh this.messages
+     */
+    refreshMessages() {
+        this.refreshInterval = setInterval(_ => {
+            this.messageService.get()
+                .subscribe(
+                    data => {
+                        this.messages = JSON.parse(data._body);
+                    },
+                    err => console.log("err : ", err)
+                )
+        }, 5000);
+    }
+
+    /**
+     * When leaving this page, clear the refreshInterval
+     */
+    ionViewWillLeave() {
+        clearInterval(this.refreshInterval);
     }
 
 }
