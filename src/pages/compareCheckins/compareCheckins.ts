@@ -53,6 +53,9 @@ export class CompareCheckinsPage {
         .catch(err => console.log('err', err));
     }
 
+    /**
+     * Compare the 2 checkins and store the difference
+     */
     compare() {
         // create two hash with the students's id
         const first_hash = {};
@@ -73,8 +76,8 @@ export class CompareCheckinsPage {
             }
         }
 
-        this.inFirstOnly = Object.values(first_hash);
-        this.inSecondOnly = Object.values(second_hash);
+        this.inFirstOnly = (<any>Object).values(first_hash);
+        this.inSecondOnly = (<any>Object).values(second_hash);
     }
 
     dismiss() {

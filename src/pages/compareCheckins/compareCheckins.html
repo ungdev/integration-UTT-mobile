@@ -12,13 +12,24 @@
         <ion-spinner></ion-spinner>
     </div>
     <div *ngIf="requestDone">
+        <h2>Etudiants manquant</h2>
         <ion-item-group>
             <ion-item-divider color="light">{{ first.name }}</ion-item-divider>
-            <ion-item *ngFor="let student of inFirstOnly">{{ student }}</ion-item>
+            <div *ngIf="inSecondOnly.length">
+                <ion-item *ngFor="let student of inSecondOnly">{{ student }}</ion-item>
+            </div>
+            <p *ngIf="!inSecondOnly.length">
+                Aucun
+            </p>
         </ion-item-group>
         <ion-item-group>
             <ion-item-divider color="light">{{ second.name }}</ion-item-divider>
-            <ion-item *ngFor="let student of inSecondOnly">{{ student }}</ion-item>
+            <div *ngIf="inFirstOnly.length">
+                <ion-item *ngFor="let student of inFirstOnly">{{ student }}</ion-item>
+            </div>
+            <p *ngIf="!inFirstOnly.length">
+                Aucun
+            </p>
         </ion-item-group>
     </div>
 </ion-content>
