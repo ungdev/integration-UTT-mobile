@@ -27,7 +27,6 @@ export class BaseService {
     _makeRequest(method, uri, headers, data) {
 
         const options = new RequestOptions({ headers });
-
         switch(method.toUpperCase()) {
             case "GET":
                 if (data && data.id) {
@@ -36,9 +35,16 @@ export class BaseService {
                 if (data && data.filter) {
                     uri += "?filter=" + data.filter;
                 }
+
                 return this.getRequest(uri, options)
             case "POST":
                 return this.postRequest(uri, data, options);
+            case "PUT":
+                if (data && data.id) {
+                    uri += '/' + data.id;
+                }
+
+                return this.putRequest(uri, data, options);
             default:
                 console.log("can't find your request's method");
         }
@@ -59,6 +65,20 @@ export class BaseService {
         headers.append('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Key');
 
         return headers;
+    }
+
+    /**
+     * Make a put request, using the Http module
+     *
+     * @param string uri: the requested uri
+     * @param object params: post parameters for the request
+     * @param RequestOptions options: contains the headers
+     * @return Object | Any
+     */
+    protected putRequest(uri: string, params, options) {
+        return this.http.put(uri, params, options)
+            .map(this.extractData)
+            .catch(this.handleError)
     }
 
     /**

@@ -1,0 +1,35 @@
+<ion-header>
+    <ion-navbar color="primary">
+        <ion-buttons start>
+            <button ion-button (click)="dismiss()">retour</button>
+        </ion-buttons>
+        <ion-title>Comparaison</ion-title>
+    </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+    <div *ngIf="!requestDone">
+        <ion-spinner></ion-spinner>
+    </div>
+    <div *ngIf="requestDone">
+        <h2>Etudiants manquant</h2>
+        <ion-item-group>
+            <ion-item-divider color="light">{{ first.name }}</ion-item-divider>
+            <div *ngIf="inSecondOnly.length">
+                <ion-item *ngFor="let student of inSecondOnly">{{ student }}</ion-item>
+            </div>
+            <p *ngIf="!inSecondOnly.length">
+                Aucun
+            </p>
+        </ion-item-group>
+        <ion-item-group>
+            <ion-item-divider color="light">{{ second.name }}</ion-item-divider>
+            <div *ngIf="inFirstOnly.length">
+                <ion-item *ngFor="let student of inFirstOnly">{{ student }}</ion-item>
+            </div>
+            <p *ngIf="!inFirstOnly.length">
+                Aucun
+            </p>
+        </ion-item-group>
+    </div>
+</ion-content>

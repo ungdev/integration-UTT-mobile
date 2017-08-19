@@ -1,0 +1,24 @@
+<ion-content padding>
+    <button ion-button large full type="button" (click)="showCreateModal()">+ Nouvelle liste</button>
+    <div *ngIf="!requestDone">
+        <ion-spinner></ion-spinner>
+    </div>
+    <div *ngIf="requestDone">
+        <ion-list>
+            <ion-item *ngFor="let checkin of checkins" [ngClass]="{'selected': selectedCheckins.includes(checkin.id)}" (click)="selectCheckin(checkin.id)">
+                <h2>{{ checkin.name }}</h2>
+                <button ion-button clear item-end (click)="viewCheckin(checkin.id)">Voir</button>
+            </ion-item>
+        </ion-list>
+    </div>
+</ion-content>
+
+<ion-footer *ngIf="selectedCheckins.length == 2">
+    <ion-toolbar>
+        <ion-buttons end>
+            <button ion-button icon-right (click)="compare()" color="royal">
+                Comparer
+            </button>
+        </ion-buttons>
+    </ion-toolbar>
+</ion-footer>

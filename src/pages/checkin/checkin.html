@@ -1,0 +1,15 @@
+<ion-content padding>
+    <div *ngIf="!requestDone">
+        <ion-spinner></ion-spinner>
+    </div>
+    <div *ngIf="requestDone">
+        <button ion-button large full type="button" (click)="startScanner()">Scanner</button>
+        <h1>{{ checkin.name }}</h1>
+        <ion-list>
+            <button ion-item *ngFor="let student of checkin.students" (click)="viewStudent(student.id)">
+                {{ student.first_name }} {{ student.last_name }}
+                <ion-icon name="arrow-forward" item-end></ion-icon>
+            </button>
+        </ion-list>
+    </div>
+</ion-content>

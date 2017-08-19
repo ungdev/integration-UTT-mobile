@@ -1,8 +1,10 @@
 import { Component } from '@angular/core';
-import { NavController, MenuController, NavParams } from 'ionic-angular';
+import { NavController, MenuController, NavParams, ModalController } from 'ionic-angular';
 
 import { StudentService } from '../../services/StudentService';
 import { AuthStorageHelper } from '../../helpers/AuthStorageHelper';
+
+import { AuthQRCodePage } from '../authQRCode/authQRCode';
 
 @Component({
     selector: 'page-profile',
@@ -13,6 +15,7 @@ export class ProfilePage {
 
     requestDone: boolean = false;
 
+    user: any;
     wei: object[] = [];
     medical: object[] = [];
     godfather: object[] = [];
@@ -26,6 +29,7 @@ export class ProfilePage {
         private navParams: NavParams,
         private studentService: StudentService,
         private authStorageHelper: AuthStorageHelper,
+        public modalCtrl: ModalController,
     ) {
 
         const paramId = this.navParams.get('id');
@@ -41,6 +45,7 @@ export class ProfilePage {
             .subscribe(
                 data => {
                     const user = JSON.parse(data._body);
+                    this.user = user;
 
                     // show these informations only if the user is admin or if the profile
                     // is the profile of the authenticated
@@ -98,6 +103,11 @@ export class ProfilePage {
                 },
                 err => console.log("err : ", err)
             );
+    }
+
+    showQRCode() {
+        let modal = this.modalCtrl.create(AuthQRCodePage, {email: this.user.email});
+        modal.present();
     }
 
 }

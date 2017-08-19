@@ -1,8 +1,13 @@
 <ion-content padding>
-    <ion-list>
-        <button ion-item *ngFor="let team of teams" (click)="viewTeam(team.id)">
-            {{ team.name }}
-            <ion-icon name="arrow-forward" item-end></ion-icon>
-        </button>
-    </ion-list>
+    <div *ngIf="!requestDone">
+        <ion-spinner></ion-spinner>
+    </div>
+    <div *ngIf="requestDone">
+        <ion-list>
+            <button ion-item *ngFor="let team of teams" (click)="viewTeam(team.id)">
+                {{ team.name }}
+                <ion-icon name="arrow-forward" item-end></ion-icon>
+            </button>
+        </ion-list>
+    </div>
 </ion-content>

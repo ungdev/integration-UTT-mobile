@@ -10,15 +10,16 @@ import { ProfilePage } from '../pages/profile/profile';
 import { StudentsPage } from '../pages/students/students';
 import { TeamsPage } from '../pages/teams/teams';
 import { TeamPage } from '../pages/team/team';
+import { CheckinsPage } from '../pages/checkins/checkins';
 import { PushMessagesPage } from '../pages/pushMessages/pushMessages';
 
 import { AuthStorageHelper } from '../helpers/AuthStorageHelper';
-import { PushNotificationsHelper } from '../helpers/PushNotificationsHelper';
+import { PlatformHelper } from '../helpers/PlatformHelper';
 import { AuthService } from '../services/AuthService';
 
 @Component({
     templateUrl: 'app.html',
-    providers: [AuthService, AuthStorageHelper, PushNotificationsHelper]
+    providers: [AuthService, AuthStorageHelper, PlatformHelper]
 })
 export class MyApp {
     @ViewChild(Nav) nav: Nav;
@@ -35,7 +36,7 @@ export class MyApp {
         public splashScreen: SplashScreen,
         private authService: AuthService,
         private authStorageHelper: AuthStorageHelper,
-        private pushNotificationsHelper: PushNotificationsHelper,
+        private platformHelper: PlatformHelper,
     ) {
         this.initializeApp();
 
@@ -56,9 +57,10 @@ export class MyApp {
             if (roles['admin']) {
                 this.pages.push({ title: 'Etudiants', component: StudentsPage });
                 this.pages.push({ title: 'Equipes', component: TeamsPage });
+                this.pages.push({ title: 'Checkins', component: CheckinsPage });
 
                 // if the app is run on device, the admin can send notifications
-                if (this.pushNotificationsHelper.can(this.platform)) {
+                if (this.platformHelper.isMobile(this.platform)) {
                     this.pages.push({ title: 'Notifications', component: PushMessagesPage });
                 }
             }
@@ -89,7 +91,7 @@ export class MyApp {
      * and redirect the user to the login page
      */
     startLogout() {
-        if (this.pushNotificationsHelper.can(this.platform)) {
+        if (this.platformHelper.isMobile(this.platform)) {
             this.push.unregister().then(_ => {
                 console.log("Unregistered to push notifications");
                 this.endLogout();

@@ -1,8 +1,9 @@
 <ion-content padding>
     <div *ngIf="!requestDone">
-        chargement
+        <ion-spinner></ion-spinner>
     </div>
     <div *ngIf="requestDone">
+        <button ion-button large full type="button" (click)="showQRCode()">Code d'indentification</button>
         <div>
             <h2>Identité</h2>
             <ion-list>

@@ -11,12 +11,18 @@ import { ProfilePage } from '../pages/profile/profile';
 import { StudentsPage } from '../pages/students/students';
 import { TeamsPage } from '../pages/teams/teams';
 import { TeamPage } from '../pages/team/team';
+import { CheckinsPage } from '../pages/checkins/checkins';
+import { CheckinPage } from '../pages/checkin/checkin';
+import { CreateCheckinPage } from '../pages/createCheckin/createCheckin';
+import { CompareCheckinsPage } from '../pages/compareCheckins/compareCheckins';
 import { PushMessagesPage } from '../pages/pushMessages/pushMessages';
+import { AuthQRCodePage } from '../pages/authQRCode/authQRCode';
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 
 import { CloudSettings, CloudModule } from '@ionic/cloud-angular';
+import { BarcodeScanner } from '@ionic-native/barcode-scanner';
 
 const cloudSettings: CloudSettings = {
     'core': {
@@ -46,6 +52,11 @@ const cloudSettings: CloudSettings = {
     TeamsPage,
     TeamPage,
     PushMessagesPage,
+    CheckinsPage,
+    CheckinPage,
+    CreateCheckinPage,
+    AuthQRCodePage,
+    CompareCheckinsPage,
   ],
   imports: [
       BrowserModule,
@@ -63,12 +74,18 @@ const cloudSettings: CloudSettings = {
     TeamsPage,
     TeamPage,
     PushMessagesPage,
+    CheckinsPage,
+    CheckinPage,
+    CreateCheckinPage,
+    AuthQRCodePage,
+    CompareCheckinsPage,
   ],
   providers: [
     StatusBar,
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
-    InAppBrowser
+    InAppBrowser,
+    BarcodeScanner
   ]
 })
 export class AppModule {}

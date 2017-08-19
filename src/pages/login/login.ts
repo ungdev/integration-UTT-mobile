@@ -8,11 +8,11 @@ import { InAppBrowser } from '@ionic-native/in-app-browser';
 import { AuthService } from '../../services/AuthService';
 import { StudentService } from '../../services/StudentService';
 import { AuthStorageHelper } from '../../helpers/AuthStorageHelper';
-import { PushNotificationsHelper } from '../../helpers/PushNotificationsHelper';
+import { PlatformHelper } from '../../helpers/PlatformHelper';
 
 @Component({
     templateUrl: 'login.html',
-    providers: [AuthService, StudentService, AuthStorageHelper, PushNotificationsHelper]
+    providers: [AuthService, StudentService, AuthStorageHelper, PlatformHelper]
 })
 export class LoginPage {
 
@@ -30,7 +30,7 @@ export class LoginPage {
         private authService: AuthService,
         private studentService: StudentService,
         private authStorageHelper: AuthStorageHelper,
-        private pushNotificationsHelper: PushNotificationsHelper,
+        private platformHelper: PlatformHelper,
         private iab: InAppBrowser
     ) {
         this.loginForm = this.fb.group({
@@ -112,7 +112,7 @@ export class LoginPage {
      * only if the app run on a device
      */
     private registerToPushNotifications() {
-        if (this.pushNotificationsHelper.can(this.platform)) {
+        if (this.platformHelper.isMobile(this.platform)) {
             console.log("app running on device");
             this.push.register().then((t: PushToken) => {
                 return this.push.saveToken(t);
@@ -170,7 +170,7 @@ export class LoginPage {
                 data => {
                     const parsedData = JSON.parse(data._body);
 
-                    if (!this.platform.is("android") && !this.platform.is("ios")) {
+                    if (!this.platformHelper.isMobile(this.platform)) {
                         window.location.href = parsedData.redirectUri;
                     } else {
                         // create a new InAppBrowser
