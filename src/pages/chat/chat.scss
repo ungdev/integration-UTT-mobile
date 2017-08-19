@@ -1,0 +1,22 @@
+page-chat {
+
+    .message-container {
+        border-bottom: 1px solid #dedede;
+        padding: 10px 0 10px 16px;
+        list-style-type: none;
+    }
+
+    .message-author {
+        font-weight: bold;
+        text-transform: uppercase;
+        margin-bottom: 5px;
+    }
+
+    .message-text {
+
+    }
+
+    .messages-container {
+        padding: 0;
+    }
+}

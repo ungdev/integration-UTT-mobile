@@ -1,0 +1,35 @@
+<ion-content padding>
+    <div *ngIf="!requestDone">
+        <ion-spinner></ion-spinner>
+    </div>
+    <div *ngIf="requestDone">
+        <h1>Chat</h1>
+        <ul class="messages-container">
+            <li class="message-container">
+                <div class="message-author">name</div>
+                <div class="message-text">message blablabla</div>
+            </li>
+            <li class="message-container">
+                <div class="message-author">name</div>
+                <div class="message-text">message blablabla</div>
+            </li>
+            <li class="message-container">
+                <div class="message-author">name</div>
+                <div class="message-text">message blablabla</div>
+            </li>
+            <li class="message-container">
+                <div class="message-author">name</div>
+                <div class="message-text">message blablabla</div>
+            </li>
+        </ul>
+        <form (ngSubmit)="sendMessage(chatForm.value)" [formGroup]="chatForm" novalidate>
+
+            <ion-item>
+                <ion-textarea formControlName="message" required></ion-textarea>
+                <button ion-button clear item-end type="submit">
+                    <ion-icon name="send"></ion-icon>
+                </button>
+            </ion-item>
+        </form>
+    </div>
+</ion-content>

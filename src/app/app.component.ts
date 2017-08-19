@@ -11,6 +11,7 @@ import { StudentsPage } from '../pages/students/students';
 import { TeamsPage } from '../pages/teams/teams';
 import { TeamPage } from '../pages/team/team';
 import { CheckinsPage } from '../pages/checkins/checkins';
+import { ChatPage } from '../pages/chat/chat';
 import { PushMessagesPage } from '../pages/pushMessages/pushMessages';
 
 import { AuthStorageHelper } from '../helpers/AuthStorageHelper';
@@ -63,6 +64,8 @@ export class MyApp {
                 if (this.platformHelper.isMobile(this.platform)) {
                     this.pages.push({ title: 'Notifications', component: PushMessagesPage });
                 }
+
+                this.pages.push({ title: 'Chat', component: ChatPage });
             }
 
             this.nav.setRoot(HomePage);
