@@ -5,21 +5,9 @@
     <div *ngIf="requestDone">
         <h1>Chat</h1>
         <ul class="messages-container">
-            <li class="message-container">
-                <div class="message-author">name</div>
-                <div class="message-text">message blablabla</div>
-            </li>
-            <li class="message-container">
-                <div class="message-author">name</div>
-                <div class="message-text">message blablabla</div>
-            </li>
-            <li class="message-container">
-                <div class="message-author">name</div>
-                <div class="message-text">message blablabla</div>
-            </li>
-            <li class="message-container">
-                <div class="message-author">name</div>
-                <div class="message-text">message blablabla</div>
+            <li *ngFor="let message of messages" class="message-container">
+                <div class="message-author">{{ message.student.first_name }} {{ message.student.last_name }}</div>
+                <div class="message-text">{{ message.text }}</div>
             </li>
         </ul>
         <form (ngSubmit)="sendMessage(chatForm.value)" [formGroup]="chatForm" novalidate>
