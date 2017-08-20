@@ -3,12 +3,12 @@ import { Injectable } from '@angular/core';
 import { Http } from '@angular/http';
 
 import { AuthStorageHelper } from '../helpers/AuthStorageHelper';
-import { BaseServiceBackend } from "./BaseServiceBackend";
+import { BaseService } from "./BaseService";
 
 import { ENV } from '../config/env.dev';
 
 @Injectable()
-export class AuthService extends BaseServiceBackend {
+export class AuthService extends BaseService {
 
     constructor (protected http: Http, protected authTokenStorageHelper: AuthStorageHelper) {
         super(http, authTokenStorageHelper);

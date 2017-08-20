@@ -25,25 +25,21 @@ export class PushMessagesPage {
                 null,
                 [Validators.required]
             ],
-            'target' : []
+            'targets' : []
         });
     }
 
     sendNotification(data) {
         if (!this.notificationForm.valid) return;
 
-        const notification = {
-            title: data.title,
-            message: data.message
-        };
-
-        this.notificationService.post(notification, "send_to_all")
-        .subscribe(
-            data => {
-                console.log(data);
-            },
-            err => console.log("err : ", err)
-        );
+        console.log(data);
+        this.notificationService.post(data)
+            .subscribe(
+                data => {
+                    console.log(data);
+                },
+                err => console.log("err : ", err)
+            );
     }
 
 }

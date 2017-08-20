@@ -5,8 +5,13 @@
 
         <ion-item>
             <ion-label floating>Destinataires</ion-label>
-            <ion-select formControlName="target">
-                <ion-option value="send_to_all" selected>Tous</ion-option>
+            <ion-select formControlName="targets" multiple>
+                <ion-option value=""></ion-option>
+                <ion-option value="all">Tous</ion-option>
+                <ion-option value="is_newcomer">Nouveaux</ion-option>
+                <ion-option value="admin">Coord</ion-option>
+                <ion-option value="orga">Orga</ion-option>
+                <ion-option value="ce">CE</ion-option>
             </ion-select>
         </ion-item>
 
