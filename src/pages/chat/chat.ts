@@ -4,6 +4,8 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 import { MessageService } from '../../services/MessageService';
 
+import { AuthStorageHelper } from '../../helpers/AuthStorageHelper';
+
 @Component({
     selector: 'page-chat',
     templateUrl: 'chat.html',
@@ -11,15 +13,17 @@ import { MessageService } from '../../services/MessageService';
 })
 export class ChatPage {
 
-    requestDone: boolean = false;
     chatForm: FormGroup;
-    messages: any[];
+    messages: any[] = [];
     refreshInterval: any;
+    activeChannel: string = "general";
+    canAdminChannel: boolean = false;
 
     constructor(
         public navCtrl: NavController,
         private fb: FormBuilder,
         private messageService: MessageService,
+        private authStorageHelper: AuthStorageHelper,
     ) {
         this.chatForm = this.fb.group({
             'message': [
@@ -28,21 +32,22 @@ export class ChatPage {
             ]
         });
 
-        this.messageService.get()
-            .subscribe(
-                data => {
-                    this.messages = JSON.parse(data._body);
-                    this.requestDone = true;
-                    this.refreshMessages();
-                },
-                err => console.log("err : ", err)
-            );
+        // check if the auth user can access to admin channel
+        const roles = authStorageHelper.getUserRoles();
+        if (roles['admin'] || roles['orga']) {
+            this.canAdminChannel = true;
+        }
+
+        this.refreshInterval = setInterval(this.refreshMessages.bind(this), 5000);
+        this.refreshMessages();
+
     }
 
     sendMessage(data) {
-        this.messageService.post({text: data.message, channel: "general"})
+        this.messageService.post({text: data.message, channel: this.activeChannel})
             .subscribe(
                 data => {
+                    this.messages.push(JSON.parse(data._body));
                     this.chatForm.reset();
                 },
                 err => console.log("err : ", err)
@@ -50,19 +55,20 @@ export class ChatPage {
     }
 
     /**
-     * Create an interval and store it in this.refreshInterval.
-     * On each interation, refresh this.messages
+     * Get the messages of the active channel
      */
     refreshMessages() {
-        this.refreshInterval = setInterval(_ => {
-            this.messageService.get()
-                .subscribe(
-                    data => {
-                        this.messages = JSON.parse(data._body);
-                    },
-                    err => console.log("err : ", err)
-                )
-        }, 5000);
+        this.messageService.get({filters: {channel: this.activeChannel}})
+            .subscribe(
+                data => {
+                    this.messages = JSON.parse(data._body);
+                },
+                err => console.log("err : ", err)
+            )
+    }
+
+    channelChanged() {
+        this.refreshMessages();
     }
 
     /**

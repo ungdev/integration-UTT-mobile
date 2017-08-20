@@ -32,8 +32,12 @@ export class BaseService {
                 if (data && data.id) {
                     uri += '/' + data.id;
                 }
-                if (data && data.filter) {
-                    uri += "?filter=" + data.filter;
+                if (data && data.filters) {
+                    uri += "?";
+                    for (let filter in data.filters) {
+                        uri += `${filter}=${data.filters[filter]}&`;
+                    }
+                    delete data.filters;
                 }
 
                 return this.getRequest(uri, options)
