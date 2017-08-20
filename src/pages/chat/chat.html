@@ -1,0 +1,30 @@
+<ion-content padding>
+    <h1>Chat</h1>
+    <ul class="messages-container">
+        <li *ngFor="let message of messages" class="message-container">
+            <div class="message-author">{{ message.student.first_name }} {{ message.student.last_name }}</div>
+            <div class="message-text">{{ message.text }}</div>
+        </li>
+    </ul>
+    <div class="chat-form-container">
+        <form class="chat-form" (ngSubmit)="sendMessage(chatForm.value)" [formGroup]="chatForm" novalidate>
+            <ion-item>
+                <ion-textarea formControlName="message" required></ion-textarea>
+                <button ion-button clear item-end type="submit">
+                    <ion-icon name="send"></ion-icon>
+                </button>
+            </ion-item>
+        </form>
+    </div>
+</ion-content>
+
+<ion-toolbar *ngIf="canAdminChannel" tabsPlacement="top">
+    <ion-segment [(ngModel)]="activeChannel" (ionChange)="channelChanged()">
+        <ion-segment-button value="general">
+            Général
+        </ion-segment-button>
+        <ion-segment-button value="admin">
+            Admin
+        </ion-segment-button>
+    </ion-segment>
+</ion-toolbar>

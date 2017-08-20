@@ -1,0 +1,36 @@
+page-chat {
+
+    .message-container {
+        border-bottom: 1px solid #dedede;
+        padding: 10px 0 10px 16px;
+        list-style-type: none;
+    }
+
+    .message-author {
+        font-weight: bold;
+        text-transform: uppercase;
+        margin-bottom: 5px;
+    }
+
+    .message-text {
+
+    }
+
+    .messages-container {
+        padding: 0;
+        margin-bottom: 56px;
+    }
+
+    .chat-form-container {
+        position: fixed;
+        bottom: 0px;
+        width: 100%;
+        border-top: 2px solid #dedede;
+        margin-top: 5px;
+        background-color: #fff;
+    }
+
+    .chat-form {
+        padding-bottom: 5px;
+    }
+}

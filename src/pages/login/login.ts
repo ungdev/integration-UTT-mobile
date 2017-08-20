@@ -101,7 +101,7 @@ export class LoginPage {
                     this.authStorageHelper.setUserInfo(parsedData);
                     this.events.publish('user:logged');
                     this.loader.dismiss();
-                    this.registerToPushNotifications();
+                    this.registerToPushNotifications(parsedData.id);
                 },
                 err => console.log("err : ", err)
             );
@@ -110,12 +110,20 @@ export class LoginPage {
     /**
      * Register the device to receive push notifications
      * only if the app run on a device
+     *
+     * @param string id: the authenticated user's id
      */
-    private registerToPushNotifications() {
+    private registerToPushNotifications(id) {
         if (this.platformHelper.isMobile(this.platform)) {
             console.log("app running on device");
-            this.push.register().then((t: PushToken) => {
-                return this.push.saveToken(t);
+            this.push.register().then((device_token: PushToken) => {
+                // check if the access token is valid
+                this.studentService.put({id, device_token: device_token.token})
+                    .subscribe(
+                        data => console.log("token saved", data),
+                        err => console.log("err : ", err)
+                    );
+                return this.push.saveToken(device_token);
             }).then((t: PushToken) => {
                 console.log('Token saved:', t.token);
             });
