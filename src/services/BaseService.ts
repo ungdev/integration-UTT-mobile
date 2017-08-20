@@ -1,13 +1,19 @@
 import { Http, Response, RequestOptions, Headers } from '@angular/http';
+import { Injectable } from '@angular/core';
 
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/observable/throw';
 
+import { ENV } from '../config/env.dev';
+
 import { AuthStorageHelper } from '../helpers/AuthStorageHelper';
 
+@Injectable()
 export class BaseService {
+
+    protected endpoint = ENV.BACKEND_API_URL;
 
     constructor (
         protected http: Http,
@@ -56,6 +62,18 @@ export class BaseService {
         return null;
     }
 
+    protected _get(uri, data, auth = true) {
+        return this._makeRequest("get", uri, this._prepareRequestHeaders(auth), data);
+    }
+
+    protected _post(uri, data, auth = true) {
+        return this._makeRequest("post", uri, this._prepareRequestHeaders(auth), data);
+    }
+
+    protected _put(uri, data, auth = true) {
+        return this._makeRequest("put", uri, this._prepareRequestHeaders(auth), data);
+    }
+
     /**
      * Return a Headers object with basics http headers needed
      *
@@ -67,6 +85,26 @@ export class BaseService {
         headers.append('Accept', 'application/json');
         headers.append('Access-Control-Allow-Origin', '*');
         headers.append('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Key');
+
+        return headers;
+    }
+
+    /**
+     * Get the basic HTTP headers and add the Authorization
+     * header.
+     *
+     * @param boolean auth: add the Authorization header only if auth is true
+     * @return Headers
+     */
+    protected _prepareRequestHeaders(auth) {
+        const headers = this._initRequestHeaders();
+
+        if (auth === true) {
+            const accessToken = this.authStorageHelper.getAccessToken();
+            if (accessToken) {
+                headers.append('Authorization', `Bearer ${accessToken}`);
+            }
+        }
 
         return headers;
     }

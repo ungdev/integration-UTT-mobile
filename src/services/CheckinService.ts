@@ -3,10 +3,10 @@ import { Injectable } from '@angular/core';
 import { Http } from '@angular/http';
 
 import { AuthStorageHelper } from '../helpers/AuthStorageHelper';
-import { BaseServiceBackend } from "./BaseServiceBackend";
+import { BaseService } from "./BaseService";
 
 @Injectable()
-export class CheckinService extends BaseServiceBackend {
+export class CheckinService extends BaseService {
 
     constructor (protected http: Http, protected authTokenStorageHelper: AuthStorageHelper) {
         super(http, authTokenStorageHelper);
