@@ -59,12 +59,7 @@ export class MyApp {
                 this.pages.push({ title: 'Etudiants', component: StudentsPage });
                 this.pages.push({ title: 'Equipes', component: TeamsPage });
                 this.pages.push({ title: 'Checkins', component: CheckinsPage });
-
-                // if the app is run on device, the admin can send notifications
-                if (this.platformHelper.isMobile(this.platform)) {
-                    this.pages.push({ title: 'Notifications', component: PushMessagesPage });
-                }
-
+                this.pages.push({ title: 'Notifications', component: PushMessagesPage });
                 this.pages.push({ title: 'Chat', component: ChatPage });
             }
 
