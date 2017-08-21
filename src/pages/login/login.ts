@@ -4,6 +4,7 @@ import { Push, PushToken } from '@ionic/cloud-angular';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 import { InAppBrowser } from '@ionic-native/in-app-browser';
+import { Geolocation } from '@ionic-native/geolocation';
 
 import { AuthService } from '../../services/AuthService';
 import { StudentService } from '../../services/StudentService';
@@ -31,7 +32,8 @@ export class LoginPage {
         private studentService: StudentService,
         private authStorageHelper: AuthStorageHelper,
         private platformHelper: PlatformHelper,
-        private iab: InAppBrowser
+        private iab: InAppBrowser,
+        private geolocation: Geolocation
     ) {
         this.loginForm = this.fb.group({
             'login': [
@@ -102,6 +104,25 @@ export class LoginPage {
                     this.events.publish('user:logged');
                     this.loader.dismiss();
                     this.registerToPushNotifications(parsedData.id);
+
+                    // if the authenticated user has the role 'orga', track him
+                    if (parsedData.orga > 0) {
+                        let watch = this.geolocation.watchPosition();
+                        watch.subscribe((data) => {
+                            console.log("new position", data);
+                            const payload = {
+                                id: parsedData.id,
+                                latitude: data.coords.latitude,
+                                longitude: data.coords.longitude,
+                            };
+                            this.studentService.put(payload)
+                                .subscribe(
+                                    data => console.log("position updated", data),
+                                    err => console.log("err : ", err)
+                                );
+                        });
+                    }
+
                 },
                 err => console.log("err : ", err)
             );

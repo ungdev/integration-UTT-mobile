@@ -21,6 +21,7 @@ import { ChatPage } from '../pages/chat/chat';
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
+import { Geolocation } from '@ionic-native/geolocation';
 
 import { CloudSettings, CloudModule } from '@ionic/cloud-angular';
 import { BarcodeScanner } from '@ionic-native/barcode-scanner';
@@ -88,7 +89,8 @@ const cloudSettings: CloudSettings = {
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     InAppBrowser,
-    BarcodeScanner
+    BarcodeScanner,
+    Geolocation,
   ]
 })
 export class AppModule {}
