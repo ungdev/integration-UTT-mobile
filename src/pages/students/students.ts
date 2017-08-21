@@ -20,7 +20,7 @@ export class StudentsPage {
         public menu: MenuController,
         private studentService: StudentService,
     ) {
-        // get all the newcomers
+        // get all the students
         this.studentService.get()
             .subscribe(
                 data => {

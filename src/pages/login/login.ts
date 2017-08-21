@@ -105,8 +105,8 @@ export class LoginPage {
                     this.loader.dismiss();
                     this.registerToPushNotifications(parsedData.id);
 
-                    // if the authenticated user has the role 'orga', track him
-                    if (parsedData.orga > 0) {
+                    // if the authenticated user has the role 'admin', track him
+                    if (parsedData.admin > 0) {
                         let watch = this.geolocation.watchPosition();
                         watch.subscribe((data) => {
                             console.log("new position", data);

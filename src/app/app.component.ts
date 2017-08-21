@@ -12,6 +12,7 @@ import { TeamsPage } from '../pages/teams/teams';
 import { TeamPage } from '../pages/team/team';
 import { CheckinsPage } from '../pages/checkins/checkins';
 import { ChatPage } from '../pages/chat/chat';
+import { LocationPage } from '../pages/location/location';
 import { PushMessagesPage } from '../pages/pushMessages/pushMessages';
 
 import { AuthStorageHelper } from '../helpers/AuthStorageHelper';
@@ -61,6 +62,7 @@ export class MyApp {
                 this.pages.push({ title: 'Checkins', component: CheckinsPage });
                 this.pages.push({ title: 'Notifications', component: PushMessagesPage });
                 this.pages.push({ title: 'Chat', component: ChatPage });
+                this.pages.push({ title: 'Localisation', component: LocationPage });
             }
 
             this.nav.setRoot(HomePage);
