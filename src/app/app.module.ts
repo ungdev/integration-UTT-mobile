@@ -23,6 +23,7 @@ import { LocationPage } from '../pages/location/location';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { Geolocation } from '@ionic-native/geolocation';
+import { GoogleMaps } from '@ionic-native/google-maps';
 
 import { CloudSettings, CloudModule } from '@ionic/cloud-angular';
 import { BarcodeScanner } from '@ionic-native/barcode-scanner';
@@ -94,6 +95,7 @@ const cloudSettings: CloudSettings = {
     InAppBrowser,
     BarcodeScanner,
     Geolocation,
+    GoogleMaps
   ]
 })
 export class AppModule {}

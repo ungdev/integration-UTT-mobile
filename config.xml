@@ -81,6 +81,11 @@
     <engine name="android" spec="^6.2.3" />
     <plugin name="cordova-plugin-console" spec="^1.0.5" />
     <plugin name="cordova-plugin-device" spec="^1.1.4" />
+    <plugin name="cordova-plugin-geolocation" spec="^2.4.3" />
+    <plugin name="cordova-plugin-googlemaps" spec="git+https://github.com/mapsplugin/cordova-plugin-googlemaps.git#multiple_maps">
+        <variable name="API_KEY_FOR_ANDROID" value="AIzaSyC3Y6F65Y5k62Y56l1S6f5Qx09IoQNcDAU" />
+        <variable name="API_KEY_FOR_IOS" value="AIzaSyC3Y6F65Y5k62Y56l1S6f5Qx09IoQNcDAU" />
+    </plugin>
     <plugin name="cordova-plugin-inappbrowser" spec="^1.7.1" />
     <plugin name="cordova-plugin-splashscreen" spec="^4.0.3" />
     <plugin name="cordova-plugin-statusbar" spec="^2.2.2" />
@@ -90,5 +95,4 @@
     <plugin name="phonegap-plugin-push" spec="^1.10.5">
         <variable name="SENDER_ID" value="403744287486" />
     </plugin>
-    <plugin name="cordova-plugin-geolocation" spec="^2.4.3" />
 </widget>
