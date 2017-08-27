@@ -4,10 +4,10 @@
     </div>
     <div *ngIf="requestDone">
         <ion-list>
-            <button ion-item *ngFor="let team of teams" (click)="viewTeam(team.id)">
-                {{ team.name }}
-                <ion-icon name="arrow-forward" item-end></ion-icon>
-            </button>
+            <ion-item *ngFor="let team of teams" (click)="viewTeam(team.id)">
+                <h2>{{ team.name }}</h2>
+                <button ion-button clear item-end>Voir</button>
+            </ion-item>
         </ion-list>
     </div>
 </ion-content>

@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { ViewController, NavParams } from 'ionic-angular';
 
 @Component({
+    selector: 'page-authQRCode',
     templateUrl: 'authQRCode.html'
 })
 export class AuthQRCodePage {

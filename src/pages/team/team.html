@@ -28,17 +28,17 @@
         </ion-list>
         <ion-item-group>
             <ion-item-divider color="light">Chefs d'équipe</ion-item-divider>
-            <button ion-item *ngFor="let ce of team.ce" (click)="viewUser(ce.id)">
-                {{ ce.first_name }} {{ ce.last_name }} {{ team.respo_id == ce.student_id ? "*": "" }}
-                <ion-icon name="arrow-forward" item-end></ion-icon>
-            </button>
+            <ion-item *ngFor="let ce of team.ce" (click)="viewUser(ce.id)">
+                <h2>{{ ce.first_name }} {{ ce.last_name }} {{ team.respo_id == ce.student_id ? "[respo]": "" }}</h2>
+                <button ion-button clear item-end>Voir</button>
+            </ion-item>
         </ion-item-group>
         <ion-item-group>
             <ion-item-divider color="light">Nouveaux</ion-item-divider>
-            <button ion-item *ngFor="let newcomer of team.newcomers" (click)="viewUser(newcomer.id)">
-                {{ newcomer.first_name }} {{ newcomer.last_name }}
-                <ion-icon name="arrow-forward" item-end></ion-icon>
-            </button>
+            <ion-item *ngFor="let newcomer of team.newcomers" (click)="viewUser(newcomer.id)">
+                <h2>{{ newcomer.first_name }} {{ newcomer.last_name }}</h2>
+                <button ion-button clear item-end>Voir</button>
+            </ion-item>
         </ion-item-group>
     </div>
 </ion-content>
