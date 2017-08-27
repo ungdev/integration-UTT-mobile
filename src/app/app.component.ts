@@ -63,7 +63,7 @@ export class MyApp {
                 this.pages.push({ title: "Checkins", component: CheckinsPage });
                 this.pages.push({ title: "Notifications", component: PushMessagesPage });
                 this.pages.push({ title: "Chat", component: ChatPage });
-                this.pages.push({ title: "Localisation", component: LocationPage });
+                //this.pages.push({ title: "Localisation", component: LocationPage });
             }
 
             this.nav.setRoot(HomePage);
