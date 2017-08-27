@@ -13,6 +13,7 @@ export class StudentsPage {
 
     students: any[] = [];
     display: string;
+    nameFilter: string;
     requestDone: boolean = false;
 
     constructor(
@@ -46,9 +47,19 @@ export class StudentsPage {
      * @return array
      */
     filteredStudents() {
-        if (this.display === "newcomers") return this.students.filter(student => student.is_newcomer);
-        if (this.display === "students") return this.students.filter(student => !student.is_newcomer);
-        return this.students;
+        let filtered = this.students;
+
+        if (this.display === "newcomers") {
+            filtered =  this.students.filter(student => student.is_newcomer);
+        } else if (this.display === "students") {
+            filtered = this.students.filter(student => !student.is_newcomer);
+        }
+
+        if (this.nameFilter && this.nameFilter.length > 2) {
+            filtered = filtered.filter(student => (student.first_name + " " + student.last_name).toLowerCase().includes(this.nameFilter));
+        }
+
+        return filtered;
     }
 
 }

@@ -17,6 +17,11 @@
         </ion-item>
     </ion-list>
 
+    <ion-item>
+        <ion-label floating>Par nom</ion-label>
+        <ion-input type="text" [(ngModel)]="nameFilter" required></ion-input>
+    </ion-item>
+
     <div *ngIf="!requestDone">
         <ion-spinner></ion-spinner>
     </div>
