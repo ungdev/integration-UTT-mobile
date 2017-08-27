@@ -18,9 +18,12 @@ import { CompareCheckinsPage } from '../pages/compareCheckins/compareCheckins';
 import { PushMessagesPage } from '../pages/pushMessages/pushMessages';
 import { AuthQRCodePage } from '../pages/authQRCode/authQRCode';
 import { ChatPage } from '../pages/chat/chat';
+import { LocationPage } from '../pages/location/location';
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
+import { Geolocation } from '@ionic-native/geolocation';
+import { GoogleMaps } from '@ionic-native/google-maps';
 
 import { CloudSettings, CloudModule } from '@ionic/cloud-angular';
 import { BarcodeScanner } from '@ionic-native/barcode-scanner';
@@ -59,6 +62,7 @@ const cloudSettings: CloudSettings = {
     AuthQRCodePage,
     CompareCheckinsPage,
     ChatPage,
+    LocationPage,
   ],
   imports: [
       BrowserModule,
@@ -82,13 +86,16 @@ const cloudSettings: CloudSettings = {
     AuthQRCodePage,
     CompareCheckinsPage,
     ChatPage,
+    LocationPage,
   ],
   providers: [
     StatusBar,
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     InAppBrowser,
-    BarcodeScanner
+    BarcodeScanner,
+    Geolocation,
+    GoogleMaps
   ]
 })
 export class AppModule {}

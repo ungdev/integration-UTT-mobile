@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { ToastController } from 'ionic-angular';
 
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
@@ -15,6 +16,7 @@ export class PushMessagesPage {
     constructor(
         private notificationService: NotificationService,
         private fb: FormBuilder,
+        private toastCtrl: ToastController
     ) {
         this.notificationForm = this.fb.group({
             'title': [
@@ -32,13 +34,23 @@ export class PushMessagesPage {
     sendNotification(data) {
         if (!this.notificationForm.valid) return;
 
-        console.log(data);
         this.notificationService.post(data)
             .subscribe(
                 data => {
-                    console.log(data);
+                    this.notificationForm.reset();
+                    let toast = this.toastCtrl.create({
+                        message: "Notification envoyée !",
+                        duration: 3000
+                    });
+                    toast.present();
                 },
-                err => console.log("err : ", err)
+                err => {
+                    let toast = this.toastCtrl.create({
+                        message: "Erreur lors de l'envoi.",
+                        duration: 3000
+                    });
+                    toast.present();
+                }
             );
     }
 

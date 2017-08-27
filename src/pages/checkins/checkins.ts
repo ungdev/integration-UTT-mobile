@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, MenuController, ModalController } from 'ionic-angular';
+import { NavController, MenuController, ModalController, ToastController } from 'ionic-angular';
 
 import { CheckinService } from '../../services/CheckinService';
 
@@ -22,6 +22,7 @@ export class CheckinsPage {
         public navCtrl: NavController,
         public menu: MenuController,
         public modalCtrl: ModalController,
+        public toastCtrl: ToastController,
         private checkinService: CheckinService,
     ) {
         // get all the newcomers
@@ -66,6 +67,12 @@ export class CheckinsPage {
         modal.onDidDismiss(checkin => {
             if (checkin) {
                 this.checkins.push(checkin);
+                // show succcess toast
+                let toast = this.toastCtrl.create({
+                    message: 'Nouveau checkin créé !',
+                    duration: 3000
+                });
+                toast.present();
             }
         });
         modal.present();

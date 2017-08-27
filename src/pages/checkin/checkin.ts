@@ -31,7 +31,6 @@ export class CheckinPage {
             .subscribe(
                 data => {
                     this.checkin = JSON.parse(data._body);
-                    console.log("CHECKIN",this.checkin);
                     this.requestDone = true;
                 },
                 err => console.log("err : ", err)

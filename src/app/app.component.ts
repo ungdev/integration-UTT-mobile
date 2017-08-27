@@ -1,5 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
-import { Nav, Platform, Events } from 'ionic-angular';
+import { Nav, Platform, Events, App } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { Push } from '@ionic/cloud-angular';
@@ -12,6 +12,7 @@ import { TeamsPage } from '../pages/teams/teams';
 import { TeamPage } from '../pages/team/team';
 import { CheckinsPage } from '../pages/checkins/checkins';
 import { ChatPage } from '../pages/chat/chat';
+import { LocationPage } from '../pages/location/location';
 import { PushMessagesPage } from '../pages/pushMessages/pushMessages';
 
 import { AuthStorageHelper } from '../helpers/AuthStorageHelper';
@@ -26,10 +27,11 @@ export class MyApp {
     @ViewChild(Nav) nav: Nav;
 
     rootPage:any = LoginPage;
-
+    navbarTitle: string = "";
     pages: Array<{title: string, component: any}>;
 
     constructor(
+        public app: App,
         public platform: Platform,
         public statusBar: StatusBar,
         public events: Events,
@@ -37,7 +39,7 @@ export class MyApp {
         public splashScreen: SplashScreen,
         private authService: AuthService,
         private authStorageHelper: AuthStorageHelper,
-        private platformHelper: PlatformHelper,
+        private platformHelper: PlatformHelper
     ) {
         this.initializeApp();
 
@@ -47,26 +49,49 @@ export class MyApp {
             const roles = authStorageHelper.getUserRoles();
 
             this.pages = [
-                { title: 'Home', component: HomePage },
+                { title: "Home", component: HomePage },
             ];
 
             if (roles['newcomer']) {
-                this.pages.push({ title: 'Mon profil', component: ProfilePage });
-                this.pages.push({ title: 'Mon équipe', component: TeamPage });
+                this.pages.push({ title: "Mon profil", component: ProfilePage });
+                this.pages.push({ title: "Mon équipe", component: TeamPage });
             }
 
             if (roles['admin']) {
-                this.pages.push({ title: 'Etudiants', component: StudentsPage });
-                this.pages.push({ title: 'Equipes', component: TeamsPage });
-                this.pages.push({ title: 'Checkins', component: CheckinsPage });
-                this.pages.push({ title: 'Notifications', component: PushMessagesPage });
-                this.pages.push({ title: 'Chat', component: ChatPage });
+                this.pages.push({ title: "Etudiants", component: StudentsPage });
+                this.pages.push({ title: "Equipes", component: TeamsPage });
+                this.pages.push({ title: "Checkins", component: CheckinsPage });
+                this.pages.push({ title: "Notifications", component: PushMessagesPage });
+                this.pages.push({ title: "Chat", component: ChatPage });
+                //this.pages.push({ title: "Localisation", component: LocationPage });
             }
 
             this.nav.setRoot(HomePage);
         });
 
         this.pages = [];
+
+        // listen view changes
+        app.viewWillEnter.subscribe(view => this.onViewChange(view));
+
+    }
+
+    /**
+     * On view change, updated the navbarTitle
+     *
+     * @param View view: the view loaded
+     */
+    onViewChange(view) {
+        if (view.name == "HomePage") {
+            this.navbarTitle = "Intégration UTT";
+            return;
+        }
+        for (let page of this.pages) {
+            if (page.component.name == view.name) {
+                this.navbarTitle = page.title;
+                return;
+            }
+        }
     }
 
     initializeApp() {
