@@ -76,8 +76,8 @@ export class CompareCheckinsPage {
             }
         }
 
-        this.inFirstOnly = (<any>Object).values(first_hash);
-        this.inSecondOnly = (<any>Object).values(second_hash);
+        this.inFirstOnly = Object.keys(first_hash).map(key => first_hash[key]);
+        this.inSecondOnly = Object.keys(second_hash).map(key => second_hash[key]);
     }
 
     dismiss() {
