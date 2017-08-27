@@ -18,6 +18,7 @@ export class ChatPage {
     refreshInterval: any;
     activeChannel: string = "general";
     canAdminChannel: boolean = false;
+    authUserId: string;
 
     constructor(
         public navCtrl: NavController,
@@ -36,6 +37,7 @@ export class ChatPage {
         const roles = authStorageHelper.getUserRoles();
         if (roles['admin'] || roles['orga']) {
             this.canAdminChannel = true;
+            this.authUserId = authStorageHelper.getUserId();
         }
 
         this.refreshInterval = setInterval(this.refreshMessages.bind(this), 5000);
