@@ -1,7 +1,8 @@
 page-event {
 
-    .event-item {
-        margin-bottom: 15px;
+    .event-item-p * {
+        white-space: normal !important;
+        overflow: auto !important;
     }
 
 }
