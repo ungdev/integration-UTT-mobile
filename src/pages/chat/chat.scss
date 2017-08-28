@@ -3,12 +3,15 @@ page-chat {
     .message-container {
         border-bottom: 1px solid #dedede;
         padding: 10px 16px;
+        margin: 5px 2px 0 2px;
+        border-radius: 4px;
         list-style-type: none;
         position: relative;
+        background-color: #F5F5F5;
     }
 
     .message-container.user-message {
-        background-color: #FFF3E0;
+        background-color: #E0E0E0;
         text-align: right;
     }
 
@@ -19,11 +22,12 @@ page-chat {
     .message-author {
         font-weight: bold;
         text-transform: uppercase;
-        margin-bottom: 5px;
+        margin-bottom: 10px;
+        font-size: 11px;
     }
 
     .message-date {
-        color: grey;
+        color: #757575;
     }
 
     .messages-container {
@@ -35,12 +39,16 @@ page-chat {
         position: fixed;
         bottom: 0px;
         width: 100%;
-        border-top: 2px solid #dedede;
+        border-top: 4px solid color($colors, secondary, base);
         margin-top: 5px;
         background-color: #fff;
     }
 
     .chat-form {
         padding-bottom: 5px;
+    }
+
+    .channel-selector {
+        background-color: #fff;
     }
 }

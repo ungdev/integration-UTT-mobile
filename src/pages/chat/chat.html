@@ -22,8 +22,8 @@
     </div>
 </ion-content>
 
-<ion-toolbar *ngIf="canAdminChannel" tabsPlacement="top">
-    <ion-segment [(ngModel)]="activeChannel" (ionChange)="channelChanged()">
+<ion-toolbar tabsPlacement="top">
+    <ion-segment [(ngModel)]="activeChannel" class="channel-selector" (ionChange)="channelChanged()">
         <ion-segment-button value="general">
             Général
         </ion-segment-button>
