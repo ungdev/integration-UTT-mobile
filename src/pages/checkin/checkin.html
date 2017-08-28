@@ -6,10 +6,10 @@
         <button ion-button large full type="button" (click)="startScanner()">Scanner</button>
         <h1>{{ checkin.name }}</h1>
         <ion-list>
-            <button ion-item *ngFor="let student of checkin.students" (click)="viewStudent(student.id)">
-                {{ student.first_name }} {{ student.last_name }}
-                <ion-icon name="arrow-forward" item-end></ion-icon>
-            </button>
+            <ion-item *ngFor="let student of checkin.students" (click)="viewStudent(student.id)">
+                <h2>{{ student.first_name }} {{ student.last_name }}</h2>
+                <button ion-button clear item-end>Voir</button>
+            </ion-item>
         </ion-list>
     </div>
 </ion-content>
