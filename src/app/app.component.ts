@@ -14,6 +14,7 @@ import { CheckinsPage } from '../pages/checkins/checkins';
 import { ChatPage } from '../pages/chat/chat';
 import { LocationPage } from '../pages/location/location';
 import { PushMessagesPage } from '../pages/pushMessages/pushMessages';
+import { CalendarPage } from '../pages/calendar/calendar';
 
 import { AuthStorageHelper } from '../helpers/AuthStorageHelper';
 import { PlatformHelper } from '../helpers/PlatformHelper';
@@ -50,6 +51,7 @@ export class MyApp {
 
             this.pages = [
                 { title: "Home", component: HomePage },
+                { title: "Calendrier", component: CalendarPage },
             ];
 
             if (roles['newcomer']) {

@@ -19,6 +19,8 @@ import { PushMessagesPage } from '../pages/pushMessages/pushMessages';
 import { AuthQRCodePage } from '../pages/authQRCode/authQRCode';
 import { ChatPage } from '../pages/chat/chat';
 import { LocationPage } from '../pages/location/location';
+import { CalendarPage } from '../pages/calendar/calendar';
+import { EventPage } from '../pages/event/event';
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
@@ -63,6 +65,8 @@ const cloudSettings: CloudSettings = {
     CompareCheckinsPage,
     ChatPage,
     LocationPage,
+    CalendarPage,
+    EventPage,
   ],
   imports: [
       BrowserModule,
@@ -87,6 +91,8 @@ const cloudSettings: CloudSettings = {
     CompareCheckinsPage,
     ChatPage,
     LocationPage,
+    CalendarPage,
+    EventPage,
   ],
   providers: [
     StatusBar,

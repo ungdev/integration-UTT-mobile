@@ -1,0 +1,31 @@
+<ion-header>
+    <ion-navbar color="primary">
+        <ion-buttons start>
+            <button ion-button (click)="dismiss()">retour</button>
+        </ion-buttons>
+        <ion-title>{{ event ? event.name : "" }}</ion-title>
+    </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+    <div *ngIf="!requestDone">
+        <ion-spinner></ion-spinner>
+    </div>
+    <div *ngIf="requestDone">
+        <div class="event-item">
+            <h3>Où ?</h3>
+            <div>{{ event.place }}</div>
+        </div>
+        <div class="event-item">
+            <h3>Quand ?</h3>
+            <div>
+                <div>Début : {{ event.start_at | date:'EEEE dd' }} à {{ event.start_at | date:'HH:mm' }}</div>
+                <div>Fin : {{ event.end_at | date:'EEEE dd' }} à {{ event.end_at | date:'HH:mm' }}</div>
+            </div>
+        </div>
+        <div class="event-item">
+            <h3>Description</h3>
+            <div>{{ event.description }}</div>
+        </div>
+    </div>
+</ion-content>
