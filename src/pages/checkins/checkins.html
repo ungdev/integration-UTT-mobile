@@ -1,5 +1,5 @@
 <ion-content padding>
-    <button ion-button large full type="button" (click)="showCreateModal()">+ Nouvelle liste</button>
+    <button ion-button large full type="button" color="success" (click)="showCreateModal()">+ Nouvelle liste</button>
     <div *ngIf="!requestDone">
         <ion-spinner></ion-spinner>
     </div>
@@ -7,7 +7,7 @@
         <ion-list>
             <ion-item *ngFor="let checkin of checkins" [ngClass]="{'selected': selectedCheckins.includes(checkin.id)}" (click)="selectCheckin(checkin.id)">
                 <h2>{{ checkin.name }}</h2>
-                <button ion-button clear item-end (click)="viewCheckin(checkin.id)">Voir</button>
+                <button ion-button clear item-end color="light" (click)="viewCheckin(checkin.id)">Voir</button>
             </ion-item>
         </ion-list>
     </div>

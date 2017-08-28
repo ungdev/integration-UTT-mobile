@@ -10,7 +10,7 @@
             </ion-item>
             <ion-item>
                 Validée
-                <ion-icon *ngIf="team.validated" name="checkmark" color="secondary" item-end></ion-icon>
+                <ion-icon *ngIf="team.validated" name="checkmark" color="success" item-end></ion-icon>
                 <ion-icon *ngIf="!team.validated" name="close" color="danger" item-end></ion-icon>
             </ion-item>
             <ion-item>
@@ -27,17 +27,17 @@
             </ion-item>
         </ion-list>
         <ion-item-group>
-            <ion-item-divider color="light">Chefs d'équipe</ion-item-divider>
+            <ion-item-divider color="secondary">Chefs d'équipe</ion-item-divider>
             <ion-item *ngFor="let ce of team.ce" (click)="viewUser(ce.id)">
                 <h2>{{ ce.first_name }} {{ ce.last_name }} {{ team.respo_id == ce.student_id ? "[respo]": "" }}</h2>
-                <button ion-button clear item-end>Voir</button>
+                <button ion-button clear item-end color="light">Voir</button>
             </ion-item>
         </ion-item-group>
         <ion-item-group>
-            <ion-item-divider color="light">Nouveaux</ion-item-divider>
+            <ion-item-divider color="secondary">Nouveaux</ion-item-divider>
             <ion-item *ngFor="let newcomer of team.newcomers" (click)="viewUser(newcomer.id)">
                 <h2>{{ newcomer.first_name }} {{ newcomer.last_name }}</h2>
-                <button ion-button clear item-end>Voir</button>
+                <button ion-button clear item-end color="light">Voir</button>
             </ion-item>
         </ion-item-group>
     </div>

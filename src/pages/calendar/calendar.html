@@ -4,7 +4,7 @@
     </div>
     <div *ngIf="requestDone">
         <ion-item-group *ngFor="let day of days">
-            <ion-item-divider color="light">{{ day | date:'EEEE dd' }}</ion-item-divider>
+            <ion-item-divider color="secondary">{{ day | date:'EEEE dd' }}</ion-item-divider>
             <ion-item *ngFor="let event of calendar[day]">
                 <h2>{{ event.name }}</h2>
                 <p>
@@ -12,7 +12,7 @@
                     <!-- if the event doesn't end in the same day -->
                     <span *ngIf="(event.end_at | date:'dd') > (event.start_at | date:'dd')">({{ event.end_at | date:'EEEE dd' }})</span>
                 </p>
-                <button ion-button clear item-end (click)="viewEvent(event.id)">Voir</button>
+                <button ion-button clear item-end color="light" (click)="viewEvent(event.id)">Voir</button>
             </ion-item>
         </ion-item-group>
     </div>

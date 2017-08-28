@@ -13,11 +13,11 @@
     </div>
     <div *ngIf="requestDone">
         <ion-item-group>
-            <ion-item-divider color="light">Où ?</ion-item-divider>
+            <ion-item-divider color="secondary">Où ?</ion-item-divider>
             <ion-item class="event-item-p">{{ event.place }}</ion-item>
         </ion-item-group>
         <ion-item-group>
-            <ion-item-divider color="light">Quand ?</ion-item-divider>
+            <ion-item-divider color="secondary">Quand ?</ion-item-divider>
             <ion-item class="event-item-p">
                 <h2>Début</h2>
                 <p>{{ event.start_at | date:'EEEE dd' }} à {{ event.start_at | date:'HH:mm' }}</p>
@@ -28,7 +28,7 @@
             </ion-item>
         </ion-item-group>
         <ion-item-group>
-            <ion-item-divider color="light">Description</ion-item-divider>
+            <ion-item-divider color="secondary">Description</ion-item-divider>
             <ion-item class="event-item-p">{{ event.description }}</ion-item>
         </ion-item-group>
     </div>
