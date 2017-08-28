@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import { NavController } from 'ionic-angular';
+import { Component, ViewChild } from '@angular/core';
+import { NavController, Content } from 'ionic-angular';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 import { MessageService } from '../../services/MessageService';
@@ -19,6 +19,8 @@ export class ChatPage {
     activeChannel: string = "general";
     canAdminChannel: boolean = false;
     authUserId: string;
+
+    @ViewChild(Content) content: Content;
 
     constructor(
         public navCtrl: NavController,
@@ -45,12 +47,18 @@ export class ChatPage {
 
     }
 
+    scrollToBottom() {
+        let dimensions = this.content.getContentDimensions();
+        this.content.scrollTo(0, dimensions.scrollHeight+100, 100);
+    }
+
     sendMessage(data) {
         this.messageService.post({text: data.message, channel: this.activeChannel})
             .subscribe(
                 data => {
                     this.messages.push(JSON.parse(data._body));
                     this.chatForm.reset();
+                    this.scrollToBottom();
                 },
                 err => console.log("err : ", err)
             );
@@ -64,6 +72,7 @@ export class ChatPage {
             .subscribe(
                 data => {
                     this.messages = JSON.parse(data._body);
+                    this.scrollToBottom();
                 },
                 err => console.log("err : ", err)
             )

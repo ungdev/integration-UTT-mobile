@@ -1,4 +1,4 @@
-<ion-content padding>
+<ion-content id="chat" padding>
     <ul class="messages-container">
         <li *ngFor="let message of messages" class="message-container" [ngClass]="{'user-message': message.student_id == authUserId}">
             <div class="message-header">
