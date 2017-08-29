@@ -84,12 +84,12 @@ export class MyApp {
      * @param View view: the view loaded
      */
     onViewChange(view) {
-        if (view.name == "HomePage") {
+        if (view.instance instanceof HomePage) {
             this.navbarTitle = "Intégration UTT";
             return;
         }
         for (let page of this.pages) {
-            if (page.component.name == view.name) {
+            if (view.instance instanceof page.component) {
                 this.navbarTitle = page.title;
                 return;
             }
