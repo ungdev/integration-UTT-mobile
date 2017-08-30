@@ -64,6 +64,7 @@ export class StudentsPage {
         }
 
         if (this.nameFilter && this.nameFilter.length > 2) {
+            this.nameFilter = this.nameFilter.toLowerCase();
             filtered = filtered.filter(student => (student.first_name + " " + student.last_name).toLowerCase().includes(this.nameFilter));
         }
 
