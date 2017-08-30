@@ -106,6 +106,7 @@ export class LoginPage {
                     this.registerToPushNotifications(parsedData.id);
 
                     // if the authenticated user has the role 'admin', track him
+                    /*
                     if (parsedData.admin > 0) {
                         let watch = this.geolocation.watchPosition();
                         watch.subscribe((data) => {
@@ -121,7 +122,7 @@ export class LoginPage {
                                     err => console.log("err : ", err)
                                 );
                         });
-                    }
+                    }*/
 
                 },
                 err => console.log("err : ", err)
