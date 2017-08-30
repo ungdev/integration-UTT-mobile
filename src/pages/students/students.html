@@ -28,10 +28,11 @@
     <div *ngIf="requestDone">
         <ion-list>
             <ion-list-header></ion-list-header>
-            <ion-item *ngFor="let student of filteredStudents()" (click)="viewUser(student.id)">
+            <ion-item  *ngFor="let student of filteredStudents()">
                 <h2>{{ student.first_name }} {{ student.last_name }}</h2>
-                <button ion-button clear item-end color="light">Voir</button>
+                <button (click)="viewUser(student.id)" ion-button clear item-end color="light">Voir</button>
             </ion-item>
         </ion-list>
+        <button ion-button outline (click)="loadMore()" color="light" full>Voir plus</button>
     </div>
 </ion-content>

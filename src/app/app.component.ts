@@ -52,7 +52,7 @@ export class MyApp {
             this.pages = [
                 { title: "Home", component: HomePage },
                 { title: "Calendrier", component: CalendarPage },
-                { title: "Mon profil", component: ProfilePage }
+                { title: "Profil", component: ProfilePage }
             ];
 
             if (roles['newcomer'] || roles['ce']) {

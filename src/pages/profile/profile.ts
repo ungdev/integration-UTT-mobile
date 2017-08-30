@@ -85,7 +85,7 @@ export class ProfilePage {
                     this.identity = [
                         {label: "Prénom - nom", value: `${user.first_name} ${user.last_name}`},
                         {label: "Date de naissance", value: user.birth },
-                        {label: "Sexe", value: user.sex },
+                        {label: "Sexe", value: user.sex == 1 ? "femme" : "homme" },
                         {label: "Team", value: user.team ? user.team.name : "aucune" },
                     ];
 

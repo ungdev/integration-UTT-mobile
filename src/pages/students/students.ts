@@ -15,6 +15,7 @@ export class StudentsPage {
     display: string;
     nameFilter: string;
     requestDone: boolean = false;
+    totalDisplayed: number = 50;
 
     constructor(
         public navCtrl: NavController,
@@ -30,6 +31,13 @@ export class StudentsPage {
                 },
                 err => console.log("err : ", err)
             );
+    }
+
+    /**
+     * Increase the number of students to display
+     */
+    loadMore() {
+        this.totalDisplayed += 100;
     }
 
     /**
@@ -59,7 +67,7 @@ export class StudentsPage {
             filtered = filtered.filter(student => (student.first_name + " " + student.last_name).toLowerCase().includes(this.nameFilter));
         }
 
-        return filtered;
+        return filtered.slice(0, this.totalDisplayed);
     }
 
 }
