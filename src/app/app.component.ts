@@ -52,19 +52,22 @@ export class MyApp {
             this.pages = [
                 { title: "Home", component: HomePage },
                 { title: "Calendrier", component: CalendarPage },
+                { title: "Mon profil", component: ProfilePage }
             ];
 
-            if (roles['newcomer']) {
-                this.pages.push({ title: "Mon profil", component: ProfilePage });
+            if (roles['newcomer'] || roles['ce']) {
                 this.pages.push({ title: "Mon équipe", component: TeamPage });
             }
 
-            if (roles['admin']) {
+            if (roles['admin'] || roles['ce'] || roles['orga'] || roles['secu']) {
+                this.pages.push({ title: "Checkins", component: CheckinsPage });
+                this.pages.push({ title: "Chat", component: ChatPage });
+            }
+
+            if (roles['admin'] || roles['secu']) {
                 this.pages.push({ title: "Etudiants", component: StudentsPage });
                 this.pages.push({ title: "Equipes", component: TeamsPage });
-                this.pages.push({ title: "Checkins", component: CheckinsPage });
                 this.pages.push({ title: "Notifications", component: PushMessagesPage });
-                this.pages.push({ title: "Chat", component: ChatPage });
                 //this.pages.push({ title: "Localisation", component: LocationPage });
             }
 

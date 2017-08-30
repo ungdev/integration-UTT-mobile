@@ -56,6 +56,7 @@ export class AuthStorageHelper {
            newcomer: user.is_newcomer !== 0,
            admin: user.admin !== 0,
            ce: user.ce !== 0,
+           secu: user.secu !== 0
        }));
        localStorage.setItem(USER_TEAM_ID_LOCALSTORAGE_NAME, user.team_id);
        localStorage.setItem(USER_ID_LOCALSTORAGE_NAME, user.id);
