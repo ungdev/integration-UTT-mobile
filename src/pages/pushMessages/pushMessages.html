@@ -1,0 +1,30 @@
+<ion-content padding>
+
+    <form (ngSubmit)="sendNotification(notificationForm.value)" [formGroup]="notificationForm" novalidate>
+
+        <ion-item>
+            <ion-label floating>Destinataires</ion-label>
+            <ion-select formControlName="targets" multiple>
+                <ion-option value=""></ion-option>
+                <ion-option value="all">Tous</ion-option>
+                <ion-option value="is_newcomer">Nouveaux</ion-option>
+                <ion-option value="admin">Coord</ion-option>
+                <ion-option value="orga">Orga</ion-option>
+                <ion-option value="ce">CE</ion-option>
+            </ion-select>
+        </ion-item>
+
+        <ion-item>
+            <ion-label floating>Titre</ion-label>
+            <ion-input type="text" formControlName="title" required></ion-input>
+        </ion-item>
+
+        <ion-item>
+            <ion-label floating>Contenu</ion-label>
+            <ion-textarea formControlName="message" required></ion-textarea>
+        </ion-item>
+
+        <button ion-button block large color="success" type="submit">Envoyer</button>
+    </form>
+
+</ion-content>

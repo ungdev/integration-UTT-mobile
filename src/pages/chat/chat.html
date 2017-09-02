@@ -1,0 +1,34 @@
+<ion-content id="chat" padding>
+    <ul class="messages-container">
+        <li *ngFor="let message of messages" class="message-container" [ngClass]="{'user-message': message.student_id == authUserId}">
+            <div class="message-header">
+                <span class="message-author">{{ message.student.first_name }} {{ message.student.last_name }}</span>
+                <span class="message-date">{{ message.created_at | date:'à HH:mm le dd/MM ' }}</span>
+            </div>
+            <div>
+                {{ message.text }}
+            </div>
+        </li>
+    </ul>
+    <div class="chat-form-container">
+        <form class="chat-form" (ngSubmit)="sendMessage(chatForm.value)" [formGroup]="chatForm" novalidate>
+            <ion-item>
+                <ion-textarea formControlName="message" placeholder="écrire à #{{ activeChannel }} ..." required></ion-textarea>
+                <button ion-button clear item-end type="submit">
+                    <ion-icon name="send"></ion-icon>
+                </button>
+            </ion-item>
+        </form>
+    </div>
+</ion-content>
+
+<ion-toolbar tabsPlacement="top">
+    <ion-segment [(ngModel)]="activeChannel" class="channel-selector" (ionChange)="channelChanged()">
+        <ion-segment-button value="general">
+            Général
+        </ion-segment-button>
+        <ion-segment-button value="admin">
+            Admin
+        </ion-segment-button>
+    </ion-segment>
+</ion-toolbar>

@@ -1,0 +1,38 @@
+<ion-content padding>
+    <ion-list radio-group [(ngModel)]="display">
+        <ion-list-header>
+            Filtres
+        </ion-list-header>
+        <ion-item>
+            <ion-label>Tous</ion-label>
+            <ion-radio checked="true" value=""></ion-radio>
+        </ion-item>
+        <ion-item>
+            <ion-label>Uniquement les nouveaux</ion-label>
+            <ion-radio value="newcomers"></ion-radio>
+        </ion-item>
+        <ion-item>
+            <ion-label>Pas les nouveaux</ion-label>
+            <ion-radio value="students"></ion-radio>
+        </ion-item>
+    </ion-list>
+
+    <ion-item>
+        <ion-label floating>Par nom</ion-label>
+        <ion-input type="text" [(ngModel)]="nameFilter" required></ion-input>
+    </ion-item>
+
+    <div *ngIf="!requestDone">
+        <ion-spinner></ion-spinner>
+    </div>
+    <div *ngIf="requestDone">
+        <ion-list>
+            <ion-list-header></ion-list-header>
+            <ion-item  *ngFor="let student of filteredStudents()">
+                <h2>{{ student.first_name }} {{ student.last_name }}</h2>
+                <button (click)="viewUser(student.id)" ion-button clear item-end color="light">Voir</button>
+            </ion-item>
+        </ion-list>
+        <button ion-button outline (click)="loadMore()" color="light" full>Voir plus</button>
+    </div>
+</ion-content>

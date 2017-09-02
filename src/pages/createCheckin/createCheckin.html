@@ -1,0 +1,21 @@
+<ion-header>
+    <ion-navbar color="primary">
+        <ion-buttons start>
+            <button ion-button (click)="dismiss()">retour</button>
+        </ion-buttons>
+        <ion-title>Création d'un checkin</ion-title>
+    </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+    <form (ngSubmit)="submitCheckinForm(checkinForm.value)" [formGroup]="checkinForm" novalidate>
+
+        <ion-item>
+            <ion-label floating>Nom de la liste</ion-label>
+            <ion-input type="text" formControlName="name" required></ion-input>
+        </ion-item>
+
+        <button ion-button block large type="submit" color="success">Créer</button>
+
+    </form>
+</ion-content>

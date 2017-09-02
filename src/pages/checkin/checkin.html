@@ -1,0 +1,18 @@
+<ion-content padding>
+    <div *ngIf="!requestDone">
+        <ion-spinner></ion-spinner>
+    </div>
+    <div *ngIf="requestDone">
+        <button ion-button large full type="button" color="secondary" (click)="startScanner()">Scanner</button>
+        <h1>{{ checkin.name }}</h1>
+        <ion-list *ngIf="checkin.students.length > 0">
+            <ion-item *ngFor="let student of checkin.students" (click)="viewStudent(student.id)">
+                <h2>{{ student.first_name }} {{ student.last_name }}</h2>
+                <button ion-button clear item-end color="light">Voir</button>
+            </ion-item>
+        </ion-list>
+        <ion-item *ngIf="checkin.students.length == 0" class="event-item-p">
+            Ce checkin est vide. Cliquez sur "scanner" pour enregistrer des personnes.
+        </ion-item>
+    </div>
+</ion-content>

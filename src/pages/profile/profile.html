@@ -1,0 +1,66 @@
+<ion-content padding>
+    <div *ngIf="!requestDone">
+        <ion-spinner></ion-spinner>
+    </div>
+    <div *ngIf="requestDone">
+        <button class="id_qrcode" ion-button large full type="button" color="light" (click)="showQRCode()">Code d'indentification</button>
+        <div>
+            <h2>Identité</h2>
+            <ion-list>
+                <ion-item *ngFor="let item of identity">
+                    <h2>{{ item.label }}</h2>
+                    <p>{{ item.value }}</p>
+                </ion-item>
+            </ion-list>
+        </div>
+        <div>
+            <h2>Coordonnées</h2>
+            <ion-list>
+                <ion-item *ngFor="let item of contact">
+                    <h2>{{ item.label }}</h2>
+                    <p>{{ item.value }}</p>
+                </ion-item>
+            </ion-list>
+        </div>
+        <div *ngIf="godfather.length > 0">
+            <h2>Parrain</h2>
+            <p *ngIf="godfather.length === 0">
+                Pas de parrain attribué
+            </p>
+            <ion-list *ngIf="godfather.length > 0">
+                <ion-item *ngFor="let item of godfather">
+                    <h2>{{ item.label }}</h2>
+                    <p>{{ item.value }}</p>
+                </ion-item>
+            </ion-list>
+        </div>
+        <div>
+            <h2>Etudes</h2>
+            <ion-list>
+                <ion-item *ngFor="let item of studies">
+                    <h2>{{ item.label }}</h2>
+                    <p>{{ item.value }}</p>
+                </ion-item>
+            </ion-list>
+        </div>
+        <div *ngIf="wei.length > 0">
+            <h2>WEI</h2>
+            <ion-list>
+                <ion-item *ngFor="let item of wei">
+                    {{ item.label }}
+                    <ion-icon *ngIf="item.value === true" name="checkmark" color="success" item-end></ion-icon>
+                    <ion-icon *ngIf="item.value === false" name="close" color="danger" item-end></ion-icon>
+                </ion-item>
+            </ion-list>
+        </div>
+        <div *ngIf="medical.length > 0">
+            <h2>Fiche médicale</h2>
+            <ion-list>
+                <ion-item *ngFor="let item of medical">
+                    <h2>{{ item.label }}</h2>
+                    <p>{{ item.value }}</p>
+                </ion-item>
+            </ion-list>
+        </div>
+    </div>
+</ion-content>

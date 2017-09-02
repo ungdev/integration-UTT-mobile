@@ -1,0 +1,13 @@
+<ion-content padding>
+    <div *ngIf="!requestDone">
+        <ion-spinner></ion-spinner>
+    </div>
+    <div *ngIf="requestDone">
+        <ion-list>
+            <ion-item *ngFor="let team of teams" (click)="viewTeam(team.id)">
+                <h2>{{ team.name }}</h2>
+                <button ion-button clear item-end color="light">Voir</button>
+            </ion-item>
+        </ion-list>
+    </div>
+</ion-content>

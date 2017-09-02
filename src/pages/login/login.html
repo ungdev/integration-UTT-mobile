@@ -1,0 +1,30 @@
+<ion-content padding>
+    <form (ngSubmit)="submitLoginForm(loginForm.value)" [formGroup]="loginForm" novalidate>
+
+        <ion-list>
+
+            <ion-item>
+                <ion-label floating>Login</ion-label>
+                <ion-input type="text" formControlName="login" required></ion-input>
+            </ion-item>
+
+            <ion-item>
+                <ion-label floating>Mot de passe</ion-label>
+                <ion-input type="password" formControlName="password" required></ion-input>
+            </ion-item>
+
+        </ion-list>
+
+        <ion-grid>
+            <ion-row>
+                <ion-col col-12 col-sm-12 col-md-6>
+                    <button ion-button block large type="submit" color="success">Valider</button>
+                </ion-col>
+                <ion-col col-12 col-sm-12 col-md-6>
+                    <button ion-button block large type="button" color="light" (click)="loginWithEtuUTT()">Avec le site étu</button>
+                </ion-col>
+            </ion-row>
+        </ion-grid>
+
+    </form>
+</ion-content>
