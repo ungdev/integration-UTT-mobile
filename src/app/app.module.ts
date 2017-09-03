@@ -35,14 +35,16 @@ const cloudSettings: CloudSettings = {
         'app_id': 'd0bc3cc8'
     },
     'push': {
-        'sender_id': '403744287486',
+        'sender_id': '935939627079',
         'pluginConfig': {
             'ios': {
-            'badge': true,
-            'sound': true
-        },
+                'badge': true,
+                'sound': true
+            },
             'android': {
-                'iconColor': '#343434'
+                'iconColor': '#343434',
+                'vibrate': true,
+                'forceShow': true
             }
         }
     }

@@ -142,7 +142,19 @@ export class LoginPage {
                 // check if the access token is valid
                 this.studentService.put({id, device_token: device_token.token})
                     .subscribe(
-                        data => console.log("token saved", data),
+                        data => {
+                            console.log("token saved", data);
+                            // subscribe for notifications.
+                            this.push.rx.notification()
+                            .subscribe((msg) => {
+                                console.log("cliquée", msg);
+                                if (msg.raw.additionalData.foreground) {
+                                    // user is using the app
+                                } else {
+                                    // app closed
+                                }
+                            });
+                        },
                         err => console.log("err : ", err)
                     );
                 return this.push.saveToken(device_token);
