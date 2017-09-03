@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { MenuController, NavController, Events, Platform, LoadingController } from 'ionic-angular';
+import { MenuController, NavController, AlertController, Events, Platform, LoadingController } from 'ionic-angular';
 import { Push, PushToken } from '@ionic/cloud-angular';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
@@ -24,6 +24,7 @@ export class LoginPage {
         public navCtrl: NavController,
         public menu: MenuController,
         public loadingCtrl: LoadingController,
+        public alertCtrl: AlertController,
         public events: Events,
         public push: Push,
         public platform: Platform,
@@ -144,15 +145,17 @@ export class LoginPage {
                     .subscribe(
                         data => {
                             console.log("token saved", data);
-                            // subscribe for notifications.
+                            // handle click on notification on notification bar
                             this.push.rx.notification()
                             .subscribe((msg) => {
-                                console.log("cliquée", msg);
-                                if (msg.raw.additionalData.foreground) {
-                                    // user is using the app
-                                } else {
-                                    // app closed
-                                }
+                                console.log(msg);
+                                // display the full notification
+                                let alert = this.alertCtrl.create({
+                                    title: msg.title,
+                                    subTitle: msg.text,
+                                    buttons: ['Dismiss']
+                                });
+                                alert.present();
                             });
                         },
                         err => console.log("err : ", err)
