@@ -7,6 +7,13 @@
         <h1>{{ checkin.name }}</h1>
         <ion-list *ngIf="checkin.students.length > 0">
             <ion-item *ngFor="let student of checkin.students" (click)="viewStudent(student.id)">
+                <ion-icon
+                    *ngIf="checkin.prefilled"
+                    [name]="student.pivot.checked ? 'checkmark' : 'close'"
+                    [color]="student.pivot.checked ? 'success' : 'danger'" 
+                    item-start
+                    >
+                </ion-icon>
                 <h2>{{ student.first_name }} {{ student.last_name }}</h2>
                 <button ion-button clear item-end color="light">Voir</button>
             </ion-item>

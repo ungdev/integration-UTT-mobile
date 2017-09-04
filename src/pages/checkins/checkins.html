@@ -6,7 +6,8 @@
     <div *ngIf="requestDone">
         <ion-list>
             <ion-item *ngFor="let checkin of checkins" [ngClass]="{'selected': selectedCheckins.includes(checkin.id)}" (click)="selectCheckin(checkin.id)">
-                <h2>{{ checkin.name }}</h2>
+
+                <h2><ion-icon *ngIf="checkin.prefilled" name="list-box"></ion-icon>  {{ checkin.name }}</h2>
                 <button ion-button clear item-end color="light" (click)="viewCheckin(checkin.id)">Voir</button>
             </ion-item>
         </ion-list>
