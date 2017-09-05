@@ -20,7 +20,11 @@ export class CheckinService extends BaseService {
 
     putStudent(data: any) {
         const endpoint = `${this.endpoint}/${data.id}/student`;
-        return this._put(endpoint, {email: data.email});
+        let payload = {email: data.email};
+        if (data.force) {
+            payload['force'] = true;
+        }
+        return this._put(endpoint, payload);
     }
 
 }

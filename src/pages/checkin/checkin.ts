@@ -1,15 +1,16 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams, Platform } from 'ionic-angular';
+import { NavController, NavParams, Platform, AlertController } from 'ionic-angular';
 import { BarcodeScanner } from '@ionic-native/barcode-scanner';
 
 import { CheckinService } from '../../services/CheckinService';
 import { PlatformHelper } from '../../helpers/PlatformHelper';
+import { AuthStorageHelper } from '../../helpers/AuthStorageHelper';
 
 import { ProfilePage } from '../profile/profile';
 
 @Component({
     templateUrl: 'checkin.html',
-    providers: [CheckinService, PlatformHelper]
+    providers: [CheckinService, PlatformHelper, AuthStorageHelper]
 })
 export class CheckinPage {
 
@@ -18,11 +19,13 @@ export class CheckinPage {
 
     constructor(
         public navCtrl: NavController,
+        public alertCtrl: AlertController,
         public navParams: NavParams,
         public platform: Platform,
         private checkinService: CheckinService,
         private barcodeScanner: BarcodeScanner,
-        private platformHelper:PlatformHelper,
+        private platformHelper: PlatformHelper,
+        private authStorageHelper: AuthStorageHelper,
     ) {
         let id = this.navParams.get('id');
 
@@ -59,7 +62,39 @@ export class CheckinPage {
                              this.checkin = JSON.parse(data._body);
                              console.log("STUDENT ADDED",this.checkin);
                          },
-                         err => console.log("ADD err : ", err)
+                         err => {
+                             console.log("ADD err : ", err);
+                             // if admin, ask if he want to force the add
+                             if (this.authStorageHelper.getUserRoles()['admin']) {
+                                 let alert = this.alertCtrl.create({
+                                     title: "Pas dans la liste",
+                                     message: "Ajouter cet étudiant ?",
+                                     buttons: [
+                                         {
+                                             text: "Non",
+                                             role: "cancel",
+                                             handler: () => {
+                                                 console.log("Cancel clicked");
+                                             }
+                                         },
+                                         {
+                                             text: "Ajouter",
+                                             handler: () => {
+                                                 this.checkinService.putStudent({id: this.checkin.id, email: barcodeData.text, force: true})
+                                                     .subscribe(
+                                                          data => {
+                                                              this.checkin = JSON.parse(data._body);
+                                                              console.log("STUDENT ADDED",this.checkin);
+                                                          },
+                                                          err => console.log("Failed to force add")
+                                                      );
+                                             }
+                                         }
+                                     ]
+                                 });
+                                 alert.present();
+                             }
+                         }
                     );
             }, (err) => {
                 console.log('scan err', err);
