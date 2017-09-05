@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams, Platform, AlertController, ToastController } from 'ionic-angular';
+import { NavController, NavParams, Platform, AlertController, ToastController, ModalController } from 'ionic-angular';
 import { BarcodeScanner } from '@ionic-native/barcode-scanner';
 
 import { CheckinService } from '../../services/CheckinService';
@@ -7,6 +7,7 @@ import { PlatformHelper } from '../../helpers/PlatformHelper';
 import { AuthStorageHelper } from '../../helpers/AuthStorageHelper';
 
 import { ProfilePage } from '../profile/profile';
+import { SearchStudentPage } from '../searchStudent/searchStudent';
 
 @Component({
     templateUrl: 'checkin.html',
@@ -21,6 +22,7 @@ export class CheckinPage {
         public navCtrl: NavController,
         public alertCtrl: AlertController,
         public toastCtrl: ToastController,
+        public modalCtrl: ModalController,
         public navParams: NavParams,
         public platform: Platform,
         private checkinService: CheckinService,
@@ -81,63 +83,88 @@ export class CheckinPage {
     }
 
     /**
+     * Open the modal to search a student by his name
+     * If a Student has been chosen, call this.checkStudent with his email 
+     */
+    searchStudent() {
+        let modal = this.modalCtrl.create(SearchStudentPage);
+
+        modal.onDidDismiss(student => {
+            // if a student has been selected
+            if (student.email) {
+                this.checkStudent(student.email);
+            }
+        });
+        modal.present();
+    }
+
+    /**
+     * If the student is not already checked, send a request to check him
+     *
+     * @param string email
+     */
+    checkStudent(email) {
+        // if student already checked, display message
+        if (this.alreadyChecked(email)) {
+            let toast = this.toastCtrl.create({
+                message: "Déjà validé !",
+                duration: 3000,
+                position: 'bottom'
+            });
+
+            toast.present();
+        } else {
+            // add the scanned user to this checkin and update this checkin
+            this.checkinService.putStudent({id: this.checkin.id, email})
+                .subscribe(
+                     data => {
+                         this.checkin = this.sortStudents(JSON.parse(data._body));
+                         console.log("STUDENT ADDED",this.checkin);
+                     },
+                     err => {
+                         console.log("ADD err : ", err);
+                         // if admin, ask if he want to force the add
+                         if (err.status === 403 && this.authStorageHelper.getUserRoles()['admin']) {
+                             let alert = this.alertCtrl.create({
+                                 title: "Pas dans la liste",
+                                 message: "Ajouter cet étudiant ?",
+                                 buttons: [
+                                     {
+                                         text: "Non",
+                                         role: "cancel",
+                                         handler: () => {
+                                             console.log("Cancel clicked");
+                                         }
+                                     },
+                                     {
+                                         text: "Ajouter",
+                                         handler: () => {
+                                             this.checkinService.putStudent({id: this.checkin.id, email, force: true})
+                                                 .subscribe(
+                                                      data => {
+                                                          this.checkin = this.sortStudents(JSON.parse(data._body));
+                                                          console.log("STUDENT ADDED",this.checkin);
+                                                      },
+                                                      err => console.log("Failed to force add")
+                                                  );
+                                         }
+                                     }
+                                 ]
+                             });
+                             alert.present();
+                         }
+                     }
+                );
+        }
+    }
+
+    /**
      * Run the barcode plugin
      */
     startScanner() {
         if (this.platformHelper.isMobile(this.platform)) {
             this.barcodeScanner.scan().then((barcodeData) => {
-                // if student already checked, display message
-                if (this.alreadyChecked(barcodeData.text)) {
-                    let toast = this.toastCtrl.create({
-                        message: "Déjà validé !",
-                        duration: 3000,
-                        position: 'bottom'
-                    });
-
-                    toast.present();
-                } else {
-                    // add the scanned user to this checkin and update this checkin
-                    this.checkinService.putStudent({id: this.checkin.id, email: barcodeData.text})
-                        .subscribe(
-                             data => {
-                                 this.checkin = this.sortStudents(JSON.parse(data._body));
-                                 console.log("STUDENT ADDED",this.checkin);
-                             },
-                             err => {
-                                 console.log("ADD err : ", err);
-                                 // if admin, ask if he want to force the add
-                                 if (err.status === 403 && this.authStorageHelper.getUserRoles()['admin']) {
-                                     let alert = this.alertCtrl.create({
-                                         title: "Pas dans la liste",
-                                         message: "Ajouter cet étudiant ?",
-                                         buttons: [
-                                             {
-                                                 text: "Non",
-                                                 role: "cancel",
-                                                 handler: () => {
-                                                     console.log("Cancel clicked");
-                                                 }
-                                             },
-                                             {
-                                                 text: "Ajouter",
-                                                 handler: () => {
-                                                     this.checkinService.putStudent({id: this.checkin.id, email: barcodeData.text, force: true})
-                                                         .subscribe(
-                                                              data => {
-                                                                  this.checkin = this.sortStudents(JSON.parse(data._body));
-                                                                  console.log("STUDENT ADDED",this.checkin);
-                                                              },
-                                                              err => console.log("Failed to force add")
-                                                          );
-                                                 }
-                                             }
-                                         ]
-                                     });
-                                     alert.present();
-                                 }
-                             }
-                        );
-                }
+                this.checkStudent(barcodeData.text);
             }, (err) => {
                 console.log('scan err', err);
             });

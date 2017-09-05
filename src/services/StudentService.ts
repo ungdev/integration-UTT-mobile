@@ -18,4 +18,9 @@ export class StudentService extends BaseService {
 
     put(data: object) { return this._put(this.endpoint, data) }
 
+    autocomplete(name: string) {
+        const endpoint = `${this.endpoint}/autocomplete?name=${name}`;
+        return this._get(endpoint, {});
+    }
+
 }

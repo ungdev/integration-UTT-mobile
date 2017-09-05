@@ -21,6 +21,7 @@ import { ChatPage } from '../pages/chat/chat';
 import { LocationPage } from '../pages/location/location';
 import { CalendarPage } from '../pages/calendar/calendar';
 import { EventPage } from '../pages/event/event';
+import { SearchStudentPage } from '../pages/searchStudent/searchStudent';
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
@@ -69,6 +70,7 @@ const cloudSettings: CloudSettings = {
     LocationPage,
     CalendarPage,
     EventPage,
+    SearchStudentPage,
   ],
   imports: [
       BrowserModule,
@@ -95,6 +97,7 @@ const cloudSettings: CloudSettings = {
     LocationPage,
     CalendarPage,
     EventPage,
+    SearchStudentPage,
   ],
   providers: [
     StatusBar,

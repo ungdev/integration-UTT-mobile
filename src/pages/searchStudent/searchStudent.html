@@ -1,0 +1,17 @@
+<ion-header>
+    <ion-navbar color="primary">
+        <ion-buttons start>
+            <button ion-button (click)="dismiss()">retour</button>
+        </ion-buttons>
+        <ion-title>Recherche étudiant</ion-title>
+    </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+    <ion-searchbar (ionInput)="search($event)"></ion-searchbar>
+    <ion-list>
+        <button ion-item *ngFor="let student of students" (click)="dismiss(student)">
+            {{ student.first_name }} {{ student.last_name }}
+        </button>
+    </ion-list>
+</ion-content>
