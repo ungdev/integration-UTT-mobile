@@ -33,11 +33,25 @@ export class CheckinPage {
         this.checkinService.get({id})
             .subscribe(
                 data => {
-                    this.checkin = JSON.parse(data._body);
+                    this.checkin = this.sortStudents(JSON.parse(data._body));
                     this.requestDone = true;
                 },
                 err => console.log("err : ", err)
             );
+    }
+
+    /**
+     * Sort the students of the given checkin (not checked ones first)
+     *
+     * @param Checkin checkin
+     * @param Checkin
+     */
+    private sortStudents(checkin) {
+        let checked = [];
+        let notChecked = [];
+        checkin.students.map(student => student.pivot.checked ? checked.push(student) : notChecked.push(student));
+        checkin.students = notChecked.concat(checked);
+        return checkin;
     }
 
     /**
@@ -59,7 +73,7 @@ export class CheckinPage {
                 this.checkinService.putStudent({id: this.checkin.id, email: barcodeData.text})
                     .subscribe(
                          data => {
-                             this.checkin = JSON.parse(data._body);
+                             this.checkin = this.sortStudents(JSON.parse(data._body));
                              console.log("STUDENT ADDED",this.checkin);
                          },
                          err => {
@@ -83,7 +97,7 @@ export class CheckinPage {
                                                  this.checkinService.putStudent({id: this.checkin.id, email: barcodeData.text, force: true})
                                                      .subscribe(
                                                           data => {
-                                                              this.checkin = JSON.parse(data._body);
+                                                              this.checkin = this.sortStudents(JSON.parse(data._body));
                                                               console.log("STUDENT ADDED",this.checkin);
                                                           },
                                                           err => console.log("Failed to force add")
