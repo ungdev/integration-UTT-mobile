@@ -13,7 +13,7 @@ export class AuthQRCodePage {
         public viewCtrl: ViewController,
         params: NavParams
     ) {
-        this.uri = "https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=" + params.get('email');
+        this.uri = "https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=" + params.get('userId');
     }
 
     dismiss() {

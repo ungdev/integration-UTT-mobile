@@ -20,7 +20,7 @@ export class CheckinService extends BaseService {
 
     putStudent(data: any) {
         const endpoint = `${this.endpoint}/${data.id}/student`;
-        let payload = {email: data.email};
+        let payload = {uid: data.uid};
         if (data.force) {
             payload['force'] = true;
         }

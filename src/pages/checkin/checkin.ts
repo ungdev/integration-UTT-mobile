@@ -70,12 +70,12 @@ export class CheckinPage {
      * Go through the students of this checkin
      * Check if the studen with the given id is checked
      *
-     * @param string email
+     * @param integer id
      * @return boolean
      */
-    alreadyChecked(email) {
+    alreadyChecked(id) {
         for (let student of this.checkin.students) {
-            if (student.email == email && student.pivot.checked) {
+            if (student.id == id && student.pivot.checked) {
                 return true;
             }
         }
@@ -84,15 +84,15 @@ export class CheckinPage {
 
     /**
      * Open the modal to search a student by his name
-     * If a Student has been chosen, call this.checkStudent with his email 
+     * If a Student has been chosen, call this.checkStudent with his id
      */
     searchStudent() {
         let modal = this.modalCtrl.create(SearchStudentPage);
 
         modal.onDidDismiss(student => {
             // if a student has been selected
-            if (student.email) {
-                this.checkStudent(student.email);
+            if (student.id) {
+                this.checkStudent(student.id);
             }
         });
         modal.present();
@@ -101,11 +101,11 @@ export class CheckinPage {
     /**
      * If the student is not already checked, send a request to check him
      *
-     * @param string email
+     * @param integer id
      */
-    checkStudent(email) {
+    checkStudent(uid) {
         // if student already checked, display message
-        if (this.alreadyChecked(email)) {
+        if (this.alreadyChecked(uid)) {
             let toast = this.toastCtrl.create({
                 message: "Déjà validé !",
                 duration: 3000,
@@ -115,7 +115,7 @@ export class CheckinPage {
             toast.present();
         } else {
             // add the scanned user to this checkin and update this checkin
-            this.checkinService.putStudent({id: this.checkin.id, email})
+            this.checkinService.putStudent({id: this.checkin.id, uid})
                 .subscribe(
                      data => {
                          this.checkin = this.sortStudents(JSON.parse(data._body));
@@ -139,7 +139,7 @@ export class CheckinPage {
                                      {
                                          text: "Ajouter",
                                          handler: () => {
-                                             this.checkinService.putStudent({id: this.checkin.id, email, force: true})
+                                             this.checkinService.putStudent({id: this.checkin.id, uid, force: true})
                                                  .subscribe(
                                                       data => {
                                                           this.checkin = this.sortStudents(JSON.parse(data._body));

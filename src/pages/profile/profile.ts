@@ -106,7 +106,7 @@ export class ProfilePage {
     }
 
     showQRCode() {
-        let modal = this.modalCtrl.create(AuthQRCodePage, {email: this.user.email});
+        let modal = this.modalCtrl.create(AuthQRCodePage, {userId: this.user.id});
         modal.present();
     }
 
