@@ -78,7 +78,6 @@ export class MyApp {
 
         // listen view changes
         app.viewWillEnter.subscribe(view => this.onViewChange(view));
-
     }
 
     /**
@@ -105,6 +104,15 @@ export class MyApp {
             // Here you can do any higher level native things you might need.
             this.statusBar.styleDefault();
             this.splashScreen.hide();
+
+            // override device back button behavior
+            this.platform.registerBackButtonAction(_ => {
+                if (this.nav.canGoBack()){
+                    this.nav.pop();
+                } else {
+                    //don't do anything
+                }
+            }, 100);
         });
     }
 
