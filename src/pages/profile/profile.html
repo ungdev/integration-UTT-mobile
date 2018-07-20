@@ -3,7 +3,7 @@
         <ion-spinner></ion-spinner>
     </div>
     <div *ngIf="requestDone">
-        <button class="id_qrcode" ion-button large full type="button" color="light" (click)="showQRCode()">Code d'indentification</button>
+        <button *ngIf="hasPermission()" class="id_qrcode" ion-button large full type="button" color="light" (click)="showQRCode()">QR Code d'indentification</button>
         <div>
             <h2>Identité</h2>
             <ion-list>
@@ -13,7 +13,7 @@
                 </ion-item>
             </ion-list>
         </div>
-        <div>
+        <div *ngIf="hasPermission()">
             <h2>Coordonnées</h2>
             <ion-list>
                 <ion-item *ngFor="let item of contact">
@@ -22,7 +22,7 @@
                 </ion-item>
             </ion-list>
         </div>
-        <div *ngIf="godfather.length > 0">
+        <div *ngIf="godfather.length > 0 && hasPermission()">
             <h2>Parrain</h2>
             <p *ngIf="godfather.length === 0">
                 Pas de parrain attribué
@@ -43,7 +43,7 @@
                 </ion-item>
             </ion-list>
         </div>
-        <div *ngIf="wei.length > 0">
+        <div *ngIf="wei.length > 0 && hasPermission()">
             <h2>WEI</h2>
             <ion-list>
                 <ion-item *ngFor="let item of wei">
@@ -53,7 +53,7 @@
                 </ion-item>
             </ion-list>
         </div>
-        <div *ngIf="medical.length > 0">
+        <div *ngIf="medical.length > 0 && hasPermission()">
             <h2>Fiche médicale</h2>
             <ion-list>
                 <ion-item *ngFor="let item of medical">

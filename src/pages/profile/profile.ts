@@ -75,19 +75,33 @@ export class ProfilePage {
                         {label: "Téléphone", value: user.phone},
                         {label: "Email", value: user.email},
                     ];
+                    if(this.hasPermission()){
+                        this.studies = [
+                            {label: "Numéro étudiant", value: user.student_id ? user.student_id : "nouveau" },
+                            {label: "Branche", value: user.branch },
+                            {label: "Semestre", value: user.level },
+                        ];
+                    } else {
+                        this.studies = [
+                            {label: "Branche", value: user.branch },
+                            {label: "Semestre", value: user.level },
+                        ];
+                    }
+                    
 
-                    this.studies = [
-                        {label: "Numéro étudiant", value: user.student_id ? user.student_id : "nouveau" },
-                        {label: "Branche", value: user.branch },
-                        {label: "Semestre", value: user.level },
-                    ];
-
-                    this.identity = [
-                        {label: "Prénom - nom", value: `${user.first_name} ${user.last_name}`},
-                        {label: "Date de naissance", value: user.birth },
-                        {label: "Sexe", value: user.sex == 1 ? "femme" : "homme" },
-                        {label: "Team", value: user.team ? user.team.name : "aucune" },
-                    ];
+                    if(this.hasPermission()){
+                        this.identity = [
+                            {label: "Prénom - nom", value: `${user.first_name} ${user.last_name}`},
+                            {label: "Date de naissance", value: user.birth },
+                            {label: "Sexe", value: user.sex == 1 ? "femme" : "homme" },
+                            {label: "Team", value: user.team ? user.team.name : "aucune" },
+                        ];
+                    } else {
+                        this.identity = [
+                            {label: "Prénom - nom", value: `${user.first_name} ${user.last_name}`},
+                            {label: "Team", value: user.team ? user.team.name : "aucune" },
+                        ];
+                    }
 
                     if (user.god_father) {
                         this.godfather = [
@@ -106,8 +120,19 @@ export class ProfilePage {
     }
 
     showQRCode() {
-        let modal = this.modalCtrl.create(AuthQRCodePage, {userId: this.user.id});
+        let modal = this.modalCtrl.create(AuthQRCodePage, {userId: this.user.qrcode});
         modal.present();
+    }
+
+    hasPermission(){
+        const roles = this.authStorageHelper.getUserRoles();
+        if(this.authStorageHelper.getUserId() == this.user.id){
+            return true
+        }
+        if(roles['admin']){
+            return true
+        }
+        return false
     }
 
 }

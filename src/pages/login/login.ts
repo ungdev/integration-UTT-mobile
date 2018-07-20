@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
 import { MenuController, NavController, AlertController, Events, Platform, LoadingController } from 'ionic-angular';
-import { Push, PushToken } from '@ionic/cloud-angular';
+//import { Push, PushToken } from '@ionic/cloud-angular';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 import { InAppBrowser } from '@ionic-native/in-app-browser';
-import { Geolocation } from '@ionic-native/geolocation';
+//import { Geolocation } from '@ionic-native/geolocation';
 
 import { AuthService } from '../../services/AuthService';
 import { StudentService } from '../../services/StudentService';
@@ -19,6 +19,7 @@ export class LoginPage {
 
     loginForm: FormGroup;
     loader: any;
+    public debug: any;
 
     constructor (
         public navCtrl: NavController,
@@ -26,7 +27,7 @@ export class LoginPage {
         public loadingCtrl: LoadingController,
         public alertCtrl: AlertController,
         public events: Events,
-        public push: Push,
+     //   public push: Push,
         public platform: Platform,
         private fb: FormBuilder,
         private authService: AuthService,
@@ -34,7 +35,7 @@ export class LoginPage {
         private authStorageHelper: AuthStorageHelper,
         private platformHelper: PlatformHelper,
         private iab: InAppBrowser,
-        private geolocation: Geolocation
+ //       private geolocation: Geolocation
     ) {
         this.loginForm = this.fb.group({
             'login': [
@@ -59,9 +60,11 @@ export class LoginPage {
     ngOnInit() {
         // start by checking if there is an authorization_code in the url (auth on browser)
         const fullUrl = window.location.href;
-        const searchPart = fullUrl.split('?')[1];
-
-        if (searchPart) {
+        let searchPart = fullUrl.split('?')[1];
+        console.log('debug1234')
+        // searchPart = 'authorization_code=a4dce0ed6e9b57a584d39fa06931d04b&code=a4dce0ed6e9b57a584d39fa06931d04b&state=xyz'
+        if (searchPart && searchPart !== 'devapp=true') {
+            this.debug = searchPart
             const parameters = searchPart.split('&');
 
             const authorization_code = parameters
@@ -84,7 +87,10 @@ export class LoginPage {
                             this.checkAccessToken();
                         }
                     );
+            } else {
+                this.checkAccessToken();
             }
+            
         } else {
             // if no parameters in the url, then check if there is
             // a valid access token in the localStorage
@@ -101,6 +107,7 @@ export class LoginPage {
             .subscribe(
                 data => {
                     const parsedData = JSON.parse(data._body);
+                    console.log('data.body', data._body)
                     this.authStorageHelper.setUserInfo(parsedData);
                     this.events.publish('user:logged');
                     this.loader.dismiss();
@@ -126,7 +133,10 @@ export class LoginPage {
                     }*/
 
                 },
-                err => console.log("err : ", err)
+                err => {
+                    console.log("err : ", err)
+                    this.loader.dismiss()
+                }
             );
     }
 
@@ -139,7 +149,7 @@ export class LoginPage {
     private registerToPushNotifications(id) {
         if (this.platformHelper.isMobile(this.platform)) {
             console.log("app running on device");
-            this.push.register().then((device_token: PushToken) => {
+            /*this.push.register().then((device_token: PushToken) => {
                 // check if the access token is valid
                 this.studentService.put({id, device_token: device_token.token})
                     .subscribe(
@@ -163,7 +173,7 @@ export class LoginPage {
                 return this.push.saveToken(device_token);
             }).then((t: PushToken) => {
                 console.log('Token saved:', t.token);
-            });
+            }); */
         }
     }
 
@@ -201,9 +211,11 @@ export class LoginPage {
             .subscribe(
                 data => {
                     const parsedData = JSON.parse(data._body);
+                    console.log(data._body)
+                    console.log(parsedData)
                     this.authStorageHelper.setAccessToken(parsedData.access_token);
                     this.authStorageHelper.setRefreshToken(parsedData.refresh_token);
-                    this.events.publish('user:logged');
+                    this.loadUserInfo()
                 },
                 err => console.log("err : ", err)
             )
@@ -218,32 +230,44 @@ export class LoginPage {
                     if (!this.platformHelper.isMobile(this.platform)) {
                         window.location.href = parsedData.redirectUri;
                     } else {
-                        // create a new InAppBrowser
-                        const ref = this.iab.create(parsedData.redirectUri);
+                        // create a new InAppBrowser-
+                        const ref = this.iab.create(
+                            parsedData.redirectUri,
+                            '_blank',
+                            {
+                                location:'no',
+                                hardwareback: 'no',
+                                footer:'no',
+                                toolbar: 'no',
+
+                            });
                         ref.on("loadstart")
                             .subscribe(data => {
                                 // check if data.url contains authorization_code
-                                const searchPart = data.url.split('?')[1];
-                                searchPart.split('&').map(param => {
-                                    let parts = param.split('=');
-                                    // if there is an authorization_code, send it to the server
-                                    if (parts[0] == 'authorization_code') {
-                                        this.authService.sendAuthorizationCode(parts[1])
-                                            .subscribe(
-                                                data => {
-                                                    // store the token and load user's info
-                                                    const parsedData = JSON.parse(data._body);
-                                                    this.authStorageHelper.setAccessToken(parsedData.access_token);
-                                                    this.loadUserInfo();
-                                                    // close the InAppBrowser after login
-                                                    ref.close();
-                                                },
-                                                err => {
-                                                    console.log("err : ", err);
-                                                }
-                                            );
-                                    }
-                                })
+                                const searchPart = data.url.split('?')[1]
+                                if(searchPart) {
+                                    searchPart.split('&').map(param => {
+                                        let parts = param.split('=');
+                                        // if there is an authorization_code, send it to the server
+                                        if (parts[0] == 'authorization_code') {
+                                            this.authService.sendAuthorizationCode(parts[1])
+                                                .subscribe(
+                                                    data => {
+                                                        // store the token and load user's info
+                                                        const parsedData = JSON.parse(data._body);
+                                                        this.authStorageHelper.setAccessToken(parsedData.access_token);
+                                                        this.loadUserInfo();
+                                                        // close the InAppBrowser after login
+                                                        ref.close();
+                                                    },
+                                                    err => {
+                                                        console.log("err : ", err);
+                                                    }
+                                                );
+                                        }
+                                    })
+
+                                }
                             });
                     }
                 },

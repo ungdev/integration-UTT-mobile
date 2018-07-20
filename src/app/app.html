@@ -3,7 +3,7 @@
         <button ion-button menuToggle>
             <ion-icon name="menu"></ion-icon>
         </button>
-        <ion-title>{{ navbarTitle }}</ion-title>
+        <ion-title>{{ navbarTitle }} {{ debug }}</ion-title>
         <ion-buttons end>
             <button ion-button icon-only color="royal" (click)="startLogout()">
                 <ion-icon name="md-log-out"></ion-icon>
@@ -12,7 +12,7 @@
     </ion-navbar>
 </ion-header>
 
-<ion-menu [content]="content" persistent>
+<ion-menu [content]="content" type="overlay" persistent>
     <ion-header>
         <ion-toolbar>
             <ion-title>Menu</ion-title>

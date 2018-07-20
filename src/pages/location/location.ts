@@ -5,7 +5,7 @@ import { StudentService } from '../../services/StudentService';
 import { AuthStorageHelper } from '../../helpers/AuthStorageHelper';
 import { PlatformHelper } from '../../helpers/PlatformHelper';
 
-import {
+/*import {
  GoogleMaps,
  GoogleMap,
  GoogleMapsEvent,
@@ -13,7 +13,7 @@ import {
  CameraPosition,
  MarkerOptions,
  Marker
-} from '@ionic-native/google-maps';
+} from '@ionic-native/google-maps';*/
 
 @Component({
     selector: 'page-location',
@@ -33,7 +33,7 @@ export class LocationPage {
         public authStorageHelper: AuthStorageHelper,
         public platformHelper: PlatformHelper,
         public platform: Platform,
-        private googleMaps: GoogleMaps
+        //private googleMaps: GoogleMaps
     ) {
         this.authId = this.authStorageHelper.getUserId();
 
@@ -57,11 +57,11 @@ export class LocationPage {
     }
 
     loadMap() {
-        this.map = new GoogleMap('map');
+        //this.map = new GoogleMap('map');
 
-        this.map.on(GoogleMapsEvent.MAP_READY).subscribe(() => {
+       /* this.map.on(GoogleMapsEvent.MAP_READY).subscribe(() => {
             console.log('Map is ready!');
-        });
+        });*/
     }
 
 }

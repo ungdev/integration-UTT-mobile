@@ -37,7 +37,7 @@ export class TeamPage {
                     this.requestDone = true;
                 },
                 err => console.log("err : ", err)
-            );
+            )
     }
 
     /**
@@ -47,6 +47,11 @@ export class TeamPage {
      */
     viewUser(id) {
         this.navCtrl.push(ProfilePage, {id});
+    }
+
+    isAdmin() {
+        const roles = this.authStorageHelper.getUserRoles()
+        return roles['admin']
     }
 
 }

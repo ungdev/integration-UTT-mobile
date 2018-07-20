@@ -30,7 +30,7 @@ export class AuthService extends BaseService {
             password,
             scope: ''
         }
-
+        console.log('data', data)
         return this._post(this.endpoint + "oauth/token", data, false);
     }
 

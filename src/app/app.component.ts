@@ -2,7 +2,7 @@ import { Component, ViewChild } from '@angular/core';
 import { Nav, Platform, Events, App } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
-import { Push } from '@ionic/cloud-angular';
+//import { Push } from '@ionic/cloud-angular';
 
 import { LoginPage } from '../pages/login/login';
 import { HomePage } from '../pages/home/home';
@@ -12,8 +12,9 @@ import { TeamsPage } from '../pages/teams/teams';
 import { TeamPage } from '../pages/team/team';
 import { CheckinsPage } from '../pages/checkins/checkins';
 import { ChatPage } from '../pages/chat/chat';
-import { LocationPage } from '../pages/location/location';
+// import { LocationPage } from '../pages/location/location';
 import { PushMessagesPage } from '../pages/pushMessages/pushMessages';
+import { OneSignal } from '@ionic-native/onesignal'
 import { CalendarPage } from '../pages/calendar/calendar';
 
 import { AuthStorageHelper } from '../helpers/AuthStorageHelper';
@@ -29,6 +30,7 @@ export class MyApp {
 
     rootPage:any = LoginPage;
     navbarTitle: string = "";
+    debug: string = ""
     pages: Array<{title: string, component: any}>;
 
     constructor(
@@ -36,18 +38,20 @@ export class MyApp {
         public platform: Platform,
         public statusBar: StatusBar,
         public events: Events,
-        public push: Push,
+       // public push: Push,
         public splashScreen: SplashScreen,
         private authService: AuthService,
         private authStorageHelper: AuthStorageHelper,
-        private platformHelper: PlatformHelper
+        private platformHelper: PlatformHelper,
+        private oneSignal: OneSignal,
     ) {
         this.initializeApp();
 
         // on user login, set the menu pages depending of his roles
-        events.subscribe('user:logged', (user, time) => {
 
-            const roles = authStorageHelper.getUserRoles();
+        this.pages = []
+        events.subscribe('user:logged', (user, time) => {
+            const roles = authStorageHelper.getUserRoles()
 
             this.pages = [
                 { title: "Home", component: HomePage },
@@ -60,21 +64,38 @@ export class MyApp {
             }
 
             if (roles['admin'] || roles['ce'] || roles['orga'] || roles['secu']) {
-                this.pages.push({ title: "Checkins", component: CheckinsPage });
-                this.pages.push({ title: "Chat", component: ChatPage });
+                // this.pages.push({ title: "Checkins", component: CheckinsPage });
+            }
+            if(roles['orga'] || roles['admin']) {
+                this.pages.push({ title: "Chat", component: ChatPage })
             }
 
-            if (roles['admin'] || roles['secu']) {
+            if (roles['admin']) {
                 this.pages.push({ title: "Etudiants", component: StudentsPage });
                 this.pages.push({ title: "Equipes", component: TeamsPage });
-                this.pages.push({ title: "Notifications", component: PushMessagesPage });
+                // this.pages.push({ title: "Notifications", component: PushMessagesPage });
                 //this.pages.push({ title: "Localisation", component: LocationPage });
             }
+            console.log(roles)
+            if(this.platformHelper.isMobile(this.platform)) {
+              this.oneSignal.startInit('f0132e96-aa21-48a8-82b7-a82660cb5132', '935939627079');
 
-            this.nav.setRoot(HomePage);
+              this.oneSignal.inFocusDisplaying(this.oneSignal.OSInFocusDisplayOption.InAppAlert);
+
+              this.oneSignal.handleNotificationReceived().subscribe(() => {
+              // do something when notification is received
+              });
+
+              this.oneSignal.handleNotificationOpened().subscribe(() => {
+              // do something when a notification is opened
+              });
+
+              this.oneSignal.endInit()
+
+              this.oneSignal.sendTags(roles)
+            }
+            this.nav.setRoot(HomePage)
         });
-
-        this.pages = [];
 
         // listen view changes
         app.viewWillEnter.subscribe(view => this.onViewChange(view));
@@ -100,9 +121,16 @@ export class MyApp {
 
     initializeApp() {
         this.platform.ready().then(() => {
+
+            
+
+
             // Okay, so the platform is ready and our plugins are available.
             // Here you can do any higher level native things you might need.
-            this.statusBar.styleDefault();
+            this.statusBar.styleDefault()
+            this.statusBar.backgroundColorByHexString('#0D2C54')
+            this.statusBar.overlaysWebView(false)
+            this.statusBar.styleLightContent()
             this.splashScreen.hide();
 
             // override device back button behavior
@@ -128,15 +156,14 @@ export class MyApp {
      */
     startLogout() {
         if (this.platformHelper.isMobile(this.platform)) {
-            this.push.unregister().then(_ => {
+            /*this.push.unregister().then(_ => {
                 console.log("Unregistered to push notifications");
                 this.endLogout();
             }).then(_ => {
                 console.log("Failed to unregister to push notifications");
-            });
-        } else {
-            this.endLogout();
+            });*/
         }
+        this.endLogout();
     }
 
     /**

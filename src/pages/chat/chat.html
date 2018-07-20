@@ -1,5 +1,5 @@
 <ion-content id="chat" padding>
-    <ul class="messages-container">
+    <!--<ul class="messages-container">
         <li *ngFor="let message of messages" class="message-container" [ngClass]="{'user-message': message.student_id == authUserId}">
             <div class="message-header">
                 <span class="message-author">{{ message.student.first_name }} {{ message.student.last_name }}</span>
@@ -19,9 +19,23 @@
                 </button>
             </ion-item>
         </form>
-    </div>
+    </div>-->
+
+    <ion-grid>
+        <ion-row>
+            <ion-col col-12 col-sm-12 col-md-6>
+                <ion-card padding>
+                    Slack est un outil de communication comme messenger. Si tu n'es pas encore dessus, demandes-nous pour que l'on t'ajoute !
+                </ion-card>
+            </ion-col>
+            <ion-col col-12 col-sm-12 col-md-6>
+                <button ion-button block large type="button" color="light" (click)="goToSlack()">Aller sur le slack de l'inté</button>
+            </ion-col>
+        </ion-row>
+    </ion-grid>
 </ion-content>
 
+<!--
 <ion-toolbar tabsPlacement="top">
     <ion-segment [(ngModel)]="activeChannel" class="channel-selector" (ionChange)="channelChanged()">
         <ion-segment-button value="general">
@@ -32,3 +46,4 @@
         </ion-segment-button>
     </ion-segment>
 </ion-toolbar>
+-->

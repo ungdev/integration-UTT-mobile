@@ -51,12 +51,12 @@ export class AuthStorageHelper {
    setUserInfo(user) {
        localStorage.setItem(USER_NAME_LOCALSTORAGE_NAME, user.first_name);
        localStorage.setItem(USER_ROLES_LOCALSTORAGE_NAME, JSON.stringify({
-           orga: user.orga !== 0,
-           volunteer: user.volunteer !== 0,
-           newcomer: user.is_newcomer !== 0,
-           admin: user.admin !== 0,
-           ce: user.ce !== 0,
-           secu: user.secu !== 0
+           orga: user.orga === 1,
+           volunteer: user.volunteer === 1,
+           newcomer: user.is_newcomer === 1,
+           admin: user.admin === 100,
+           ce: user.ce === 1,
+           secu: user.secu === 1
        }));
        localStorage.setItem(USER_TEAM_ID_LOCALSTORAGE_NAME, user.team_id);
        localStorage.setItem(USER_ID_LOCALSTORAGE_NAME, user.id);

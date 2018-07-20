@@ -1,6 +1,7 @@
 import { Component, ViewChild } from '@angular/core';
 import { NavController, Content } from 'ionic-angular';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { InAppBrowser } from '@ionic-native/in-app-browser';
 
 import { MessageService } from '../../services/MessageService';
 
@@ -27,6 +28,7 @@ export class ChatPage {
         private fb: FormBuilder,
         private messageService: MessageService,
         private authStorageHelper: AuthStorageHelper,
+        private iab: InAppBrowser,
     ) {
         this.chatForm = this.fb.group({
             'message': [
@@ -87,6 +89,10 @@ export class ChatPage {
      */
     ionViewWillLeave() {
         clearInterval(this.refreshInterval);
+    }
+
+    goToSlack() {
+        this.iab.create('http://bde-utt.slack.com')
     }
 
 }

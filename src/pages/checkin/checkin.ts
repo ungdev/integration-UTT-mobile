@@ -73,9 +73,9 @@ export class CheckinPage {
      * @param integer id
      * @return boolean
      */
-    alreadyChecked(id) {
+    alreadyChecked(qrcode) {
         for (let student of this.checkin.students) {
-            if (student.id == id && student.pivot.checked) {
+            if (student.qrcode == qrcode && student.pivot.checked) {
                 return true;
             }
         }
@@ -103,9 +103,9 @@ export class CheckinPage {
      *
      * @param integer id
      */
-    checkStudent(uid) {
+    checkStudent(qrcode) {
         // if student already checked, display message
-        if (this.alreadyChecked(uid)) {
+        if (this.alreadyChecked(qrcode)) {
             let toast = this.toastCtrl.create({
                 message: "Déjà validé !",
                 duration: 3000,
@@ -115,7 +115,7 @@ export class CheckinPage {
             toast.present();
         } else {
             // add the scanned user to this checkin and update this checkin
-            this.checkinService.putStudent({id: this.checkin.id, uid})
+            this.checkinService.putStudent({id: this.checkin.id, qrcode})
                 .subscribe(
                      data => {
                          this.checkin = this.sortStudents(JSON.parse(data._body));
@@ -139,7 +139,7 @@ export class CheckinPage {
                                      {
                                          text: "Ajouter",
                                          handler: () => {
-                                             this.checkinService.putStudent({id: this.checkin.id, uid, force: true})
+                                             this.checkinService.putStudent({id: this.checkin.id, qrcode, force: true})
                                                  .subscribe(
                                                       data => {
                                                           this.checkin = this.sortStudents(JSON.parse(data._body));

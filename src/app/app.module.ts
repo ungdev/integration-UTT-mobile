@@ -22,16 +22,17 @@ import { LocationPage } from '../pages/location/location';
 import { CalendarPage } from '../pages/calendar/calendar';
 import { EventPage } from '../pages/event/event';
 import { SearchStudentPage } from '../pages/searchStudent/searchStudent';
+import { OneSignal } from '@ionic-native/onesignal'
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
-import { Geolocation } from '@ionic-native/geolocation';
-import { GoogleMaps } from '@ionic-native/google-maps';
+// import { Geolocation } from '@ionic-native/geolocation';
+// import { GoogleMaps } from '@ionic-native/google-maps';
 
-import { CloudSettings, CloudModule } from '@ionic/cloud-angular';
+// import { CloudSettings, CloudModule } from '@ionic/cloud-angular';
 import { BarcodeScanner } from '@ionic-native/barcode-scanner';
 
-const cloudSettings: CloudSettings = {
+/* const cloudSettings: CloudSettings = {
     'core': {
         'app_id': 'd0bc3cc8'
     },
@@ -49,7 +50,7 @@ const cloudSettings: CloudSettings = {
             }
         }
     }
-};
+}; */
 
 @NgModule({
   declarations: [
@@ -76,7 +77,7 @@ const cloudSettings: CloudSettings = {
       BrowserModule,
       HttpModule,
       IonicModule.forRoot(MyApp),
-      CloudModule.forRoot(cloudSettings)
+//      CloudModule.forRoot(cloudSettings)
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -102,11 +103,12 @@ const cloudSettings: CloudSettings = {
   providers: [
     StatusBar,
     SplashScreen,
+    OneSignal,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     InAppBrowser,
     BarcodeScanner,
-    Geolocation,
-    GoogleMaps
+ //   Geolocation,
+ //   GoogleMaps
   ]
 })
 export class AppModule {}

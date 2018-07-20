@@ -17,7 +17,7 @@ export class AuthQRCodePage {
     }
 
     dismiss() {
-        this.viewCtrl.dismiss();
+        this.viewCtrl.dismiss()
     }
 
 }
