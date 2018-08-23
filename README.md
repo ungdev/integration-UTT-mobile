@@ -52,6 +52,10 @@ En utilisant l'outil **remote devices** de Chrome. Voir la documentation de cet 
 **ATTENTION A BIEN INCRÉMENTER LE NUMÉRO DE VERSION DANS *CONFIG.XML***  
 Sinon le play store n'acceptera pas le build car il existera déjà.
 
+**ATTENTION PENSER A BIEN CHNAGER L'ID EN FONCTION DE ANDROID/IOS**
+fr.uttnetgroup.integration pour ios
+fr.utt.ung.integration pour android
+
 ## Auteurs
 
 * Antoine PRUDHOMME - *première version*

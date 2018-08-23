@@ -61,10 +61,10 @@ export class CompareCheckinsPage {
         const first_hash = {};
         const second_hash = {};
 
-        this.first.students.map(student => {
+        this.first.users.map(student => {
             first_hash[student.id] = `${student.first_name} ${student.last_name}`;
         });
-        this.second.students.map(student => {
+        this.second.users.map(student => {
             second_hash[student.id] = `${student.first_name} ${student.last_name}`;
         });
 

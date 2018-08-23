@@ -6,8 +6,8 @@
         <button ion-button large full type="button" color="secondary" (click)="startScanner()">Scanner</button>
         <button ion-button large full type="button" color="light" (click)="searchStudent()">Rechercher par nom</button>
         <h1>{{ checkin.name }}</h1>
-        <ion-list *ngIf="checkin.students.length > 0">
-            <ion-item *ngFor="let student of checkin.students" (click)="viewStudent(student.id)">
+        <ion-list *ngIf="checkin.users.length > 0">
+            <ion-item *ngFor="let student of checkin.users" (click)="viewStudent(student.id)">
                 <ion-icon
                     *ngIf="checkin.prefilled"
                     [name]="student.pivot.checked ? 'checkmark' : 'close'"
@@ -19,7 +19,7 @@
                 <button ion-button clear item-end color="light">Voir</button>
             </ion-item>
         </ion-list>
-        <ion-item *ngIf="checkin.students.length == 0" class="event-item-p">
+        <ion-item *ngIf="checkin.users.length == 0" class="event-item-p">
             Ce checkin est vide. Cliquez sur "scanner" pour enregistrer des personnes.
         </ion-item>
     </div>

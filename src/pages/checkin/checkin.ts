@@ -15,8 +15,8 @@ import { SearchStudentPage } from '../searchStudent/searchStudent';
 })
 export class CheckinPage {
 
-    requestDone: boolean = false;
-    checkin: any;
+    requestDone: boolean = false
+    checkin: any
 
     constructor(
         public navCtrl: NavController,
@@ -30,8 +30,7 @@ export class CheckinPage {
         private platformHelper: PlatformHelper,
         private authStorageHelper: AuthStorageHelper,
     ) {
-        let id = this.navParams.get('id');
-
+        let id = this.navParams.get('id')
         // get the checkin
         this.checkinService.get({id})
             .subscribe(
@@ -50,10 +49,11 @@ export class CheckinPage {
      * @param Checkin
      */
     private sortStudents(checkin) {
+        console.log('checkin', checkin)
         let checked = [];
         let notChecked = [];
-        checkin.students.map(student => student.pivot.checked ? checked.push(student) : notChecked.push(student));
-        checkin.students = notChecked.concat(checked);
+        checkin.users.map(student => student.pivot.checked ? checked.push(student) : notChecked.push(student));
+        checkin.users = notChecked.concat(checked);
         return checkin;
     }
 
@@ -74,7 +74,7 @@ export class CheckinPage {
      * @return boolean
      */
     alreadyChecked(qrcode) {
-        for (let student of this.checkin.students) {
+        for (let student of this.checkin.users) {
             if (student.qrcode == qrcode && student.pivot.checked) {
                 return true;
             }
@@ -92,7 +92,7 @@ export class CheckinPage {
         modal.onDidDismiss(student => {
             // if a student has been selected
             if (student.id) {
-                this.checkStudent(student.id);
+                this.checkStudent(student.qrcode)
             }
         });
         modal.present();
@@ -164,10 +164,10 @@ export class CheckinPage {
     startScanner() {
         if (this.platformHelper.isMobile(this.platform)) {
             this.barcodeScanner.scan().then((barcodeData) => {
-                this.checkStudent(barcodeData.text);
+                this.checkStudent(barcodeData.text)
             }, (err) => {
-                console.log('scan err', err);
-            });
+                console.log('scan err', err)
+            })
         }
     }
 

@@ -13,7 +13,7 @@ import { TeamPage } from '../pages/team/team';
 import { CheckinsPage } from '../pages/checkins/checkins';
 import { ChatPage } from '../pages/chat/chat';
 // import { LocationPage } from '../pages/location/location';
-import { PushMessagesPage } from '../pages/pushMessages/pushMessages';
+// import { PushMessagesPage } from '../pages/pushMessages/pushMessages';
 import { OneSignal } from '@ionic-native/onesignal'
 import { CalendarPage } from '../pages/calendar/calendar';
 
@@ -64,7 +64,7 @@ export class MyApp {
             }
 
             if (roles['admin'] || roles['ce'] || roles['orga'] || roles['secu']) {
-                // this.pages.push({ title: "Checkins", component: CheckinsPage });
+                this.pages.push({ title: "Checkins", component: CheckinsPage });
             }
             if(roles['orga'] || roles['admin']) {
                 this.pages.push({ title: "Chat", component: ChatPage })

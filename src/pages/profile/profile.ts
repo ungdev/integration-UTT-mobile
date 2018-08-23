@@ -120,7 +120,8 @@ export class ProfilePage {
     }
 
     showQRCode() {
-        let modal = this.modalCtrl.create(AuthQRCodePage, {userId: this.user.qrcode});
+        let modal = this.modalCtrl.create(AuthQRCodePage, {userId: this.user.qrcode})
+        console.log(this.user.qrcode)
         modal.present();
     }
 

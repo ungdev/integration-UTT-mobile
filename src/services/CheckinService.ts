@@ -19,12 +19,14 @@ export class CheckinService extends BaseService {
     post(data: object) { return this._post(this.endpoint, data) }
 
     putStudent(data: any) {
-        const endpoint = `${this.endpoint}/${data.id}/student`;
-        let payload = {uid: data.uid};
+        console.log('put data : ', data)
+        const endpoint = `${this.endpoint}/${data.id}/student`
+        console.log('endpoint', endpoint)
+        let payload = {uid: data.qrcode}
         if (data.force) {
-            payload['force'] = true;
+            payload['force'] = true
         }
-        return this._put(endpoint, payload);
+        return this._put(endpoint, payload)
     }
 
 }
