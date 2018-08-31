@@ -1,0 +1,54 @@
+page-chat {
+
+    .message-container {
+        border-bottom: 1px solid #dedede;
+        padding: 10px 16px;
+        margin: 10px 2px 0 2px;
+        border-radius: 4px;
+        list-style-type: none;
+        position: relative;
+        background-color: #F5F5F5;
+    }
+
+    .message-container.user-message {
+        background-color: #E0E0E0;
+        text-align: right;
+    }
+
+    .message-header {
+        margin-bottom: 5px;
+    }
+
+    .message-author {
+        font-weight: bold;
+        text-transform: uppercase;
+        margin-bottom: 10px;
+        font-size: 11px;
+    }
+
+    .message-date {
+        color: #757575;
+    }
+
+    .messages-container {
+        padding: 0;
+        margin-bottom: 70px;
+    }
+
+    .chat-form-container {
+        position: fixed;
+        bottom: 0px;
+        width: 100%;
+        border-top: 4px solid color($colors, secondary, base);
+        margin-top: 5px;
+        background-color: #fff;
+    }
+
+    .chat-form {
+        padding-bottom: 5px;
+    }
+
+    .channel-selector {
+        background-color: #fff;
+    }
+}

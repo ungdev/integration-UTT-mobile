@@ -21,6 +21,9 @@
                 <h2>Points</h2>
                 <p>{{ team.points }}</p>
             </ion-item>-->
+            <button ion-button icon-only (click)="openFacebook(team.facebook)">
+              <ion-icon name="logo-facebook"></ion-icon>
+            </button>
         </ion-list>
         <ion-item-group>
             <ion-item-divider color="secondary">Chefs d'équipe ({{ team.ce.length }})</ion-item-divider>

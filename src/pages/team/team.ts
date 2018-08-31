@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { NavController, MenuController, NavParams } from 'ionic-angular';
+import { InAppBrowser } from '@ionic-native/in-app-browser';
 
 import { TeamService } from '../../services/TeamService';
 import { AuthStorageHelper } from '../../helpers/AuthStorageHelper';
@@ -21,6 +22,7 @@ export class TeamPage {
         public menu: MenuController,
         private teamService: TeamService,
         private authStorageHelper: AuthStorageHelper,
+        private iab: InAppBrowser,
     ) {
         let id = this.navParams.get('id');
 
@@ -47,6 +49,9 @@ export class TeamPage {
      */
     viewUser(id) {
         this.navCtrl.push(ProfilePage, {id});
+    }
+    openFacebook(url) {
+      this.iab.create(url)
     }
 
     isAdmin() {

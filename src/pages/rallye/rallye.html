@@ -1,0 +1,73 @@
+<ion-content id="chat" padding>
+  <div *ngIf="!requestDone">
+      <ion-spinner></ion-spinner>
+  </div>
+  <div *ngIf="requestDone">
+    <ion-item>
+      <ion-label>Stand</ion-label>
+      <ion-select [(ngModel)]="stand" interface="popover">
+          <ion-option value="tirePneu">Tire le pneu</ion-option>
+          <ion-option value="cheminEnfer">Chemin de l'enfer</ion-option>
+          <ion-option value="caddieRace">Caddies Race</ion-option>
+          <ion-option value="libereCE">Libère tes CEs</ion-option>
+          <ion-option value="basket">Basket</ion-option>
+          <ion-option value="ventriglisse">Ventriglisse</ion-option>
+          <ion-option value="lordDuck">Lord of duck</ion-option>
+          <ion-option value="curling">Curling</ion-option>
+          <ion-option value="towerDefense">Tower Defense</ion-option>
+          <ion-option value="paquito">Paquito</ion-option>
+          <ion-option value="castleRun">Castle Run</ion-option>
+          <ion-option value="ballePrisoniers">Balle aux prisoniers</ion-option>
+          <ion-option value="palmRace">Palm's Race</ion-option>
+          <ion-option value="tousABord">Tous à bord</ion-option>
+          <ion-option value="footCriquet">Foot Criquet</ion-option>
+      </ion-select>
+    </ion-item>
+    <form id="rallyeForm" (ngSubmit)="sendResult(rallyeForm.value)" [formGroup]="rallyeForm">
+
+
+      <ion-item>
+        <ion-label>Equipe 1</ion-label>
+        <ion-select [(ngModel)]="selectTeam1" (ionChange)="onTeamChange(1)" formControlName="team1" interface="popover">
+          <ion-option *ngFor="let team of teams" value="{{ team.id }}">{{ team.name }}</ion-option>
+        </ion-select>
+      </ion-item>
+      <ion-item>
+        <ion-label>Equipe 2</ion-label>
+        <ion-select [(ngModel)]="selectTeam2" (ionChange)="onTeamChange(2)" formControlName="team2" interface="popover">
+          <ion-option *ngFor="let team of teams" value="{{ team.id }}">{{ team.name }}</ion-option>
+        </ion-select>
+      </ion-item>
+    </form>
+    <ion-item>
+      <ion-label>{{ team1.name }}</ion-label>
+    </ion-item>
+    <ion-segment [(ngModel)]="selection1" (ionChange)="select1Change()">
+      <ion-segment-button value="victory">
+        <ion-icon name="checkmark" color="success"></ion-icon>
+      </ion-segment-button>
+      <ion-segment-button value="draw">
+        <ion-icon name="remove" color="secondary"></ion-icon>
+      </ion-segment-button>
+      <ion-segment-button value="defeat">
+        <ion-icon name="close" color="danger"></ion-icon>
+      </ion-segment-button>
+    </ion-segment>
+    <ion-item>
+      <ion-label>{{ team2.name }}</ion-label>
+    </ion-item>
+    <ion-segment [(ngModel)]="selection2" (ionChange)="select2Change()">
+      <ion-segment-button value="victory">
+        <ion-icon name="checkmark" color="success"></ion-icon>
+      </ion-segment-button>
+      <ion-segment-button value="draw">
+        <ion-icon name="remove" color="secondary"></ion-icon>
+      </ion-segment-button>
+      <ion-segment-button value="defeat">
+        <ion-icon name="close" color="danger"></ion-icon>
+      </ion-segment-button>
+    </ion-segment>
+    <ion-item ></ion-item>
+    <button ion-button block large color="success" type="submit" form="rallyeForm">Envoyer</button>
+  </div>
+</ion-content>

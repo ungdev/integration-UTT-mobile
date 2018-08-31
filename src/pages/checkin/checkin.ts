@@ -145,7 +145,7 @@ export class CheckinPage {
                                                           this.checkin = this.sortStudents(JSON.parse(data._body));
                                                           console.log("STUDENT ADDED",this.checkin);
                                                       },
-                                                      err => console.log("Failed to force add")
+                                                      err => console.log("Failed to force add", err)
                                                   );
                                          }
                                      }
