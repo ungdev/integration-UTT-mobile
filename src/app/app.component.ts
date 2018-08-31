@@ -12,6 +12,7 @@ import { TeamsPage } from '../pages/teams/teams';
 import { TeamPage } from '../pages/team/team';
 import { CheckinsPage } from '../pages/checkins/checkins';
 import { ChatPage } from '../pages/chat/chat';
+import { RallyePage } from '../pages/rallye/rallye';
 // import { LocationPage } from '../pages/location/location';
 // import { PushMessagesPage } from '../pages/pushMessages/pushMessages';
 import { OneSignal } from '@ionic-native/onesignal'
@@ -48,7 +49,7 @@ export class MyApp {
         this.initializeApp();
 
         // on user login, set the menu pages depending of his roles
-
+//
         this.pages = []
         events.subscribe('user:logged', (user, time) => {
             const roles = authStorageHelper.getUserRoles()
@@ -68,6 +69,7 @@ export class MyApp {
             }
             if(roles['orga'] || roles['admin']) {
                 this.pages.push({ title: "Chat", component: ChatPage })
+                this.pages.push({ title: "Rallye", component: RallyePage })
             }
 
             if (roles['admin']) {
@@ -78,6 +80,7 @@ export class MyApp {
             }
             console.log(roles)
             if(this.platformHelper.isMobile(this.platform)) {
+              console.log("init onesignal", this.platform)
               this.oneSignal.startInit('f0132e96-aa21-48a8-82b7-a82660cb5132', '935939627079');
 
               this.oneSignal.inFocusDisplaying(this.oneSignal.OSInFocusDisplayOption.InAppAlert);

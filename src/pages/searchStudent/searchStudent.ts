@@ -27,7 +27,7 @@ export class SearchStudentPage {
      */
     search(event: any) {
         const name = event.target.value;
-        if (name.length > 2) {
+        if (name && name.length > 2) {
             this.studentService.autocomplete(name)
                 .subscribe(
                     data => {

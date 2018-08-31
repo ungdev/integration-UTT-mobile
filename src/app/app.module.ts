@@ -18,6 +18,7 @@ import { CompareCheckinsPage } from '../pages/compareCheckins/compareCheckins';
 import { PushMessagesPage } from '../pages/pushMessages/pushMessages';
 import { AuthQRCodePage } from '../pages/authQRCode/authQRCode';
 import { ChatPage } from '../pages/chat/chat';
+import { RallyePage } from '../pages/rallye/rallye';
 import { LocationPage } from '../pages/location/location';
 import { CalendarPage } from '../pages/calendar/calendar';
 import { EventPage } from '../pages/event/event';
@@ -68,6 +69,7 @@ import { BarcodeScanner } from '@ionic-native/barcode-scanner';
     AuthQRCodePage,
     CompareCheckinsPage,
     ChatPage,
+    RallyePage,
     LocationPage,
     CalendarPage,
     EventPage,
@@ -95,6 +97,7 @@ import { BarcodeScanner } from '@ionic-native/barcode-scanner';
     AuthQRCodePage,
     CompareCheckinsPage,
     ChatPage,
+    RallyePage,
     LocationPage,
     CalendarPage,
     EventPage,
