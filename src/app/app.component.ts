@@ -16,14 +16,16 @@ import { ChatPage } from '../pages/chat/chat';
 // import { PushMessagesPage } from '../pages/pushMessages/pushMessages';
 import { OneSignal } from '@ionic-native/onesignal'
 import { CalendarPage } from '../pages/calendar/calendar';
+import { GubuPage } from '../pages/gubu/gubu';
 
 import { AuthStorageHelper } from '../helpers/AuthStorageHelper';
 import { PlatformHelper } from '../helpers/PlatformHelper';
 import { AuthService } from '../services/AuthService';
+import { GubuService } from '../services/GubuService';
 
 @Component({
     templateUrl: 'app.html',
-    providers: [AuthService, AuthStorageHelper, PlatformHelper]
+    providers: [AuthService, AuthStorageHelper, PlatformHelper, GubuService]
 })
 export class MyApp {
     @ViewChild(Nav) nav: Nav;
@@ -32,6 +34,7 @@ export class MyApp {
     navbarTitle: string = "";
     debug: string = ""
     pages: Array<{title: string, component: any}>;
+    gubu: Array<{title: string }>;
 
     constructor(
         public app: App,
@@ -41,6 +44,7 @@ export class MyApp {
        // public push: Push,
         public splashScreen: SplashScreen,
         private authService: AuthService,
+        private gubuService: GubuService,
         private authStorageHelper: AuthStorageHelper,
         private platformHelper: PlatformHelper,
         private oneSignal: OneSignal,
@@ -50,13 +54,14 @@ export class MyApp {
         // on user login, set the menu pages depending of his roles
 
         this.pages = []
+        this.gubu = []
         events.subscribe('user:logged', (user, time) => {
             const roles = authStorageHelper.getUserRoles()
 
             this.pages = [
                 { title: "Home", component: HomePage },
                 { title: "Calendrier", component: CalendarPage },
-                { title: "Profil", component: ProfilePage }
+                { title: "Profil", component: ProfilePage },
             ];
 
             if (roles['newcomer'] || roles['ce']) {
@@ -76,6 +81,17 @@ export class MyApp {
                 // this.pages.push({ title: "Notifications", component: PushMessagesPage });
                 //this.pages.push({ title: "Localisation", component: LocationPage });
             }
+
+            // Init gubu menu
+            gubuService.get()
+            .subscribe(
+                data => {
+                    this.gubu = JSON.parse(data._body);
+                    console.log('Gubu index loaded', this.gubu);
+                },
+                err => console.log("Gubu loading error: ", err)
+            );
+
             console.log(roles)
             if(this.platformHelper.isMobile(this.platform)) {
               this.oneSignal.startInit('f0132e96-aa21-48a8-82b7-a82660cb5132', '935939627079');
@@ -122,7 +138,7 @@ export class MyApp {
     initializeApp() {
         this.platform.ready().then(() => {
 
-            
+
 
 
             // Okay, so the platform is ready and our plugins are available.
@@ -148,6 +164,10 @@ export class MyApp {
         // Reset the content nav to have just this page
         // we wouldn't want the back button to show in this scenario
         this.nav.setRoot(page.component);
+    }
+
+    openGubu(part) {
+        this.nav.setRoot(GubuPage, {id: part.id});
     }
 
     /**

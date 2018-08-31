@@ -1,0 +1,8 @@
+<ion-content id="gubu" padding>
+    <div *ngIf="!requestDone" class="spinnerCenter">
+        <ion-spinner></ion-spinner>
+    </div>
+    <div *ngIf="requestDone">
+        <p style="max-width:500px;text-align:justify;" [innerHtml]="html"></p>
+    </div>
+</ion-content>

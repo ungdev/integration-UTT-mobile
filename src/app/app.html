@@ -25,6 +25,13 @@
                 {{p.title}}
             </button>
         </ion-list>
+
+        <ion-item-group *ngIf="gubu">
+            <ion-item-divider color="light">Gubu</ion-item-divider>
+            <button menuClose ion-item *ngFor="let p of gubu" (click)="openGubu(p)">
+                {{p.name}}
+            </button>
+        </ion-item-group>
     </ion-content>
 
 </ion-menu>

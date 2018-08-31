@@ -4,6 +4,7 @@ import { HttpModule } from '@angular/http';
 import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
 import { MyApp } from './app.component';
 import { InAppBrowser } from '@ionic-native/in-app-browser';
+import { DocumentViewer } from '@ionic-native/document-viewer';
 
 import { LoginPage } from '../pages/login/login';
 import { HomePage } from '../pages/home/home';
@@ -22,6 +23,7 @@ import { LocationPage } from '../pages/location/location';
 import { CalendarPage } from '../pages/calendar/calendar';
 import { EventPage } from '../pages/event/event';
 import { SearchStudentPage } from '../pages/searchStudent/searchStudent';
+import { GubuPage } from '../pages/gubu/gubu';
 import { OneSignal } from '@ionic-native/onesignal'
 
 import { StatusBar } from '@ionic-native/status-bar';
@@ -72,6 +74,7 @@ import { BarcodeScanner } from '@ionic-native/barcode-scanner';
     CalendarPage,
     EventPage,
     SearchStudentPage,
+    GubuPage,
   ],
   imports: [
       BrowserModule,
@@ -99,6 +102,7 @@ import { BarcodeScanner } from '@ionic-native/barcode-scanner';
     CalendarPage,
     EventPage,
     SearchStudentPage,
+    GubuPage,
   ],
   providers: [
     StatusBar,
@@ -107,6 +111,7 @@ import { BarcodeScanner } from '@ionic-native/barcode-scanner';
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     InAppBrowser,
     BarcodeScanner,
+    DocumentViewer,
  //   Geolocation,
  //   GoogleMaps
   ]
