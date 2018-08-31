@@ -140,6 +140,12 @@ export class RallyePage {
           this.sendResultToApi(this.team1, 'D')
           this.sendResultToApi(this.team2, 'V')
         }
+        let toast = this.toastCtrl.create({
+          message: "Résultats envoyés !",
+          duration: 3000,
+          position: 'bottom'
+        })
+        toast.present()
 
         this.rallyeForm.reset();
         this.selection1 = "draw"
@@ -161,7 +167,15 @@ export class RallyePage {
           .then((res) => {
             console.log('result : ', res)
           })
-          .catch(err => console.error(err));
+          .catch((err) => {
+            console.error(err)
+            let toast = this.toastCtrl.create({
+              message: `erreur ${err.message}`,
+              duration: 3000,
+              position: 'bottom'
+            })
+            toast.present()
+          });
     }
 
 }

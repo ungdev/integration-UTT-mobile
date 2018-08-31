@@ -2,6 +2,9 @@ import { Component, ViewChild } from '@angular/core';
 import { Nav, Platform, Events, App } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
+import { File } from '@ionic-native/file';
+import { DocumentViewer, DocumentViewerOptions } from '@ionic-native/document-viewer';
+import { FileTransfer } from '@ionic-native/file-transfer';
 //import { Push } from '@ionic/cloud-angular';
 
 import { LoginPage } from '../pages/login/login';
@@ -35,7 +38,7 @@ export class MyApp {
     navbarTitle: string = "";
     debug: string = ""
     pages: Array<{title: string, component: any}>;
-    gubu: Array<{title: string }>;
+    gubu: Array<{title: string, link: string }>;
 
     constructor(
         public app: App,
@@ -49,6 +52,9 @@ export class MyApp {
         private authStorageHelper: AuthStorageHelper,
         private platformHelper: PlatformHelper,
         private oneSignal: OneSignal,
+        private document: DocumentViewer,
+        private file: File,
+        private transfer: FileTransfer,
     ) {
         this.initializeApp();
 
@@ -60,7 +66,7 @@ export class MyApp {
             const roles = authStorageHelper.getUserRoles()
 
             this.pages = [
-                { title: "Home", component: HomePage },
+                { title: "Accueil", component: HomePage },
                 { title: "Calendrier", component: CalendarPage },
                 { title: "Profil", component: ProfilePage },
             ];
@@ -70,10 +76,10 @@ export class MyApp {
             }
 
             if (roles['admin'] || roles['ce'] || roles['orga'] || roles['secu']) {
-                this.pages.push({ title: "Checkins", component: CheckinsPage });
+                this.pages.push({ title: "Listings", component: CheckinsPage });
             }
             if(roles['orga'] || roles['admin']) {
-                this.pages.push({ title: "Chat", component: ChatPage })
+                this.pages.push({ title: "Slack", component: ChatPage })
                 this.pages.push({ title: "Rallye", component: RallyePage })
             }
 
@@ -88,13 +94,27 @@ export class MyApp {
             gubuService.get()
             .subscribe(
                 data => {
-                    this.gubu = JSON.parse(data._body);
-                    console.log('Gubu index loaded', this.gubu);
+                    console.log(data)
+                    this.gubu = JSON.parse(data._body)
+                    this.gubu = [
+                      {
+                        title: "Page 1",
+                        link: 'https://devdactic.com/html/5-simple-hacks-LBT.pdf',
+                      },
+                      {
+                        title: "Page 2",
+                        link: 'https://devdactic.com/html/5-simple-hacks-LBT.pdf',
+                      },
+                      {
+                        title: "Page 3",
+                        link: 'https://devdactic.com/html/5-simple-hacks-LBT.pdf',
+                      }
+                    ]
+                    console.log('Gubu index loaded', this.gubu)
                 },
                 err => console.log("Gubu loading error: ", err)
-            );
+            )
 
-            console.log(roles)
             if(this.platformHelper.isMobile(this.platform)) {
               console.log("init onesignal", this.platform)
               this.oneSignal.startInit('f0132e96-aa21-48a8-82b7-a82660cb5132', '935939627079');
@@ -169,8 +189,23 @@ export class MyApp {
         this.nav.setRoot(page.component);
     }
 
-    openGubu(part) {
-        this.nav.setRoot(GubuPage, {id: part.id});
+    openGubu(page) {
+        this.downloadAndOpenPdf(page.link)
+    }
+
+    downloadAndOpenPdf(link) {
+      let path = null;
+    
+      if (this.platform.is('ios')) {
+        path = this.file.documentsDirectory;
+      } else if (this.platform.is('android')) {
+        path = this.file.dataDirectory;
+      }
+    
+      const transfer = this.transfer.create();
+      transfer.download(link, path + `pdf-${link}.pdf`).then(entry => {
+        this.document.viewDocument(entry.toURL(), 'application/pdf', {});
+      });
     }
 
     /**

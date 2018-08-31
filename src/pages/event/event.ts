@@ -27,6 +27,9 @@ export class EventPage {
                 data => {
                     this.event = JSON.parse(data._body);
                     this.requestDone = true;
+                    console.log("event", data, this.event)
+                    this.event.start_at *= 1000
+                    this.event.end_at *= 1000
                 },
                 err => console.log("err : ", err)
             );

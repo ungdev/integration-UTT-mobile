@@ -1,8 +1,10 @@
 import { Component, ViewChild } from '@angular/core';
-import { NavController, NavParams, Content } from 'ionic-angular';
+import { NavController, NavParams, Content, Platform } from 'ionic-angular';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { InAppBrowser } from '@ionic-native/in-app-browser';
-import { DocumentViewer } from '@ionic-native/document-viewer';
+import { File } from '@ionic-native/file';
+import { DocumentViewer, DocumentViewerOptions } from '@ionic-native/document-viewer';
+import { FileTransfer } from '@ionic-native/file-transfer';
 
 import { GubuService } from '../../services/GubuService';
 
@@ -29,8 +31,13 @@ export class GubuPage {
         private authStorageHelper: AuthStorageHelper,
         private iab: InAppBrowser,
         private document: DocumentViewer,
+        private file: File,
+        private transfer: FileTransfer,
+        private platform: Platform
+
     ) {
         // Pull gubu part content
+        this.downloadAndOpenPdf()
         this.id = navParams.get('id');
         this.gubuService.get({id: this.id})
             .subscribe(
@@ -44,23 +51,20 @@ export class GubuPage {
 
     }
 
-    // scrollToBottom() {
-    //     let dimensions = this.content.getContentDimensions();
-    //     this.content.scrollTo(0, dimensions.scrollHeight+100, 100);
-    // }
-
-
-    // channelChanged() {
-    // }
-
-    /**
-     * When leaving this page, clear the refreshInterval
-     */
-    // ionViewWillLeave() {
-    // }
-
-    // goToSlack() {
-    //     this.iab.create('http://bde-utt.slack.com')
-    // }
+  downloadAndOpenPdf() {
+    let path = null;
+  
+    if (this.platform.is('ios')) {
+      path = this.file.documentsDirectory;
+    } else if (this.platform.is('android')) {
+      path = this.file.dataDirectory;
+    }
+  
+    const transfer = this.transfer.create();
+    transfer.download('https://devdactic.com/html/5-simple-hacks-LBT.pdf', path + 'myfile.pdf').then(entry => {
+      let url = entry.toURL();
+      this.document.viewDocument(url, 'application/pdf', {});
+    });
+  }
 
 }

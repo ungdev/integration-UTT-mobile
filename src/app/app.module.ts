@@ -5,6 +5,8 @@ import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
 import { MyApp } from './app.component';
 import { InAppBrowser } from '@ionic-native/in-app-browser';
 import { DocumentViewer } from '@ionic-native/document-viewer';
+import { File } from '@ionic-native/file';
+import { FileTransfer } from '@ionic-native/file-transfer';
 
 import { LoginPage } from '../pages/login/login';
 import { HomePage } from '../pages/home/home';
@@ -115,6 +117,8 @@ import { BarcodeScanner } from '@ionic-native/barcode-scanner';
     InAppBrowser,
     BarcodeScanner,
     DocumentViewer,
+    File,
+    FileTransfer,
  //   Geolocation,
  //   GoogleMaps
   ]

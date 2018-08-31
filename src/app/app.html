@@ -29,7 +29,7 @@
         <ion-item-group *ngIf="gubu">
             <ion-item-divider color="light">Gubu</ion-item-divider>
             <button menuClose ion-item *ngFor="let p of gubu" (click)="openGubu(p)">
-                {{p.name}}
+                {{p.title}}
             </button>
         </ion-item-group>
     </ion-content>
