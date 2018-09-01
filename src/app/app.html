@@ -14,7 +14,7 @@
 
 <ion-menu [content]="content" type="overlay" persistent>
     <ion-header>
-        <ion-toolbar>
+        <ion-toolbar color="light">
             <ion-title>Menu</ion-title>
         </ion-toolbar>
     </ion-header>
@@ -27,9 +27,9 @@
         </ion-list>
 
         <ion-item-group *ngIf="gubu">
-            <ion-item-divider color="light">Gubu</ion-item-divider>
+            <ion-item-divider color="light"><b>GUBU</b> (ne compte pas <br>pour les contrôles)</ion-item-divider>
             <button menuClose ion-item *ngFor="let p of gubu" (click)="openGubu(p)">
-                {{p.title}}
+                {{p.name}}
             </button>
         </ion-item-group>
     </ion-content>
@@ -38,4 +38,7 @@
 
 <ion-content padding>
     <ion-nav [root]="rootPage" #content swipeBackEnabled="false"></ion-nav>
+    <div *ngIf="gubuLoading" style="position: absolute; top: 40%; left: 40%; width: 20%; height: 20%;">
+        <ion-spinner style="width: 100%; height: 100%;" color="light"></ion-spinner>
+    </div>
 </ion-content>

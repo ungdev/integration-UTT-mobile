@@ -1,10 +1,11 @@
 import { Component, ViewChild } from '@angular/core';
-import { Nav, Platform, Events, App } from 'ionic-angular';
+import { Nav, Platform, Events, App, ToastController } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { File } from '@ionic-native/file';
 import { DocumentViewer, DocumentViewerOptions } from '@ionic-native/document-viewer';
 import { FileTransfer } from '@ionic-native/file-transfer';
+import axios from 'axios';
 //import { Push } from '@ionic/cloud-angular';
 
 import { LoginPage } from '../pages/login/login';
@@ -26,6 +27,7 @@ import { AuthStorageHelper } from '../helpers/AuthStorageHelper';
 import { PlatformHelper } from '../helpers/PlatformHelper';
 import { AuthService } from '../services/AuthService';
 import { GubuService } from '../services/GubuService';
+import { ENV } from '../config/env.dev';
 
 @Component({
     templateUrl: 'app.html',
@@ -34,11 +36,12 @@ import { GubuService } from '../services/GubuService';
 export class MyApp {
     @ViewChild(Nav) nav: Nav;
 
-    rootPage:any = LoginPage;
-    navbarTitle: string = "";
+    rootPage:any = LoginPage
+    navbarTitle: string = ""
     debug: string = ""
-    pages: Array<{title: string, component: any}>;
-    gubu: Array<{title: string, link: string }>;
+    pages: Array<{title: string, component: any}>
+    gubu: Array<{name: string, id: number, order: number }>
+    gubuLoading: boolean = false
 
     constructor(
         public app: App,
@@ -55,6 +58,7 @@ export class MyApp {
         private document: DocumentViewer,
         private file: File,
         private transfer: FileTransfer,
+        private toastCtrl: ToastController,
     ) {
         this.initializeApp();
 
@@ -96,20 +100,6 @@ export class MyApp {
                 data => {
                     console.log(data)
                     this.gubu = JSON.parse(data._body)
-                    this.gubu = [
-                      {
-                        title: "Page 1",
-                        link: 'https://devdactic.com/html/5-simple-hacks-LBT.pdf',
-                      },
-                      {
-                        title: "Page 2",
-                        link: 'https://devdactic.com/html/5-simple-hacks-LBT.pdf',
-                      },
-                      {
-                        title: "Page 3",
-                        link: 'https://devdactic.com/html/5-simple-hacks-LBT.pdf',
-                      }
-                    ]
                     console.log('Gubu index loaded', this.gubu)
                 },
                 err => console.log("Gubu loading error: ", err)
@@ -190,10 +180,19 @@ export class MyApp {
     }
 
     openGubu(page) {
-        this.downloadAndOpenPdf(page.link)
+        if(! this.gubuLoading){
+          this.gubuLoading = true
+          this.downloadAndOpenPdf(page)
+        } else {
+          let toast = this.toastCtrl.create({
+            message: "Un PDF est déjà en train d'être téléchargé",
+            duration: 3000
+          });
+          toast.present();
+        }
     }
 
-    downloadAndOpenPdf(link) {
+    downloadAndOpenPdf(page) {
       let path = null;
     
       if (this.platform.is('ios')) {
@@ -201,11 +200,30 @@ export class MyApp {
       } else if (this.platform.is('android')) {
         path = this.file.dataDirectory;
       }
-    
-      const transfer = this.transfer.create();
-      transfer.download(link, path + `pdf-${link}.pdf`).then(entry => {
-        this.document.viewDocument(entry.toURL(), 'application/pdf', {});
-      });
+
+      const accessToken = this.authStorageHelper.getAccessToken();
+      const api = axios.create({ baseURL: ENV.BACKEND_API_URL });
+      api.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
+      api
+          .get(`gubu/${page.id}`, {})
+          .then((res) => {
+            console.log('result : ', res)
+            const transfer = this.transfer.create();
+            transfer.download(res.data.link, path + `${res.data.name}.pdf`).then(entry => {
+              this.document.viewDocument(entry.toURL(), 'application/pdf', {});
+              this.gubuLoading = false
+            })
+          })
+          .catch((err) => {
+            console.error(err)
+            this.gubuLoading = false
+            let toast = this.toastCtrl.create({
+              message: "Erreur de téléchargement du GUBU",
+              duration: 3000
+            });
+            toast.present();
+          });
+      
     }
 
     /**
