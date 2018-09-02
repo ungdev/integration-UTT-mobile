@@ -4,6 +4,7 @@ import { NavController, MenuController } from 'ionic-angular';
 import { StudentService } from '../../services/StudentService';
 
 import { ProfilePage } from '../profile/profile';
+import { GoogleAnalytics } from '@ionic-native/google-analytics';
 
 @Component({
     templateUrl: 'students.html',
@@ -21,6 +22,7 @@ export class StudentsPage {
         public navCtrl: NavController,
         public menu: MenuController,
         private studentService: StudentService,
+        private ga: GoogleAnalytics,
     ) {
         // get all the students
         this.studentService.get()
@@ -31,6 +33,10 @@ export class StudentsPage {
                 },
                 err => console.log("err : ", err)
             );
+    }
+
+    ionViewDidEnter(){
+      this.ga.trackView('students')
     }
 
     /**

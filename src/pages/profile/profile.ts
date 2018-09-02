@@ -5,6 +5,7 @@ import { StudentService } from '../../services/StudentService';
 import { AuthStorageHelper } from '../../helpers/AuthStorageHelper';
 
 import { AuthQRCodePage } from '../authQRCode/authQRCode';
+import { GoogleAnalytics } from '@ionic-native/google-analytics';
 
 @Component({
     selector: 'page-profile',
@@ -30,6 +31,7 @@ export class ProfilePage {
         private studentService: StudentService,
         private authStorageHelper: AuthStorageHelper,
         public modalCtrl: ModalController,
+        private ga: GoogleAnalytics,
     ) {
 
         const paramId = this.navParams.get('id');
@@ -117,6 +119,10 @@ export class ProfilePage {
                 },
                 err => console.log("err : ", err)
             );
+    }
+
+    ionViewDidEnter(){
+      this.ga.trackView('profile')
     }
 
     showQRCode() {

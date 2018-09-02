@@ -3,6 +3,7 @@ import { ViewController, NavParams } from 'ionic-angular';
 
 import { StudentService } from '../../services/StudentService';
 import { AuthStorageHelper } from '../../helpers/AuthStorageHelper';
+import { GoogleAnalytics } from '@ionic-native/google-analytics';
 
 @Component({
     templateUrl: 'searchStudent.html',
@@ -15,8 +16,13 @@ export class SearchStudentPage {
     constructor(
         public viewCtrl: ViewController,
         public params: NavParams,
-        private studentService: StudentService
+        private studentService: StudentService,
+        private ga: GoogleAnalytics,
     ) {}
+
+    ionViewDidEnter(){
+      this.ga.trackView('searchStudent')
+    }
 
     /**
      * Handle changes in the search input

@@ -6,6 +6,7 @@ import { InAppBrowser } from '@ionic-native/in-app-browser';
 import { MessageService } from '../../services/MessageService';
 
 import { AuthStorageHelper } from '../../helpers/AuthStorageHelper';
+import { GoogleAnalytics } from '@ionic-native/google-analytics';
 
 @Component({
     selector: 'page-chat',
@@ -29,6 +30,7 @@ export class ChatPage {
         private messageService: MessageService,
         private authStorageHelper: AuthStorageHelper,
         private iab: InAppBrowser,
+        private ga: GoogleAnalytics,
     ) {
         this.chatForm = this.fb.group({
             'message': [
@@ -47,6 +49,9 @@ export class ChatPage {
         this.refreshInterval = setInterval(this.refreshMessages.bind(this), 5000);
         this.refreshMessages();
 
+    }
+    ionViewDidEnter(){
+      this.ga.trackView('chat')
     }
 
     scrollToBottom() {

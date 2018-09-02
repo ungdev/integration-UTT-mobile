@@ -6,6 +6,7 @@ import { CheckinService } from '../../services/CheckinService';
 import { CheckinPage } from '../checkin/checkin';
 import { CreateCheckinPage } from '../createCheckin/createCheckin';
 import { CompareCheckinsPage } from '../compareCheckins/compareCheckins';
+import { GoogleAnalytics } from '@ionic-native/google-analytics';
 
 @Component({
     selector: 'page-checkins',
@@ -24,6 +25,7 @@ export class CheckinsPage {
         public modalCtrl: ModalController,
         public toastCtrl: ToastController,
         private checkinService: CheckinService,
+        private ga: GoogleAnalytics,
     ) {
         // get all the newcomers
         this.checkinService.get()
@@ -34,6 +36,10 @@ export class CheckinsPage {
                 },
                 err => console.log("err : ", err)
             );
+    }
+
+    ionViewDidEnter(){
+      this.ga.trackView('checkins')
     }
 
     /**

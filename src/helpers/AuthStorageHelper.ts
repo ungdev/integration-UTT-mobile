@@ -1,9 +1,11 @@
-const ACCESS_TOKEN_LOCALSTORAGE_NAME = "access_token";
-const REFRESH_TOKEN_LOCALSTORAGE_NAME = "refresh_token";
-const USER_NAME_LOCALSTORAGE_NAME = "username";
-const USER_ROLES_LOCALSTORAGE_NAME = "roles";
-const USER_TEAM_ID_LOCALSTORAGE_NAME = "team";
-const USER_ID_LOCALSTORAGE_NAME = "id";
+const ACCESS_TOKEN_LOCALSTORAGE_NAME = "access_token"
+const REFRESH_TOKEN_LOCALSTORAGE_NAME = "refresh_token"
+const USER_NAME_LOCALSTORAGE_NAME = "username"
+const USER_ROLES_LOCALSTORAGE_NAME = "roles"
+const USER_TEAM_ID_LOCALSTORAGE_NAME = "team"
+const USER_ID_LOCALSTORAGE_NAME = "id"
+const USER_BRANCH_LOCALSTORAGE_NAME = "branch"
+const USER_GENDER_LOCALSTORAGE_NAME = "gender"
 
 export class AuthStorageHelper {
 
@@ -60,6 +62,8 @@ export class AuthStorageHelper {
        }));
        localStorage.setItem(USER_TEAM_ID_LOCALSTORAGE_NAME, user.team_id);
        localStorage.setItem(USER_ID_LOCALSTORAGE_NAME, user.id);
+       localStorage.setItem(USER_BRANCH_LOCALSTORAGE_NAME, user.branch);
+       localStorage.setItem(USER_GENDER_LOCALSTORAGE_NAME, user.sex);
    }
 
    /**
@@ -84,6 +88,13 @@ export class AuthStorageHelper {
    getUserId() {
        return localStorage.getItem(USER_ID_LOCALSTORAGE_NAME);
    }
+   getUserBranch() {
+      return localStorage.getItem(USER_BRANCH_LOCALSTORAGE_NAME);
+  }
+
+  getUserGender() {
+    return localStorage.getItem(USER_GENDER_LOCALSTORAGE_NAME);
+  }
 
    /**
     * Read the user's team id in the localStorage

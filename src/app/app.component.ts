@@ -5,6 +5,7 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 import { File } from '@ionic-native/file';
 import { DocumentViewer, DocumentViewerOptions } from '@ionic-native/document-viewer';
 import { FileTransfer } from '@ionic-native/file-transfer';
+import { GoogleAnalytics } from '@ionic-native/google-analytics'
 import axios from 'axios';
 //import { Push } from '@ionic/cloud-angular';
 
@@ -21,7 +22,6 @@ import { RallyePage } from '../pages/rallye/rallye';
 // import { PushMessagesPage } from '../pages/pushMessages/pushMessages';
 import { OneSignal } from '@ionic-native/onesignal'
 import { CalendarPage } from '../pages/calendar/calendar';
-import { GubuPage } from '../pages/gubu/gubu';
 
 import { AuthStorageHelper } from '../helpers/AuthStorageHelper';
 import { PlatformHelper } from '../helpers/PlatformHelper';
@@ -59,6 +59,7 @@ export class MyApp {
         private file: File,
         private transfer: FileTransfer,
         private toastCtrl: ToastController,
+        private ga: GoogleAnalytics,
     ) {
         this.initializeApp();
 
@@ -122,6 +123,20 @@ export class MyApp {
               this.oneSignal.endInit()
 
               this.oneSignal.sendTags(roles)
+
+
+              this.ga.startTrackerWithId(ENV.GOOGLE_ANALYTICS_ID)
+                .then(() => {
+                  console.log('Google analytics is ready now')
+                  this.ga.setVar('admin', roles['admin'])
+                  this.ga.setVar('orga', roles['orga'])
+                  this.ga.setVar('ce', roles['ce'])
+                  this.ga.setVar('newcomer', roles['newcomer'])
+                  this.ga.setVar('branch', authStorageHelper.getUserBranch())
+                })
+                .catch(e => console.log('Error starting GoogleAnalytics', e))
+
+
             }
             this.nav.setRoot(HomePage)
         });
@@ -208,6 +223,7 @@ export class MyApp {
           .get(`gubu/${page.id}`, {})
           .then((res) => {
             console.log('result : ', res)
+            this.ga.trackEvent('pdf', 'open', res.data.name)
             const transfer = this.transfer.create();
             transfer.download(res.data.link, path + `${res.data.name}.pdf`).then(entry => {
               this.document.viewDocument(entry.toURL(), 'application/pdf', {});

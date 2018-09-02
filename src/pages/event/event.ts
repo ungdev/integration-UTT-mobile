@@ -3,6 +3,7 @@ import { ViewController, NavParams } from 'ionic-angular';
 
 import { EventService } from '../../services/EventService';
 import { AuthStorageHelper } from '../../helpers/AuthStorageHelper';
+import { GoogleAnalytics } from '@ionic-native/google-analytics';
 
 @Component({
     selector: 'page-event',
@@ -18,6 +19,7 @@ export class EventPage {
         public navParams: NavParams,
         private eventService: EventService,
         public viewCtrl: ViewController,
+        private ga: GoogleAnalytics,
     ) {
         let id = this.navParams.get('id');
 
@@ -33,6 +35,10 @@ export class EventPage {
                 },
                 err => console.log("err : ", err)
             );
+    }
+
+    ionViewDidEnter(){
+      this.ga.trackView('event')
     }
 
     dismiss() {

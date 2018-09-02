@@ -25,9 +25,9 @@ import { RallyePage } from '../pages/rallye/rallye';
 import { LocationPage } from '../pages/location/location';
 import { CalendarPage } from '../pages/calendar/calendar';
 import { EventPage } from '../pages/event/event';
-import { SearchStudentPage } from '../pages/searchStudent/searchStudent';
-import { GubuPage } from '../pages/gubu/gubu';
+import { SearchStudentPage } from '../pages/searchStudent/searchStudent'
 import { OneSignal } from '@ionic-native/onesignal'
+import { GoogleAnalytics } from '@ionic-native/google-analytics'
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
@@ -78,7 +78,6 @@ import { BarcodeScanner } from '@ionic-native/barcode-scanner';
     CalendarPage,
     EventPage,
     SearchStudentPage,
-    GubuPage,
   ],
   imports: [
       BrowserModule,
@@ -107,7 +106,6 @@ import { BarcodeScanner } from '@ionic-native/barcode-scanner';
     CalendarPage,
     EventPage,
     SearchStudentPage,
-    GubuPage,
   ],
   providers: [
     StatusBar,
@@ -119,6 +117,7 @@ import { BarcodeScanner } from '@ionic-native/barcode-scanner';
     DocumentViewer,
     File,
     FileTransfer,
+    GoogleAnalytics,
  //   Geolocation,
  //   GoogleMaps
   ]

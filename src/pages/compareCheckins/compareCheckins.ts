@@ -3,6 +3,7 @@ import { ViewController, NavParams } from 'ionic-angular';
 
 import { CheckinService } from '../../services/CheckinService';
 import { AuthStorageHelper } from '../../helpers/AuthStorageHelper';
+import { GoogleAnalytics } from '@ionic-native/google-analytics';
 
 @Component({
     templateUrl: 'compareCheckins.html',
@@ -19,7 +20,8 @@ export class CompareCheckinsPage {
     constructor(
         public viewCtrl: ViewController,
         public params: NavParams,
-        private checkinService: CheckinService
+        private checkinService: CheckinService,
+        private ga: GoogleAnalytics,
     ) {
         // get the 2 checkins
         Promise.all([
@@ -51,6 +53,10 @@ export class CompareCheckinsPage {
             this.requestDone = true;
         })
         .catch(err => console.log('err', err));
+    }
+
+    ionViewDidEnter(){
+      this.ga.trackView('compareCheckins')
     }
 
     /**

@@ -7,6 +7,7 @@ import axios from 'axios';
 import { TeamService } from '../../services/TeamService';
 import { AuthStorageHelper } from '../../helpers/AuthStorageHelper';
 import { ENV } from '../../config/env.dev';
+import { GoogleAnalytics } from '@ionic-native/google-analytics';
 
 @Component({
     templateUrl: 'rallye.html',
@@ -30,6 +31,7 @@ export class RallyePage {
         private fb: FormBuilder,
         private toastCtrl: ToastController,
         private authStorageHelper:AuthStorageHelper,
+        private ga: GoogleAnalytics,
     ) {
       this.selection1 = "draw"
       this.selection2 = "draw"
@@ -61,6 +63,11 @@ export class RallyePage {
                 err => console.log("err : ", err)
             )
     }
+
+    ionViewDidEnter(){
+      this.ga.trackView('rallye')
+    }
+
     onTeamChange(teamNumber) {
       console.log('onteamchange', teamNumber)
       let tm

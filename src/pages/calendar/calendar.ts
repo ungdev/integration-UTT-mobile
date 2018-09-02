@@ -7,6 +7,7 @@ import { AuthStorageHelper } from '../../helpers/AuthStorageHelper';
 import moment from 'moment'
 import { EventPage } from '../event/event';
 import { ENV } from '../../config/env.dev';
+import { GoogleAnalytics } from '@ionic-native/google-analytics';
 
 @Component({
     templateUrl: 'calendar.html',
@@ -25,6 +26,7 @@ export class CalendarPage {
         private eventService: EventService,
         private authStorageHelper:AuthStorageHelper,
         public modalCtrl: ModalController,
+        private ga: GoogleAnalytics,
     ) {
         // Setup webservice API
         const accessToken = this.authStorageHelper.getAccessToken();
@@ -108,6 +110,10 @@ export class CalendarPage {
                 },
                 err => console.log("err : ", err)
             );*/
+    }
+
+    ionViewDidEnter(){
+      this.ga.trackView('calendar')
     }
 
     viewEvent(id) {

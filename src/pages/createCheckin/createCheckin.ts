@@ -4,6 +4,7 @@ import { ViewController } from 'ionic-angular';
 
 import { CheckinService } from '../../services/CheckinService';
 import { AuthStorageHelper } from '../../helpers/AuthStorageHelper';
+import { GoogleAnalytics } from '@ionic-native/google-analytics';
 
 @Component({
     templateUrl: 'createCheckin.html',
@@ -16,7 +17,8 @@ export class CreateCheckinPage {
     constructor(
         private checkinService: CheckinService,
         private fb: FormBuilder,
-        public viewCtrl: ViewController
+        public viewCtrl: ViewController,
+        private ga: GoogleAnalytics,
     ) {
         this.checkinForm = this.fb.group({
             'name': [
@@ -24,6 +26,9 @@ export class CreateCheckinPage {
                 [Validators.required]
             ]
         });
+    }
+    ionViewDidEnter(){
+      this.ga.trackView('createCheckin')
     }
 
     dismiss() {

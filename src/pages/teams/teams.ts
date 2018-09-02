@@ -4,6 +4,7 @@ import { NavController, MenuController } from 'ionic-angular';
 import { TeamService } from '../../services/TeamService';
 
 import { TeamPage } from '../team/team';
+import { GoogleAnalytics } from '@ionic-native/google-analytics';
 
 @Component({
     templateUrl: 'teams.html',
@@ -18,6 +19,7 @@ export class TeamsPage {
         public navCtrl: NavController,
         public menu: MenuController,
         private teamService: TeamService,
+        private ga: GoogleAnalytics,
     ) {
         // get all the newcomers
         this.teamService.get()
@@ -29,6 +31,10 @@ export class TeamsPage {
                 },
                 err => console.log("err : ", err)
             );
+    }
+
+    ionViewDidEnter(){
+      this.ga.trackView('teams')
     }
 
     /**

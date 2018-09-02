@@ -3,6 +3,7 @@ import { NavController, MenuController } from 'ionic-angular';
 import axios from 'axios'
 import { AuthStorageHelper } from '../../helpers/AuthStorageHelper';
 import { ENV } from '../../config/env.dev';
+import { GoogleAnalytics } from '@ionic-native/google-analytics';
 
 @Component({
     selector: 'page-home',
@@ -19,13 +20,18 @@ export class HomePage {
     constructor(
         public navCtrl: NavController,
         public menu: MenuController,
-        private authStorageHelper: AuthStorageHelper
+        private authStorageHelper: AuthStorageHelper,
+        private ga: GoogleAnalytics,
     ) {
         this.username = this.authStorageHelper.getUserName();
 
         this.menu.enable(true);
         this.scores = []
         this.getScore()
+    }
+
+    ionViewDidEnter(){
+      this.ga.trackView('home')
     }
 
 

@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="fr.utt.ung.integration" version="2.3.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+<widget id="fr.uttnetgroup.integration" version="2.4.0" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
     <name>Integration-UTT</name>
     <description>Application pour l'intégration de l'UTT</description>
     <author email="ung@utt.fr" href="http://etu.utt.fr">UTT Net Group</author>
@@ -98,6 +98,9 @@
     <plugin name="cordova-plugin-file" spec="^6.0.1" />
     <plugin name="cordova-plugin-file-transfer" spec="^1.7.1" />
     <plugin name="cordova-plugin-document-viewer" spec="^0.9.10" />
+    <plugin name="cordova-plugin-google-analytics" spec="^1.8.6">
+        <variable name="GMS_VERSION" value="11.0.1" />
+    </plugin>
     <engine name="android" spec="6.4.0" />
     <engine name="ios" spec="4.5.4" />
 </widget>

@@ -6,6 +6,7 @@ import { TeamService } from '../../services/TeamService';
 import { AuthStorageHelper } from '../../helpers/AuthStorageHelper';
 
 import { ProfilePage } from '../profile/profile';
+import { GoogleAnalytics } from '@ionic-native/google-analytics';
 
 @Component({
     templateUrl: 'team.html',
@@ -23,6 +24,7 @@ export class TeamPage {
         private teamService: TeamService,
         private authStorageHelper: AuthStorageHelper,
         private iab: InAppBrowser,
+        private ga: GoogleAnalytics,
     ) {
         let id = this.navParams.get('id');
 
@@ -40,6 +42,10 @@ export class TeamPage {
                 },
                 err => console.log("err : ", err)
             )
+    }
+
+    ionViewDidEnter(){
+      this.ga.trackView('team')
     }
 
     /**

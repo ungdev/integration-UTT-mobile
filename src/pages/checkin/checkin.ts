@@ -8,6 +8,7 @@ import { AuthStorageHelper } from '../../helpers/AuthStorageHelper';
 
 import { ProfilePage } from '../profile/profile';
 import { SearchStudentPage } from '../searchStudent/searchStudent';
+import { GoogleAnalytics } from '@ionic-native/google-analytics';
 
 @Component({
     templateUrl: 'checkin.html',
@@ -29,6 +30,7 @@ export class CheckinPage {
         private barcodeScanner: BarcodeScanner,
         private platformHelper: PlatformHelper,
         private authStorageHelper: AuthStorageHelper,
+        private ga : GoogleAnalytics,
     ) {
         let id = this.navParams.get('id')
         // get the checkin
@@ -40,6 +42,10 @@ export class CheckinPage {
                 },
                 err => console.log("err : ", err)
             );
+    }
+
+    ionViewDidEnter(){
+      this.ga.trackView('compareCheckins')
     }
 
     /**
