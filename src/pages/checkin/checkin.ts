@@ -175,6 +175,9 @@ export class CheckinPage {
                 console.log('scan err', err)
             })
         }
+        else {
+          console.log('platform not mobile')
+        }
     }
 
 }
