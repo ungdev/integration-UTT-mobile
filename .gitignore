@@ -35,3 +35,7 @@ UserInterfaceState.xcuserstate
 
 src/config/env.dev.ts
 src/config/env.prod.ts
+
+integration.keystore
+
+screens/*

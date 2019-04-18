@@ -72,6 +72,11 @@ export class CheckinPage {
         this.navCtrl.push(ProfilePage, {id});
     }
 
+    addStudent(student) {
+      console.log(student)
+      this.checkStudent(student.qrcode)
+    }
+
     /**
      * Go through the students of this checkin
      * Check if the studen with the given id is checked

@@ -7,7 +7,7 @@
         <button ion-button large full type="button" color="light" (click)="searchStudent()">Rechercher par nom</button>
         <h1>{{ checkin.name }}</h1>
         <ion-list *ngIf="checkin.users.length > 0">
-            <ion-item *ngFor="let student of checkin.users" (click)="viewStudent(student.id)">
+            <ion-item *ngFor="let student of checkin.users">
                 <ion-icon
                     *ngIf="checkin.prefilled"
                     [name]="student.pivot.checked ? 'checkmark' : 'close'"
@@ -15,8 +15,11 @@
                     item-start
                     >
                 </ion-icon>
+                <button *ngIf="!student.pivot.checked" ion-button clear item-start color="light" (click)="addStudent(student)">
+                  <ion-icon name='add'></ion-icon>
+                </button>
                 <h2>{{ student.first_name }} {{ student.last_name }}</h2>
-                <button ion-button clear item-end color="light">Voir</button>
+                <button ion-button clear item-end color="light" (click)="viewStudent(student.id)">Voir</button>
             </ion-item>
         </ion-list>
         <ion-item *ngIf="checkin.users.length == 0" class="event-item-p">
