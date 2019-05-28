@@ -35,7 +35,7 @@
         "@ionic/storage": "2.0.1",
         "axios": "0.18.0",
         "cordova-android": "6.4.0",
-        "cordova-ios": "4.5.4",
+        "cordova-ios": "5.0.1",
         "cordova-plugin-compat": "1.2.0",
         "cordova-plugin-console": "1.1.0",
         "cordova-plugin-device": "1.1.7",
